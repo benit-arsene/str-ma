@@ -213,10 +213,7 @@ function TourDetail() {
                   </div>
                   <div className="tour-video">
                     <video autoPlay muted loop playsInline>
-                      <source
-                        src="/videos/The Jungle Book (2016).mp4"
-                        type="video/mp4"
-                      />
+                      <source src="/videos/video.mp4" type="video/mp4" />
                     </video>
                   </div>
                   <div className="tour-specifications">

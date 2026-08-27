@@ -5,7 +5,7 @@ function Highlights() {
   return (
     <section className="highlights">
       <video autoPlay muted loop playsInline>
-        <source src="/videos/The Jungle Book (2016).mp4" type="video/mp4" />
+        <source src="/videos/video.mp4" type="video/mp4" />
       </video>
       <div className="highlights-overlay"></div>
       <div className="highlights-frame">
