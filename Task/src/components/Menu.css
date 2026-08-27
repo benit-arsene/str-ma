@@ -1,0 +1,157 @@
+.menu-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+
+  background: #222;
+  color: white;
+
+  padding: 35px 6%;
+}
+
+.menu-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.menu-brand {
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.menu-close {
+  width: 50px;
+  height: 50px;
+
+  border: 1px solid white;
+  border-radius: 50%;
+
+  background: transparent;
+  color: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+}
+
+.menu-close svg {
+  width: 25px;
+  height: 25px;
+}
+
+.menu-content {
+  display: flex;
+  justify-content: space-between;
+
+  margin-top: 70px;
+}
+
+.menu-links {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+
+  padding: 50px;
+  background: #292929;
+
+  width: 420px;
+}
+
+.menu-links a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  color: white;
+  text-decoration: none;
+
+  font-family: Georgia, serif;
+  font-size: 25px;
+}
+
+.menu-links .menu-parent {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: white;
+  font-family: Georgia, serif;
+  font-size: 25px;
+  text-align: left;
+  cursor: pointer;
+  overflow: visible;
+  transition: none;
+}
+
+.menu-links .menu-parent::before {
+  display: none;
+}
+
+.menu-parent span {
+  flex: 0 0 auto;
+}
+
+.menu-sub-links {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: -12px 0 0 24px;
+}
+
+.menu-sub-links a {
+  font-size: 19px;
+}
+
+.menu-links a svg {
+  width: 18px;
+}
+
+.menu-links a.active {
+  color: #c49a25;
+  text-decoration: line-through;
+}
+
+.menu-links a:hover {
+  color: #c49a25;
+  text-decoration: line-through;
+}
+
+.menu-links .menu-parent:hover,
+.menu-links .menu-parent.active {
+  color: #c49a25;
+  text-decoration: line-through;
+}
+
+.menu-socials {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.menu-socials button {
+  width: 45px;
+  height: 45px;
+
+  border: none;
+  border-radius: 50%;
+
+  background: #c49a25;
+  color: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+}
+
+.menu-socials svg {
+  width: 20px;
+}

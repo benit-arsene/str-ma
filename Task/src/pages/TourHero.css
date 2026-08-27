@@ -1,0 +1,27 @@
+.tour-hero {
+  height: 550px;
+
+  background-image: url("https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80");
+  background-size: cover;
+  background-position: center;
+
+  position: relative;
+}
+
+.tour-hero-overlay {
+  position: absolute;
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.3);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tour-hero h1 {
+  color: white;
+  font-family: Georgia, serif;
+  font-size: 64px;
+  font-weight: normal;
+}

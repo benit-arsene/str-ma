@@ -1,0 +1,92 @@
+.highlights {
+  position: relative;
+  height: 650px;
+  overflow: visible;
+}
+
+.highlights video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.highlights-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.15) 0%,
+    rgba(0, 0, 0, 0.2) 45%,
+    rgba(0, 0, 0, 0.75) 100%
+  );
+
+}
+
+.highlights-frame {
+  position: absolute;
+  top: 50px;
+  left: 5%;
+  right: 5%;
+  bottom: 50px;
+
+  border: 2px solid rgb(165, 140, 57);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  color: white;
+  z-index: 1;
+}
+
+.highlights-frame h2 {
+  font-family: Georgia, serif;
+  font-size: 50px;
+  margin: 0;
+}
+
+.highlights-frame h4 {
+  color: rgb(165, 140, 57);
+  font-size: 20px;
+  margin-top: 15px;
+}
+
+.highlight-features {
+  position: absolute;
+  z-index: 2;
+
+  left: 10%;
+  right: 10%;
+  bottom: -89px;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+
+   background: linear-gradient(
+    to bottom,
+    #d1aa32,
+    #a47d12
+  );
+  color: white;
+}
+
+.highlight-features > div {
+  padding: 18.7px;
+  text-align: center;
+  border-right: 1px solid rgba(255,255,255,0.3);
+}
+
+.highlight-features > div:last-child {
+  border-right: none;
+}
+
+.highlight-features h3 {
+  font-size: 16px;
+}
+
+.highlight-features p {
+  font-size: 13px;
+}
