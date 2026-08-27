@@ -51,7 +51,7 @@ function Testimonials() {
           “”
         </div>
 
-        <div className="review">
+        <div className="review" key={currentReview}>
 
           <div className="stars">
             ★ ★ ★ ★ ★

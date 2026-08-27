@@ -26,7 +26,7 @@ function Destinations() {
 
   return (
     <section className="destinations">
-      <h4> Amazing Destination</h4>
+      <h4>Amazing Destination</h4>
       <h2>Choose The Destination Just Right For Your Vacation</h2>
       <div className="destinations-grid">
         {places.map((place, index) => (

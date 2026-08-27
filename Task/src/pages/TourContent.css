@@ -358,7 +358,7 @@
 }
 
 .categories label:has(input:checked)::after {
-  content: "✓";
+  content: "";
   position: absolute;
   left: 3px;
   top: 0;

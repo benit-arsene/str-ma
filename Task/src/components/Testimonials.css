@@ -59,6 +59,18 @@
 .review {
   padding: 50px 70px;
   position: relative;
+  animation: review-slide-in 0.55s ease both;
+}
+
+@keyframes review-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(32px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .stars {
@@ -126,5 +138,11 @@
 
   .review {
     padding: 40px 25px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .review {
+    animation: none;
   }
 }

@@ -52,9 +52,9 @@ function Navbar() {
           </div>
         </div>
         <div className="main-nav">
-          <div className="brand">
+          <a className="brand" href="/">
             <MapPin /> <span>Holiday Planners</span>
-          </div>
+          </a>
           <div className="actions">
             <button>RESERVE</button>
             <Search />
