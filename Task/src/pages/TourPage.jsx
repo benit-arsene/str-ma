@@ -1,7 +1,6 @@
 import Navbar from "../components/Navbar";
 import TourHero from "./TourHero";
 import TourContent from "./TourContent";
-import About from "./About";
 import Footer from "./footer";
 
 function TourPage() {
