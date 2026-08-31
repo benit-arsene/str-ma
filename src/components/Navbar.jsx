@@ -30,30 +30,49 @@ function Navbar() {
       <nav className={isScrolled ? "navbar-scrolled" : ""}>
         <div className="contact-bar">
           <div className="contact">
-            <a href="mailto:holidayplanners@gmail.com">
+            <a
+              href="mailto:holidayplanners@gmail.com"
+              className="email-of-holiday-planners"
+            >
               <Mail />
               holidayplanners@gmail.com
             </a>
-            <a href="tel:+1234567890">
+            <a href="tel:+1234567890" className="phone-of-holiday-planners">
               <Phone />
               +123 456 7890
             </a>
           </div>
           <div className="socials">
-            <a href="#" aria-label="Facebook">
+            <a
+              className="Facebook-social"
+              href="https://www.facebook.com"
+              aria-label="Facebook"
+            >
               <FaFacebookF />
             </a>
-            <a href="#" aria-label="Instagram">
+            <a
+              className="Instagram-social"
+              href="https://www.instagram.com"
+              aria-label="Instagram"
+            >
               <FaInstagram />
             </a>
-            <a href="#" aria-label="Twitter">
+            <a
+              className="Twitter-social"
+              href="https://twitter.com"
+              aria-label="Twitter"
+            >
               <FaTwitter />
             </a>
           </div>
         </div>
         <div className="main-nav">
           <a className="brand" href="/">
-            <MapPin /> <span>Holiday Planners</span>
+            <img
+              src="/ImageAssistant_Batch_Image_Downloader/html.geekcodelab.com/Holiday_Planners_-_Travel_Tour_HTML5_Template/10004.png"
+              alt="Holiday Planners logo"
+              className="brand-logo"
+            />
           </a>
           <div className="actions">
             <button>RESERVE</button>

@@ -39,8 +39,23 @@ function Hero() {
         backgroundImage: `url(${slides[currentSlide].image})`,
       }}
     >
+      <button
+        className="hero-prev"
+        onClick={() =>
+          setCurrentSlide((currentSlide - 1 + slides.length) % slides.length)
+        }
+      >
+        Previous
+      </button>
       <h1>{slides[currentSlide].title}</h1>
       <p>{slides[currentSlide].description}</p>
+
+      <button
+        className="hero-next"
+        onClick={() => setCurrentSlide((currentSlide + 1) % slides.length)}
+      >
+        Next
+      </button>
     </section>
   );
 }

@@ -13,7 +13,13 @@ function Menu({ onClose }) {
   return (
     <div className="menu-overlay">
       <div className="menu-top">
-        <div className="menu-brand">Holiday Planners</div>
+        <div className="menu-brand">
+          <img
+            src="/ImageAssistant_Batch_Image_Downloader/html.geekcodelab.com/Holiday_Planners_-_Travel_Tour_HTML5_Template/10015.png"
+            alt="Holiday Planners"
+            className="menu-brand-logo"
+          />
+        </div>
 
         <button className="menu-close" onClick={onClose}>
           <X />

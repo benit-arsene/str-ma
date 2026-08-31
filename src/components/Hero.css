@@ -27,3 +27,32 @@
   position: relative;
   z-index: 1;
 }
+.hero-content {
+  text-align: center;
+  color: white;
+}
+
+.hero-prev,
+.hero-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+
+  width: 50px;
+  height: 80px;
+
+  border: none;
+  background: #c59d4c;
+  color: white;
+
+  cursor: pointer;
+  z-index: 5;
+}
+
+.hero-prev {
+  left: 0;
+}
+
+.hero-next {
+  right: 0;
+}
