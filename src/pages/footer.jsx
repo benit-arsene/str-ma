@@ -14,6 +14,7 @@ import "./footer.css";
 function Footer() {
   return (
     <footer className="footer">
+      <div className="background-of-the-footer"></div>
       <div className="footer-main">
         {/* Column 1 */}
         <div className="footer-brand">
@@ -90,9 +91,9 @@ function Footer() {
             <span>Follow us</span>
 
             <div>
-              <FaFacebookF />
-              <FaInstagram />
-              <FaTwitter />
+              <FaFacebookF className="Facebook" />
+              <FaInstagram className="Instagram" />
+              <FaTwitter className="Twitter" />
             </div>
           </div>
         </div>

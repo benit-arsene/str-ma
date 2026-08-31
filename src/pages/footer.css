@@ -2,7 +2,11 @@
   background-color: #292929;
   color: white;
   padding: 70px 7% 0;
-  background-image: linear-gradient(rgba(38, 38, 38, 0.94), rgba(38, 38, 38, 0.94)), radial-gradient(ellipse at 14% 35%, rgba(197, 157, 76, 0.18), transparent 34%), repeating-radial-gradient(ellipse at 80% 10%, transparent 0 28px, rgba(255, 255, 255, 0.035) 29px 30px, transparent 31px 62px);
+  background-image: linear-gradient(rgba(38, 38, 38, 0.9), rgba(38, 38, 38, 0.9)),
+    url('/ImageAssistant_Batch_Image_Downloader/html.geekcodelab.com/Holiday_Planners_-_Travel_Tour_HTML5_Template/10032.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .footer-main {
@@ -253,4 +257,25 @@ border-radius: 0 3px 3px 0;
   .legal-links {
     flex-wrap: wrap;
   }
+}
+.Facebook:hover{
+  color: white;
+}
+.Instagram:hover{
+  color: white;
+} 
+.Twitter:hover{
+  color: white;
+}
+.background-of-the-footer {
+  position: absolute;
+  inset: 0;
+
+  background-image: url("/images/footer-bg.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  opacity: 0.08;
+  pointer-events: none;
 }

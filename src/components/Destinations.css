@@ -29,6 +29,21 @@
 .destination-card {
   position: relative;
   overflow: hidden;
+  border-radius: 6px;
+}
+
+.destination-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.45s ease;
+  z-index: 1;
+}
+
+.destination-card:hover::before {
+  opacity: 1;
 }
 
 .destination-card img {
@@ -36,24 +51,34 @@
   height: 100%;
   object-fit: cover;
   display: block;
+  transition: transform 0.55s ease, filter 0.45s ease;
 }
+
+.destination-card:hover img {
+  transform: scale(1.08);
+  filter: brightness(0.82);
+}
+
 .destination-card button {
   position: absolute;
   bottom: 20px;
   left: 20px;
+  z-index: 2;
   border: none;
   background: white;
+  color: #1b1b1b;
   padding: 10px 18px;
   cursor: pointer;
+  font-weight: 700;
+  transition: background 0.35s ease, color 0.35s ease, transform 0.35s ease,
+    box-shadow 0.35s ease;
 }
-.destination-card button {
-  position: absolute;
-  bottom: 20px;
-  left: 20px;
-  border: none;
+
+.destination-card:hover button {
   background: rgb(165, 140, 57);
-  padding: 10px 18px;
-  cursor: pointer;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(165, 140, 57, 0.35);
 }
 .view-all {
   display: block;
