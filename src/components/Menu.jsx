@@ -1,5 +1,5 @@
 import { X, ChevronDown, ChevronUp } from "lucide-react";
-import { FaFacebookF, FaInstagram, FaXTwitter } from "react-icons/fa6";
+import { FaFacebookF, FaInstagram, FaTwitter } from "react-icons/fa";
 import "./Menu.css";
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
@@ -7,18 +7,18 @@ import { useState } from "react";
 function Menu({ onClose }) {
   const location = useLocation();
   const [isTourOpen, setIsTourOpen] = useState(
-    location.pathname.startsWith("/tour"),
+    location.pathname.startsWith("/tour") || true,
   );
 
   return (
     <div className="menu-overlay">
+      <div className="menu-overlay-art" aria-hidden="true">
+        <img src="/2439302c-a15f-4b73-b4b1-4333339353e4.svg" alt="" />
+      </div>
+
       <div className="menu-top">
-        <div className="menu-brand">
-          <img
-            src="/ImageAssistant_Batch_Image_Downloader/html.geekcodelab.com/Holiday_Planners_-_Travel_Tour_HTML5_Template/10015.png"
-            alt="Holiday Planners"
-            className="menu-brand-logo"
-          />
+        <div className="menu-brand" aria-label="Holiday Planners">
+          Holiday <span className="menu-brand-highlight">P</span>lanners
         </div>
 
         <button className="menu-close" onClick={onClose}>
@@ -28,9 +28,7 @@ function Menu({ onClose }) {
 
       <div className="menu-content">
         <div className="menu-links">
-          <Link className="active" to="/">
-            Home
-          </Link>
+          <Link to="/">Home</Link>
 
           <Link to="/about">About</Link>
 
@@ -76,7 +74,7 @@ function Menu({ onClose }) {
           </button>
 
           <button>
-            <FaXTwitter />
+            <FaTwitter />
           </button>
         </div>
       </div>

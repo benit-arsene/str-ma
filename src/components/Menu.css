@@ -7,6 +7,24 @@
   color: white;
 
   padding: 35px 6%;
+  overflow: hidden;
+}
+
+.menu-overlay-art {
+  position: absolute;
+  right: 2%;
+  bottom: 2%;
+  width: 22%;
+  max-width: 180px;
+  opacity: 0.28;
+  pointer-events: none;
+  user-select: none;
+}
+
+.menu-overlay-art img {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 .menu-top {
@@ -16,18 +34,20 @@
 }
 
 .menu-brand {
-  color: white;
+  color: #ffffff;
   font-size: 24px;
-  font-weight: bold;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  font-family: Georgia, Garamond, serif;
+  text-rendering: optimizeLegibility;
+}
+
+.menu-brand-highlight {
+  color: #c29d59;
 }
 
 .menu-brand-logo {
-  display: block;
-  height: 44px;
-  max-width: 260px;
-  width: auto;
-  object-fit: contain;
-  filter: brightness(0) invert(1);
+  display: none;
 }
 
 .menu-close {
@@ -76,15 +96,21 @@
   box-sizing: border-box;
 }
 
+.menu-links a,
+.menu-links .menu-parent,
+.menu-sub-links a {
+  color: #ffffff;
+  text-decoration: none;
+  text-shadow: none;
+  -webkit-text-stroke: 0;
+  font-family: Georgia, Garamond, serif;
+  text-rendering: optimizeLegibility;
+}
+
 .menu-links a {
   display: flex;
   align-items: center;
   gap: 10px;
-
-  color: white;
-  text-decoration: none;
-
-  font-family: Georgia, serif;
   font-size: 21px;
 }
 
@@ -96,8 +122,6 @@
   padding: 0;
   border: 0;
   background: transparent;
-  color: white;
-  font-family: Georgia, serif;
   font-size: 21px;
   text-align: left;
   cursor: pointer;
@@ -128,30 +152,24 @@
   width: 18px;
 }
 
-.menu-links a.active {
-  color: #c49a25;
-  text-decoration: line-through;
-}
-
-.menu-links a:hover {
-  color: #c49a25;
-  text-decoration: line-through;
-}
-
+.menu-links a.active,
+.menu-links a:hover,
 .menu-links .menu-parent:hover,
 .menu-links .menu-parent.active {
-  color: #c49a25;
+  color: #c29d59;
   text-decoration: line-through;
+  text-decoration-color: #c29d59;
 }
 
 .menu-socials {
+  position: absolute;
+  right: 15%;
+  top: 50%;
+  transform: translateY(-50%);
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  align-self: stretch;
+  align-items: center;
   gap: 15px;
-  padding-bottom: 38px;
-  margin-left: 6px;
 }
 
 .menu-socials button {
@@ -161,7 +179,7 @@
   border: none;
   border-radius: 50%;
 
-  background: #c49a25;
+  background: #c29d59;
   color: white;
 
   display: flex;
@@ -173,4 +191,5 @@
 
 .menu-socials svg {
   width: 20px;
+  height: 20px;
 }

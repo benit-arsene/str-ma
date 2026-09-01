@@ -1,11 +1,17 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 
 import Home from "./pages/Home";
 import TourPage from "./pages/TourPage";
 import TourDetail from "./pages/TourDetail";
 
-function App() {
+function AppRoutes() {
+  const location = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+  }, [location.pathname]);
+
   useEffect(() => {
     const revealItems = document.querySelectorAll("[data-reveal]");
 
@@ -31,17 +37,23 @@ function App() {
     return () => {
       revealItems.forEach((item) => observer.unobserve(item));
     };
-  }, []);
+  }, [location.pathname]);
 
   return (
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/tour" element={<TourPage />} />
+      <Route path="/tour/:tourId" element={<TourDetail />} />
+      <Route path="/tours" element={<TourPage />} />
+      <Route path="/tours/:tourId" element={<TourDetail />} />
+    </Routes>
+  );
+}
+
+function App() {
+  return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/tour" element={<TourPage />} />
-        <Route path="/tour/:tourId" element={<TourDetail />} />
-        <Route path="/tours" element={<TourPage />} />
-        <Route path="/tours/:tourId" element={<TourDetail />} />
-      </Routes>
+      <AppRoutes />
     </BrowserRouter>
   );
 }
