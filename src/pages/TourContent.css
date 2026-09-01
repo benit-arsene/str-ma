@@ -43,8 +43,54 @@
   color: #444;
   font-size: 14px;
   cursor: pointer;
+
+}
+.sort-group {
+  display: inline-flex;
+  align-items: stretch;
+  border: 1px solid #6b7280;
+  border-radius: 4px;
+  margin: 12px 0 24px 0;
+  overflow: hidden;
+  background-color: #ffffff;
+  font-size: 14px;
+
 }
 
+.sort-label {
+  font-weight: 700;
+  padding: 8px 24px;
+  border-right: 1px solid #6b7280;
+  white-space: nowrap;
+}
+
+.sort-select {
+  appearance: none;
+  -webkit-appearance: none;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  color: #1a1a1a; /* Explicitly sets text color */
+  padding: 8px 32px 8px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  border-right: 1px solid #6b7280;
+
+  /* Custom solid dropdown arrow */
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%231a1a1a" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+}
+
+/* Ensures the expanded option menu list items stay readable */
+.sort-select option {
+  color: #1a1a1a;
+  background-color: #ffffff;
+}
+
+.sort-select:last-child {
+  border-right: none;
+}
 /* TOUR CARDS */
 
 .tour-cards {
@@ -78,6 +124,7 @@
   top: 0;
   left: 0;
 
+
   background: #c49a25;
   color: white;
 
@@ -89,6 +136,22 @@
   font-weight: 700;
 }
 
+@keyframes fadeIn {
+  from {
+    
+    transform: translateY(20px);
+  }
+  to {
+    
+    transform: translateY(0);
+  }
+}
+
+
+.tour-content .discount:hover {
+  animation-name: fadeIn;
+  animation-duration: 1s;
+}
 .tour-content .location {
   position: absolute;
   bottom: -15px;

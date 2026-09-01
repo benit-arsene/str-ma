@@ -99,15 +99,17 @@ function TourContent() {
     <>
       <section className="tour-content">
         <div className="tour-list">
-          <div className="sort-bar">
-            <div>Sort by :</div>
+          <div className="sort-group">
+            <span className="sort-label">Sort by :</span>
 
-            <select defaultValue="release">
+            <select defaultValue="release" className="sort-select">
               <option value="release">Release Date</option>
+              <option value="price">Price</option>
             </select>
 
-            <select defaultValue="descending">
+            <select defaultValue="descending" className="sort-select">
               <option value="descending">Descending</option>
+              <option value="ascending">Ascending</option>
             </select>
           </div>
 
@@ -192,6 +194,15 @@ function TourContent() {
                 <option>January</option>
                 <option>February</option>
                 <option>March</option>
+                <option>April</option>
+                <option>May</option>
+                <option>June</option>
+                <option>July</option>
+                <option>August</option>
+                <option>September</option>
+                <option>October</option>
+                <option>November</option>
+                <option>December</option>
               </select>
             </div>
             <label className="filter-label">Duration</label>
