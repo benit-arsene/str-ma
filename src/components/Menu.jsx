@@ -4,14 +4,14 @@ import "./Menu.css";
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 
-function Menu({ onClose }) {
+function Menu({ onClose, isClosing = false }) {
   const location = useLocation();
   const [isTourOpen, setIsTourOpen] = useState(
     location.pathname.startsWith("/tour") || true,
   );
 
   return (
-    <div className="menu-overlay">
+    <div className={`menu-overlay ${isClosing ? "menu-overlay-closing" : ""}`}>
       <div className="menu-overlay-art" aria-hidden="true">
         <img src="/2439302c-a15f-4b73-b4b1-4333339353e4.svg" alt="" />
       </div>

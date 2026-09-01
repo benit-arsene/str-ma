@@ -6,7 +6,21 @@ import { useEffect, useState } from "react";
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMenuClosing, setIsMenuClosing] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+
+  const handleMenuOpen = () => {
+    setIsMenuClosing(false);
+    setIsMenuOpen(true);
+  };
+
+  const handleMenuClose = () => {
+    setIsMenuClosing(true);
+    window.setTimeout(() => {
+      setIsMenuOpen(false);
+      setIsMenuClosing(false);
+    }, 350);
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -77,14 +91,13 @@ function Navbar() {
           <div className="actions">
             <button>RESERVE</button>
             <Search />
-            <MenuIcon
-              className="menu-icon"
-              onClick={() => setIsMenuOpen(true)}
-            />
+            <MenuIcon className="menu-icon" onClick={handleMenuOpen} />
           </div>
         </div>
       </nav>
-      {isMenuOpen && <Menu onClose={() => setIsMenuOpen(false)} />}
+      {isMenuOpen && (
+        <Menu onClose={handleMenuClose} isClosing={isMenuClosing} />
+      )}
     </>
   );
 }

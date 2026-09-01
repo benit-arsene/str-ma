@@ -3,6 +3,7 @@ import "./Hero.css";
 
 function Hero() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [direction, setDirection] = useState("next");
 
   const slides = [
     {
@@ -24,25 +25,39 @@ function Hero() {
     },
   ];
 
+  const changeSlide = (nextIndex, nextDirection) => {
+    setDirection(nextDirection);
+    setCurrentSlide(nextIndex);
+  };
+
   useEffect(() => {
     const moving = setInterval(() => {
+      setDirection("next");
       setCurrentSlide((currentSlide) => (currentSlide + 1) % slides.length);
     }, 3000);
 
     return () => clearInterval(moving);
-  }, []);
+  }, [slides.length]);
 
   return (
-    <section
-      className="hero"
-      style={{
-        backgroundImage: `url(${slides[currentSlide].image})`,
-      }}
-    >
+    <section className="hero">
+      <div
+        key={`${currentSlide}-${direction}`}
+        className={`hero-bg hero-bg-${direction}`}
+        style={{
+          backgroundImage: `url(${slides[currentSlide].image})`,
+        }}
+      />
+
+      <div className="hero-overlay" />
+
       <button
         className="hero-prev"
         onClick={() =>
-          setCurrentSlide((currentSlide - 1 + slides.length) % slides.length)
+          changeSlide(
+            (currentSlide - 1 + slides.length) % slides.length,
+            "prev",
+          )
         }
       >
         Previous
@@ -52,7 +67,7 @@ function Hero() {
 
       <button
         className="hero-next"
-        onClick={() => setCurrentSlide((currentSlide + 1) % slides.length)}
+        onClick={() => changeSlide((currentSlide + 1) % slides.length, "next")}
       >
         Next
       </button>

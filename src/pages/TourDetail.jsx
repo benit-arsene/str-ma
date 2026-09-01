@@ -503,7 +503,7 @@ function TourDetail() {
 
           {/* RIGHT SIDE */}
           <aside className="book-tour-card">
-            <h2>
+            <h2 className="book-tour-title">
               <span></span>
               BOOK THIS TOUR
             </h2>
