@@ -24,20 +24,13 @@
 
 /* BRAND */
 
-.footer-brand h2 {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-family: Georgia, serif;
-  font-size: 24px;
-  margin: 0 0 22px;
-  color: white;
-}
-
-.footer-brand h2 svg {
-  width: 32px;
-  height: 32px;
-  color: #c59d4c;
+.footer-brand-logo {
+  display: block;
+  width: 180px;
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 18px;
+  object-fit: contain;
 }
 
 .footer-brand p {

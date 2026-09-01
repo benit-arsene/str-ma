@@ -97,7 +97,7 @@ function TourContent() {
 
   return (
     <>
-      <section className="tour-content">
+      <section className="tour-content" data-reveal>
         <div className="tour-list">
           <div className="sort-group">
             <span className="sort-label">Sort by :</span>
@@ -119,6 +119,8 @@ function TourContent() {
               <div
                 className="tour-card"
                 key={`${tour.location}-${tour.price}-${startIndex + index}`}
+                data-reveal
+                style={{ "--reveal-delay": `${index * 150}ms` }}
               >
                 <div className="tour-card-image">
                   <img src={tour.image} alt={tour.location} />

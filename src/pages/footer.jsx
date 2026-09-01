@@ -7,7 +7,6 @@ import {
   FaCcMastercard,
   FaCcAmex,
 } from "react-icons/fa";
-import { MapPin } from "lucide-react";
 
 import "./footer.css";
 
@@ -18,15 +17,15 @@ function Footer() {
       <div className="footer-main">
         {/* Column 1 */}
         <div className="footer-brand">
-          <h2>
-            <MapPin />
-            <span>Holiday Planners</span>
-          </h2>
+          <img
+            src="/ImageAssistant_Batch_Image_Downloader/html.geekcodelab.com/Holiday_Planners_-_Travel_Tour_HTML5_Template/10015.png"
+            alt="Holiday Planners"
+            className="footer-brand-logo"
+          />
 
           <p>
-            <strong>Holiday Planners</strong> is your trusted travel partner,
-            helping you discover amazing destinations and create unforgettable
-            memories.
+            Your trusted travel partner, helping you discover amazing
+            destinations and create unforgettable memories.
           </p>
 
           <form className="newsletter-form">

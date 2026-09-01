@@ -1,4 +1,4 @@
-import {useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import "./Testimonials.css";
 
 function Testimonials() {
@@ -7,8 +7,7 @@ function Testimonials() {
   const testimonials = [
     {
       name: "John Doe",
-      review:
-        "Far far away, behind the word mountains, far countries Vokalia.",
+      review: "Far far away, behind the word mountains, far countries Vokalia.",
     },
     {
       name: "Jane Smith",
@@ -24,9 +23,7 @@ function Testimonials() {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentReview((current) => 
-        (current + 1) % testimonials.length
-      );
+      setCurrentReview((current) => (current + 1) % testimonials.length);
     }, 5000);
 
     return () => clearInterval(timer);
@@ -36,7 +33,6 @@ function Testimonials() {
 
   return (
     <section className="testimonials">
-
       <div className="testimonial-header">
         <h4>| Testimonials</h4>
 
@@ -46,16 +42,10 @@ function Testimonials() {
       </div>
 
       <div className="testimonial-content">
-
-        <div className="quote-icon">
-          “”
-        </div>
+        <div className="quote-icon">“”</div>
 
         <div className="review" key={currentReview}>
-
-          <div className="stars">
-            ★ ★ ★ ★ ★
-          </div>
+          <div className="stars">★ ★ ★ ★ ★</div>
 
           <p>{review.review}</p>
 
@@ -72,11 +62,8 @@ function Testimonials() {
               />
             ))}
           </div>
-
         </div>
-
       </div>
-
     </section>
   );
 }

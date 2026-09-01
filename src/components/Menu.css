@@ -3,7 +3,7 @@
   inset: 0;
   z-index: 1000;
 
-  background: #222;
+  background: #171717;
   color: white;
 
   padding: 35px 6%;
@@ -54,9 +54,13 @@
 
 .menu-content {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 34px;
 
   margin-top: 70px;
+  min-height: 420px;
+  padding-left: 10px;
 }
 
 .menu-links {
@@ -64,10 +68,12 @@
   flex-direction: column;
   gap: 25px;
 
-  padding: 50px;
-  background: #292929;
+  padding: 46px 52px 46px 52px;
+  background: rgba(41, 41, 41, 0.92);
 
-  width: 420px;
+  width: 430px;
+  min-height: 420px;
+  box-sizing: border-box;
 }
 
 .menu-links a {
@@ -79,7 +85,7 @@
   text-decoration: none;
 
   font-family: Georgia, serif;
-  font-size: 25px;
+  font-size: 21px;
 }
 
 .menu-links .menu-parent {
@@ -92,7 +98,7 @@
   background: transparent;
   color: white;
   font-family: Georgia, serif;
-  font-size: 25px;
+  font-size: 21px;
   text-align: left;
   cursor: pointer;
   overflow: visible;
@@ -115,7 +121,7 @@
 }
 
 .menu-sub-links a {
-  font-size: 19px;
+  font-size: 17px;
 }
 
 .menu-links a svg {
@@ -141,7 +147,11 @@
 .menu-socials {
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
+  align-self: stretch;
   gap: 15px;
+  padding-bottom: 38px;
+  margin-left: 6px;
 }
 
 .menu-socials button {
