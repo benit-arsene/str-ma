@@ -9,19 +9,25 @@ function Hero() {
     {
       image:
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSM8ax1cYXOTtcAl9FoMEDHQvWkyEAy7v3RBcR5tU9ogQ&s=10",
-      title: "See the Sea",
-      description: "Experience the beauty of the ocean with our coastal tours.",
+      title: "Life is Short and",
+      highlight: "The World is Wide.",
+      description:
+        "Experience the beauty of the ocean with our coastal tours and unforgettable escapes.",
     },
     {
       image:
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTHNgxHPDleuzOt6LbOYkeBdBcWP-ltwlrbMPSij_NePSA9Ie4Whp6ow-g&s=10",
-      title: "Welcome to China",
-      description: "Discover the beauty of China with our guided tours.",
+      title: "Life is Short and",
+      highlight: "The World is Wide.",
+      description:
+        "Explore vibrant cities, breathtaking landscapes, and carefully planned adventures across China.",
     },
     {
       image: "https://locatify.com/wp-content/uploads/2023/11/1.jpg",
-      title: "Explore London",
-      description: "Immerse yourself in the culture and history of London.",
+      title: "Life is Short and",
+      highlight: "The World is Wide.",
+      description:
+        "Discover London through iconic streets, rich history, and unforgettable cultural moments.",
     },
   ];
 
@@ -40,7 +46,7 @@ function Hero() {
   }, [slides.length]);
 
   return (
-    <section className="hero">
+    <section className="hero" data-reveal>
       <div
         key={`${currentSlide}-${direction}`}
         className={`hero-bg hero-bg-${direction}`}
@@ -60,10 +66,16 @@ function Hero() {
           )
         }
       >
-        Previous
+        Prev
       </button>
-      <h1>{slides[currentSlide].title}</h1>
-      <p>{slides[currentSlide].description}</p>
+
+      <div className="hero-copy">
+        <h1>
+          <span className="hero-title-line">{slides[currentSlide].title}</span>
+          <span className="hero-title-box">{slides[currentSlide].highlight}</span>
+        </h1>
+        <p>{slides[currentSlide].description}</p>
+      </div>
 
       <button
         className="hero-next"

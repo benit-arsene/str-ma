@@ -25,12 +25,17 @@ function Destinations() {
   ];
 
   return (
-    <section className="destinations">
+    <section className="destinations" data-reveal>
       <h4>Amazing Destination</h4>
       <h2>Choose The Destination Just Right For Your Vacation</h2>
       <div className="destinations-grid">
         {places.map((place, index) => (
-          <div className={`destination-card card${index + 1}`} key={place.name}>
+          <div
+            className={`destination-card card${index + 1}`}
+            key={place.name}
+            data-reveal
+            style={{ "--reveal-delay": `${index * 120}ms` }}
+          >
             <img src={place.image} alt={place.name} />
             <button>{place.name}</button>
           </div>
