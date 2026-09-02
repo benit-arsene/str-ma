@@ -218,6 +218,94 @@
   cursor: pointer;
 }
 
+@media (max-width: 1024px) {
+  .menu-overlay {
+    padding-left: 5%;
+    padding-right: 5%;
+  }
+
+  .menu-content {
+    gap: 20px;
+  }
+
+  .menu-links {
+    width: min(430px, 100%);
+  }
+
+  .menu-socials {
+    right: 8%;
+  }
+}
+
+@media (max-width: 768px) {
+  .menu-overlay {
+    padding: 24px 5% 28px;
+    overflow-y: auto;
+  }
+
+  .menu-content {
+    flex-direction: column;
+    align-items: stretch;
+    margin-top: 40px;
+    min-height: auto;
+    padding-left: 0;
+  }
+
+  .menu-links {
+    width: 100%;
+    min-height: 0;
+    padding: 28px 22px;
+  }
+
+  .menu-links a,
+  .menu-links .menu-parent {
+    font-size: 18px;
+  }
+
+  .menu-sub-links a {
+    font-size: 15px;
+  }
+
+  .menu-socials {
+    position: static;
+    transform: none;
+    flex-direction: row;
+    justify-content: flex-start;
+    margin-top: 18px;
+  }
+
+  .menu-overlay-art {
+    width: 35%;
+    right: 4%;
+    bottom: 6%;
+  }
+}
+
+@media (max-width: 480px) {
+  .menu-top {
+    align-items: flex-start;
+  }
+
+  .menu-brand {
+    font-size: 20px;
+  }
+
+  .menu-close {
+    width: 42px;
+    height: 42px;
+  }
+
+  .menu-links {
+    gap: 16px;
+    padding: 22px 16px;
+  }
+
+  .menu-socials button {
+    width: 40px;
+    height: 40px;
+  }
+}
+
 .menu-socials svg {
   width: 20px;
   height: 20px;

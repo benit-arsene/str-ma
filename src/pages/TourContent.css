@@ -445,22 +445,107 @@
   height: 55px;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 1024px) {
   .tour-content {
     grid-template-columns: 1fr;
+    padding: 70px 5%;
   }
 
   .tour-sidebar {
     margin-top: 0;
   }
-}
 
-@media (max-width: 600px) {
-  .tour-content {
-    padding: 50px 5%;
+  .sort-group {
+    grid-template-columns: 1fr;
   }
 
+  .sort-label {
+    border-right: none;
+    border-bottom: 1px solid #6b7280;
+  }
+
+  .sort-select {
+    border-right: none;
+    border-bottom: 1px solid #6b7280;
+  }
+
+  .sort-select:last-child {
+    border-bottom: none;
+  }
+}
+
+@media (max-width: 768px) {
   .tour-cards {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .tour-card-image {
+    height: 240px;
+  }
+
+  .tour-content .tour-card-body h2 {
+    font-size: 18px;
+  }
+
+  .tour-content .tour-footer {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .tour-content .tour-footer strong {
+    font-size: 18px;
+  }
+
+  .search-input,
+  .select-input,
+  .duration-select,
+  .price-inputs input,
+  .find-button {
+    width: 100%;
+  }
+
+  .question-contact div {
+    align-items: flex-start;
+  }
+
+  .question-contact span {
+    white-space: normal;
+  }
+}
+
+@media (max-width: 480px) {
+  .tour-content {
+    padding: 48px 4%;
+  }
+
+  .tour-card-body,
+  .find-tour,
+  .why-book,
+  .question-card {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .tour-meta {
+    grid-template-columns: 1fr;
+  }
+
+  .tour-content .tour-footer button,
+  .book-button,
+  .find-button {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .find-tour h2,
+  .question-card h2,
+  .why-book h2 {
+    white-space: normal;
+  }
+
+  .price-inputs {
     grid-template-columns: 1fr;
   }
 }

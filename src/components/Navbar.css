@@ -149,11 +149,95 @@ body.navbar-scrolled {
   padding-top: 80px !important;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 1024px) {
+  nav {
+    width: min(100%, calc(100% - 20px));
+  }
+
+  .contact-bar,
+  .main-nav {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .contact {
+    min-width: 0;
+    flex-wrap: wrap;
+    row-gap: 4px;
+  }
+
+  .contact a {
+    min-height: 32px;
+  }
+}
+
+@media (max-width: 768px) {
+  nav {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(100%, calc(100% - 12px));
+  }
+
+  .contact-bar {
+    height: auto;
+    max-height: none;
+    min-height: 42px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    overflow: visible;
+  }
+
+  .contact {
+    width: 100%;
+    justify-content: center;
+    gap: 0;
+  }
+
+  .contact a {
+    font-size: 10px;
+    padding: 0 8px;
+    border-right: none;
+  }
+
+  .contact a:first-child {
+    padding-left: 8px;
+  }
+
+  .socials {
+    display: none;
+  }
+
+  .main-nav {
+    min-height: 68px;
+  }
+
+  .brand-logo {
+    height: 30px;
+    max-width: 150px;
+  }
+
+  .actions {
+    gap: 10px;
+  }
+
+  .actions button {
+    padding: 10px 14px;
+    font-size: 11px;
+  }
+
+  .actions svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+@media (max-width: 480px) {
   nav {
     position: relative;
     left: auto;
     transform: none;
+    width: 100%;
   }
 
   body {
@@ -166,17 +250,18 @@ body.navbar-scrolled {
 
   .contact-bar,
   .main-nav {
-    padding-left: 16px;
-    padding-right: 16px;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .contact {
+    justify-content: flex-start;
   }
 
   .contact a {
-    font-size: 10px;
-    padding: 0 8px;
-  }
-
-  .socials {
-    display: none;
+    font-size: 9px;
+    letter-spacing: 0.02em;
+    padding: 0 6px;
   }
 
   .brand {
@@ -184,7 +269,14 @@ body.navbar-scrolled {
   }
 
   .actions button {
-    padding: 11px 16px;
+    padding: 9px 10px;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+
+  .actions svg:first-of-type,
+  .actions svg:last-of-type {
+    padding: 8px;
   }
 }
  .email-of-holiday-planners:hover{

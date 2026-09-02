@@ -206,17 +206,13 @@
   background: #b28b3b;
 }
 
-@media (max-width: 800px) {
+@media (max-width: 1024px) {
   .tour-detail-hero {
-    height: 360px;
-  }
-
-  .tour-detail-hero h1 {
-    font-size: 46px;
+    height: 420px;
   }
 
   .tour-detail-content {
-    padding: 50px 6%;
+    padding: 56px 5%;
   }
 
   .tour-detail-layout {
@@ -228,8 +224,134 @@
     width: 100%;
     min-height: 0;
   }
+
+  .tour-highlights {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
-.information-content {
+
+@media (max-width: 768px) {
+  .tour-detail-hero {
+    height: 320px;
+  }
+
+  .tour-detail-hero h1 {
+    font-size: 42px;
+  }
+
+  .tour-tabs {
+    gap: 0;
+  }
+
+  .tour-tab-content {
+    padding: 22px 18px;
+  }
+
+  .tour-title-section {
+    padding: 22px 18px;
+    min-height: 120px;
+  }
+
+  .tour-title h1 {
+    font-size: 28px;
+  }
+
+  .tour-price {
+    position: static;
+    margin-top: 12px;
+  }
+
+  .tour-highlights {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .spec-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 14px 0;
+  }
+
+  .gallery-images {
+    grid-template-columns: 1fr;
+  }
+
+  .rating-summary {
+    flex-direction: column;
+  }
+
+  .overall-rating {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .rating-row {
+    grid-template-columns: 110px 1fr 24px;
+  }
+
+  .comment-ratings,
+  .comment-fields {
+    grid-template-columns: 1fr;
+  }
+
+  .comment-form textarea {
+    min-height: 120px;
+  }
+}
+
+@media (max-width: 480px) {
+  .tour-detail-hero {
+    height: 260px;
+  }
+
+  .tour-detail-hero h1 {
+    font-size: 30px;
+  }
+
+  .tour-tabs button {
+    min-width: 150px;
+    padding: 10px 12px;
+    font-size: 12px;
+  }
+
+  .tour-tab-content h2,
+  .customer-reviews > h2,
+  .post-comment > h2,
+  .tour-information-text h2,
+  .tour-location h2 {
+    font-size: 22px;
+  }
+
+  .tour-highlights {
+    grid-template-columns: 1fr;
+  }
+
+  .tour-gallery {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .gallery-images img {
+    height: 150px;
+  }
+
+  .review-item {
+    flex-direction: column;
+  }
+
+  .review-header {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .book-tour-card {
+    padding: 24px 18px;
+  }
+
+  .book-tour-card input:not([type="checkbox"]),
+  .book-tour-card textarea {
+    min-height: 44px;
+  }
+}.information-content {
   background: white;
 }
 

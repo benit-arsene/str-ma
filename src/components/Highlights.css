@@ -90,3 +90,86 @@
 .highlight-features p {
   font-size: 13px;
 }
+
+@media (max-width: 1024px) {
+  .highlights {
+    min-height: 590px;
+  }
+
+  .highlights-frame {
+    left: 4%;
+    right: 4%;
+  }
+
+  .highlights-frame h2 {
+    font-size: 42px;
+  }
+
+  .highlight-features {
+    left: 6%;
+    right: 6%;
+  }
+}
+
+@media (max-width: 768px) {
+  .highlights {
+    height: auto;
+    min-height: 520px;
+    padding-bottom: 30px;
+  }
+
+  .highlights-frame {
+    position: relative;
+    top: auto;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    min-height: 280px;
+    margin: 0 5%;
+    padding: 30px 18px;
+  }
+
+  .highlights-frame h2 {
+    font-size: 32px;
+  }
+
+  .highlights-frame h4 {
+    font-size: 18px;
+    margin-top: 12px;
+  }
+
+  .highlight-features {
+    position: relative;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    margin: 20px 5% 0;
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .highlight-features > div {
+    padding: 18px 16px;
+    border-right: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .highlight-features > div:last-child {
+    border-bottom: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .highlights-frame h2 {
+    font-size: 26px;
+  }
+
+  .highlight-features h3 {
+    font-size: 15px;
+  }
+
+  .highlight-features p {
+    font-size: 12px;
+    line-height: 1.6;
+  }
+}

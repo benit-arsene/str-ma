@@ -72,7 +72,9 @@ function Hero() {
       <div className="hero-copy">
         <h1>
           <span className="hero-title-line">{slides[currentSlide].title}</span>
-          <span className="hero-title-box">{slides[currentSlide].highlight}</span>
+          <span className="hero-title-box">
+            {slides[currentSlide].highlight}
+          </span>
         </h1>
         <p>{slides[currentSlide].description}</p>
       </div>
