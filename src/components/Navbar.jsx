@@ -24,16 +24,38 @@ function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => {
+      const isMobile = window.innerWidth <= 768;
       const scrolled = window.scrollY > 10;
+
       setIsScrolled(scrolled);
       document.body.classList.toggle("navbar-scrolled", scrolled);
+
+      if (isMobile) {
+        document.body.style.paddingTop = "0px";
+        return;
+      }
+
+      document.body.style.paddingTop = scrolled ? "80px" : "120px";
+    };
+
+    const handleResize = () => {
+      if (window.innerWidth <= 768) {
+        document.body.style.paddingTop = "0px";
+        document.body.classList.remove("navbar-scrolled");
+        setIsScrolled(false);
+        return;
+      }
+
+      const scrolled = window.scrollY > 10;
       document.body.style.paddingTop = scrolled ? "80px" : "120px";
     };
 
     handleScroll();
     window.addEventListener("scroll", handleScroll);
+    window.addEventListener("resize", handleResize);
     return () => {
       window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleResize);
       document.body.classList.remove("navbar-scrolled");
       document.body.style.paddingTop = "";
     };
