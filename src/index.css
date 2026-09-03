@@ -53,6 +53,7 @@
 
 body {
   margin: 0;
+  background-color: white;
 }
 
 button {
@@ -85,6 +86,7 @@ button:hover:not(:disabled)::before {
   width: 100%;
   max-width: 100%;
   margin: 0 auto;
+  background-color: white;
   text-align: center;
   border-inline: none;
   min-height: 100svh;
