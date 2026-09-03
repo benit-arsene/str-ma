@@ -95,6 +95,7 @@
 /* 4. Text Content Area */
 .about-content {
   flex: 1;
+text-align:left;
 }
 
 .sub-title {
@@ -127,4 +128,79 @@
   font-weight: 700;
   cursor: pointer;
   border-radius: 4px;
+}
+
+@media (max-width: 1024px) {
+  .search-container {
+    margin: -30px 5% 48px;
+  }
+
+  .about-section {
+    gap: 36px;
+    padding-right: 5%;
+    padding-left: 5%;
+  }
+}
+
+@media (max-width: 768px) {
+  .search-container {
+    margin: -24px 5% 40px;
+  }
+
+  .search-form {
+    flex-direction: column;
+  }
+
+  .btn-search {
+    width: 100%;
+  }
+
+  .about-section {
+    flex-direction: column;
+    gap: 48px;
+    padding-top: 24px;
+    padding-bottom: 64px;
+  }
+
+  .about-images,
+  .about-content {
+    width: 100%;
+  }
+
+  .about-images {
+    padding-bottom: 30px;
+  }
+
+  .sub-image-frame {
+    right: 0;
+  }
+
+  .about-content h2 {
+    font-size: 30px;
+  }
+}
+
+@media (max-width: 480px) {
+  .search-container {
+    margin-right: 4%;
+    margin-left: 4%;
+  }
+
+  .about-section {
+    padding-right: 4%;
+    padding-left: 4%;
+  }
+
+  .main-image-frame {
+    padding: 6px;
+  }
+
+  .sub-image-frame {
+    width: 58%;
+    padding: 4px;
+  }
+
+  .about-content h2 {
+    font-size: 26px;
+  }
 }

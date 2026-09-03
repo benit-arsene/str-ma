@@ -227,4 +227,25 @@
   .tour-controls {
     align-self: flex-end;
   }
+
+  .tours-grid {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+    margin-right: -6vw;
+    padding-right: 6vw;
+  }
+
+  .tours-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tour-card {
+    flex: 0 0 100%;
+    min-width: 0;
+    scroll-snap-align: start;
+  }
 }
