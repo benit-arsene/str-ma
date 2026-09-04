@@ -1,10 +1,9 @@
 nav {
   position: fixed;
   top: 0;
-  left: 50%;
+  left: 0;
   z-index: 100;
-  width: min(1126px, 100%);
-  transform: translateX(-50%);
+  width: 100%;
   box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
 }
 
@@ -151,7 +150,7 @@ body.navbar-scrolled {
 
 @media (max-width: 1024px) {
   nav {
-    width: min(100%, calc(100% - 20px));
+    width: 100%;
   }
 
   .contact-bar,
@@ -174,9 +173,8 @@ body.navbar-scrolled {
 @media (max-width: 768px) {
   nav {
     position: fixed;
-    left: 50%;
-    transform: translateX(-50%);
-    width: min(100%, calc(100% - 12px));
+    left: 0;
+    width: 100%;
   }
 
   .contact-bar {
