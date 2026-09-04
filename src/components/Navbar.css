@@ -232,9 +232,8 @@ body.navbar-scrolled {
 
 @media (max-width: 480px) {
   nav {
-    position: relative;
-    left: auto;
-    transform: none;
+    position: fixed;
+    left: 0;
     width: 100%;
   }
 
@@ -267,9 +266,15 @@ body.navbar-scrolled {
   }
 
   .actions button {
-    padding: 9px 10px;
-    letter-spacing: 0.04em;
-    white-space: nowrap;
+    display: none;
+  }
+
+  .actions {
+    gap: 8px;
+  }
+
+  .actions svg {
+    flex-shrink: 0;
   }
 
   .actions svg:first-of-type,
