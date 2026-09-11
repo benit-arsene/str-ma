@@ -1,0 +1,11 @@
+.scroll-to-top{
+ background-color:    #c29d59;
+  color: white;
+  border: none;
+  padding: 12px 28px;
+  font-weight: 700;
+  cursor: pointer;
+  border-radius: 4px;
+  width: 1%;
+  align-items: center;
+}
