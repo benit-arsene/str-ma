@@ -6,6 +6,8 @@
   font-weight: 700;
   cursor: pointer;
   border-radius: 4px;
-  width: 1%;
-  align-items: center;
+  width: 0.5%;
+ position: fixed;
+ right: 0;
+ bottom: 0;
 }
