@@ -4,10 +4,15 @@
   margin: -35px auto 60px auto; /* Negative top margin floats it over the hero header */
   position: relative;
   z-index: 10;
+  border: 1px solid #d1d5db;
   background-color: white;
   padding: 12px;
   border-radius: 4px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  border-right: 3px solid #c29d59;
+  border-left: 3px solid #c29d59;
+
+  width: 80%;
 }
 
 .search-form {
@@ -19,7 +24,7 @@
   flex: 1;
   display: flex;
   align-items: center;
-  border: 1px solid #d1d5db;
+  border: 1px solid black;
   border-radius: 4px;
   padding: 8px 12px;
   gap: 8px;
