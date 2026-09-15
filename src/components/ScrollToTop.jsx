@@ -1,9 +1,11 @@
 import { useState, useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import "./ScrollToTop.css";
 
 const ScrollToTop = () => {
   const [isVisible, setIsVisible] = useState(false);
   const heroBottomRef = useRef(0);
+  const location = useLocation();
 
   const computeHeroThreshold = () => {
     const hero = document.querySelector(".hero");
@@ -29,6 +31,11 @@ const ScrollToTop = () => {
       window.removeEventListener("resize", computeHeroThreshold);
     };
   }, []);
+
+  useEffect(() => {
+    computeHeroThreshold();
+    onScroll();
+  }, [location.pathname]);
 
   return (
     <button

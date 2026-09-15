@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import Home from "./pages/Home";
 import TourPage from "./pages/TourPage";
 import TourDetail from "./pages/TourDetail";
+import ScrollToTop from "./components/ScrollToTop";
 
 function AppRoutes() {
   const location = useLocation();
@@ -54,6 +55,7 @@ function App() {
   return (
     <BrowserRouter>
       <AppRoutes />
+      <ScrollToTop />
     </BrowserRouter>
   );
 }
