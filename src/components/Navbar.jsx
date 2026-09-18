@@ -3,6 +3,7 @@ import { FaFacebookF, FaInstagram, FaTwitter } from "react-icons/fa";
 import "./Navbar.css";
 import Menu from "./Menu";
 import { useEffect, useState } from "react";
+import { motion } from "motion/react";
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -64,7 +65,11 @@ function Navbar() {
   return (
     <>
       <nav className={isScrolled ? "navbar-scrolled" : ""}>
-        <div className="contact-bar">
+        <motion.div
+          className="contact-bar"
+          animate={{ height: isScrolled ? 0 : 40, opacity: isScrolled ? 0 : 1 }}
+          transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
+        >
           <div className="contact">
             <a
               href="mailto:holidayplanners@gmail.com"
@@ -101,8 +106,12 @@ function Navbar() {
               <FaTwitter />
             </a>
           </div>
-        </div>
-        <div className="main-nav">
+        </motion.div>
+        <motion.div
+          className="main-nav"
+          animate={{ width: isScrolled ? "100%" : "80%" }}
+          transition={{ duration: 1, ease: [0.4, 0, 0.2, 1] }}
+        >
           <a className="brand" href="/">
             <img
               src="/ImageAssistant_Batch_Image_Downloader/html.geekcodelab.com/Holiday_Planners_-_Travel_Tour_HTML5_Template/10004.png"
@@ -115,7 +124,7 @@ function Navbar() {
             <Search />
             <MenuIcon className="menu-icon" onClick={handleMenuOpen} />
           </div>
-        </div>
+        </motion.div>
       </nav>
       {isMenuOpen && (
         <Menu onClose={handleMenuClose} isClosing={isMenuClosing} />

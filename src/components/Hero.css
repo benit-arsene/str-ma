@@ -8,6 +8,8 @@
   color: white;
   text-align: center;
   overflow: hidden;
+  margin-top: -120px;
+  padding-top:120px;
 }
 
 .hero-bg,

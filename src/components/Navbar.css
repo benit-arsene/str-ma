@@ -21,13 +21,13 @@ nav {
   max-height: 40px;
   overflow: hidden;
   opacity: 1;
-  transition: height 0.25s ease, max-height 0.25s ease, opacity 0.2s ease;
+ 
 }
 
 nav.navbar-scrolled .contact-bar {
-  display: none;
+
   height: 0;
-  max-height: 0;
+  
   opacity: 0;
 }
 
@@ -83,6 +83,8 @@ nav.navbar-scrolled .contact-bar {
   min-height: 80px;
   box-sizing: border-box;
   padding: 0 32px;
+  width: 80%;
+  margin: 0 auto;
 }
 
 .actions {
