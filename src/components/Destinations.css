@@ -1,6 +1,6 @@
 .destinations-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr 0.45fr;
+  grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 260px 260px;
   gap: 15px;
   width: 100%;
