@@ -26,36 +26,6 @@
   opacity: 1;
 }
 
-.hero-bg-next {
-  animation: hero-slide-next 0.7s ease;
-}
-
-.hero-bg-prev {
-  animation: hero-slide-prev 0.7s ease;
-}
-
-@keyframes hero-slide-next {
-  0% {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-  100% {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-@keyframes hero-slide-prev {
-  0% {
-    transform: translateX(-100%);
-    opacity: 0;
-  }
-  100% {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
 .hero-overlay {
   content: "";
   background: rgba(0, 0, 0, 0.35);

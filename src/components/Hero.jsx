@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "motion/react";
 import "./Hero.css";
 
 function Hero() {
@@ -45,15 +46,27 @@ function Hero() {
     return () => clearInterval(moving);
   }, [slides.length]);
 
+  // Shared slide motion for the background image AND the text, so they move
+  // together. The new slide enters from `direction`; the old one exits opposite.
+  const slideIn = (dir) => ({
+    initial: { opacity: 0, x: dir === "next" ? "100%" : "-100%" },
+    animate: { opacity: 1, x: 0 },
+    exit: { opacity: 0, x: dir === "next" ? "-100%" : "100%" },
+  });
+
   return (
     <section className="hero" data-reveal>
-      <div
-        key={`${currentSlide}-${direction}`}
-        className={`hero-bg hero-bg-${direction}`}
-        style={{
-          backgroundImage: `url(${slides[currentSlide].image})`,
-        }}
-      />
+      <AnimatePresence initial={false}>
+        <motion.div
+          key={currentSlide}
+          className="hero-bg"
+          style={{
+            backgroundImage: `url(${slides[currentSlide].image})`,
+          }}
+          {...slideIn(direction)}
+          transition={{ duration: 0.7, ease: "easeInOut" }}
+        />
+      </AnimatePresence>
 
       <div className="hero-overlay" />
 
@@ -70,13 +83,28 @@ function Hero() {
       </button>
 
       <div className="hero-copy">
-        <h1>
-          <span className="hero-title-line">{slides[currentSlide].title}</span>
-          <span className="hero-title-box">
-            {slides[currentSlide].highlight}
-          </span>
-        </h1>
-        <p>{slides[currentSlide].description}</p>
+        <AnimatePresence initial={false}>
+          <motion.h1
+            key={`title-${currentSlide}`}
+            {...slideIn(direction)}
+            transition={{ duration: 0.7, ease: "easeInOut"}}
+          >
+            <span className="hero-title-line">
+              {slides[currentSlide].title}
+            </span>
+            <span className="hero-title-box">
+              {slides[currentSlide].highlight}
+            </span>
+          </motion.h1>
+
+          <motion.p
+            key={`desc-${currentSlide}`}
+            {...slideIn(direction)}
+            transition={{ duration: 0.7, ease: "easeInOut" }}
+          >
+            {slides[currentSlide].description}
+          </motion.p>
+        </AnimatePresence>
       </div>
 
       <button

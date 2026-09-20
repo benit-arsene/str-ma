@@ -103,7 +103,7 @@ color: #c29d59;
 /* 4. Text Content Area */
 .about-content {
   flex: 1;
-text-align:left;
+  text-align: left;
 }
 
 .sub-title {
