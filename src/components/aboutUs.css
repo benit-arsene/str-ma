@@ -1,7 +1,7 @@
-/* 1. Floating Search Container Overlap */
+
 .search-container {
   max-width: 950px;
-  margin: -35px auto 60px auto; /* Negative top margin floats it over the hero header */
+  margin: -35px auto 60px auto; 
   position: relative;
   z-index: 10;
   border: 1px solid #d1d5db;
@@ -57,7 +57,7 @@ color: #c29d59;
 /* 2. About Us Layout */
 .about-section {
   display: flex;
-  width: 100%;
+  width: 89%;
   max-width: none;
   margin: 0 auto;
   background-color: white;

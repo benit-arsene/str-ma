@@ -1,7 +1,9 @@
 .tours {
   position: relative;
-  padding: 76px 4.5% 100px;
-  background-color: #f8f7f3;
+  width: 100%;                 /* bg band spans the full viewport */
+  margin: 0;
+  padding: 120px 0 50px;       
+  background-color: #f8f7f3;  
   background-image: radial-gradient(
     circle,
     rgba(184, 148, 31, 0.12) 1px,
@@ -10,7 +12,12 @@
   background-size: 8px 8px;
 }
 
-/* Header */
+.tours-container {
+  width: 75%;                  
+  max-width: 75%;
+  margin: 0 auto;             
+  box-sizing: border-box;
+}
 
 .tours-header {
   display: flex;

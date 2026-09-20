@@ -66,57 +66,59 @@ function Tours() {
 
   return (
     <section className="tours">
-      <div className="tours-header">
-        <div>
-          <h4>Amazing Tours</h4>
+      <div className="tours-container">
+        <div className="tours-header">
+          <div>
+            <h4>Amazing Tours</h4>
 
-          <h2>
-            Trending, <strong>Best Selling Tours</strong> And Fun Destinations
-          </h2>
-        </div>
-
-        <div className="tour-controls">
-          <button onClick={prevTour}>Prev</button>
-          <button onClick={nextTour}>Next</button>
-        </div>
-      </div>
-
-      <div className="tours-grid">
-        {visibleTours.map((tour) => (
-          <div className="tour-card" key={tour.location}>
-            <div className="tour-image">
-              <img src={tour.image} alt={tour.location} />
-
-              {tour.discount && (
-                <span className="discount">{tour.discount}</span>
-              )}
-
-              <span className="location">{tour.location}</span>
-            </div>
-
-            <div className="tour-info">
-              <div className="tour-meta">
-                <span>◷ {tour.duration}</span>
-                <span>♟ {tour.group}</span>
-              </div>
-
-              <div className="tour-footer">
-                <strong>{tour.price}</strong>
-
-                <button>BOOK NOW</button>
-              </div>
-            </div>
+            <h2>
+              Trending, <strong>Best Selling Tours</strong> And Fun Destinations
+            </h2>
           </div>
-        ))}
-      </div>
 
-      <div className="tour-pagination">
-        {tours.map((tour, index) => (
-          <span
-            className={index === currentTour ? "active" : ""}
-            key={tour.location}
-          ></span>
-        ))}
+          <div className="tour-controls">
+            <button onClick={prevTour}>Prev</button>
+            <button onClick={nextTour}>Next</button>
+          </div>
+        </div>
+
+        <div className="tours-grid">
+          {visibleTours.map((tour) => (
+            <div className="tour-card" key={tour.location}>
+              <div className="tour-image">
+                <img src={tour.image} alt={tour.location} />
+
+                {tour.discount && (
+                  <span className="discount">{tour.discount}</span>
+                )}
+
+                <span className="location">{tour.location}</span>
+              </div>
+
+              <div className="tour-info">
+                <div className="tour-meta">
+                  <span>◷ {tour.duration}</span>
+                  <span>♟ {tour.group}</span>
+                </div>
+
+                <div className="tour-footer">
+                  <strong>{tour.price}</strong>
+
+                  <button>BOOK NOW</button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="tour-pagination">
+          {tours.map((tour, index) => (
+            <span
+              className={index === currentTour ? "active" : ""}
+              key={tour.location}
+            ></span>
+          ))}
+        </div>
       </div>
     </section>
   );
