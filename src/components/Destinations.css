@@ -1,9 +1,9 @@
 .destinations-grid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 260px 260px;
-  gap: 15px;
-  width: 100%;
+  grid-template-rows: 200px 200px;
+  gap: 35px;
+ 
 }
 
 .card1 {
@@ -94,6 +94,8 @@
 .destinations {
   background: white;
   padding: 80px 6%;
+  margin: 0 auto;
+  width: 70%;
 }
 
 .destinations h4 {
