@@ -97,14 +97,14 @@ function Tours() {
 
               <div className="tour-info">
                 <div className="tour-meta">
-                  <span>◷ {tour.duration}</span>
-                  <span>♟ {tour.group}</span>
+                  <span> {tour.duration}</span>
+                  <span> {tour.group}</span>
                 </div>
 
                 <div className="tour-footer">
                   <strong>{tour.price}</strong>
 
-                  <button>BOOK NOW</button>
+                  <button className="booknowbutton">BOOK NOW</button>
                 </div>
               </div>
             </div>

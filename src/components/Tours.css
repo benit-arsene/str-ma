@@ -108,11 +108,16 @@
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 25px;
+  
 }
 
 .tour-card {
   background: white;
   overflow: hidden;
+  
+}
+.tour-info{
+  border-left: 3px solid #c29d59;
 }
 
 .tour-image {
@@ -255,4 +260,9 @@
     min-width: 0;
     scroll-snap-align: start;
   }
+}
+.booknowbutton{
+  background: #c29d59;
+  color: white;
+  border-radius: 4px;   
 }
