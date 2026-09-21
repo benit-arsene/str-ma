@@ -41,32 +41,37 @@ function Hero() {
     const moving = setInterval(() => {
       setDirection("next");
       setCurrentSlide((currentSlide) => (currentSlide + 1) % slides.length);
-    }, 3000);
+    }, 4000);
 
     return () => clearInterval(moving);
   }, [slides.length]);
 
-  // Shared slide motion for the background image AND the text, so they move
-  // together. The new slide enters from `direction`; the old one exits opposite.
+  const getSlidePosition = (index) => {
+    const relativeIndex =
+      (index - currentSlide + slides.length) % slides.length;
+
+    if (relativeIndex === 0) return "active";
+    if (relativeIndex === 1) return "next";
+    if (relativeIndex === slides.length - 1) return "prev";
+  };
+
   const slideIn = (dir) => ({
-    initial: { opacity: 0, x: dir === "next" ? "100%" : "-100%" },
-    animate: { opacity: 1, x: 0 },
-    exit: { opacity: 0, x: dir === "next" ? "-100%" : "100%" },
+    initial: { opacity: 0, x: dir === "next" ? 80 : -80, y: 12 },
+    animate: { opacity: 1, x: 0, y: 0 },
+    exit: { opacity: 0, x: dir === "next" ? -80 : 80, y: -12 },
   });
 
   return (
     <section className="hero" data-reveal>
-      <AnimatePresence initial={false}>
-        <motion.div
-          key={currentSlide}
-          className="hero-bg"
-          style={{
-            backgroundImage: `url(${slides[currentSlide].image})`,
-          }}
-          {...slideIn(direction)}
-          transition={{ duration: 0.7, ease: "easeInOut" }}
-        />
-      </AnimatePresence>
+      <div className="hero-slide-stack" aria-label="Hero slides">
+        {slides.map((slide, index) => (
+          <div
+            key={`${slide.title}-${index}`}
+            className={`hero-slide ${getSlidePosition(index)}`}
+            style={{ backgroundImage: `url(${slide.image})` }}
+          />
+        ))}
+      </div>
 
       <div className="hero-overlay" />
 
@@ -83,11 +88,11 @@ function Hero() {
       </button>
 
       <div className="hero-copy">
-        <AnimatePresence initial={false}>
+        <AnimatePresence mode="wait">
           <motion.h1
-            key={`title-${currentSlide}`}
+            key={`${slides[currentSlide].title}-${slides[currentSlide].highlight}`}
             {...slideIn(direction)}
-            transition={{ duration: 0.7, ease: "easeInOut"}}
+            transition={{ duration: 0.7, ease: "easeInOut" }}
           >
             <span className="hero-title-line">
               {slides[currentSlide].title}
@@ -98,7 +103,7 @@ function Hero() {
           </motion.h1>
 
           <motion.p
-            key={`desc-${currentSlide}`}
+            key={`${slides[currentSlide].title}-description`}
             {...slideIn(direction)}
             transition={{ duration: 0.7, ease: "easeInOut" }}
           >

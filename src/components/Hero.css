@@ -9,25 +9,58 @@
   text-align: center;
   overflow: hidden;
   margin-top: -120px;
-  padding-top:120px;
+  padding-top: 120px;
 }
 
-.hero-bg,
-.hero-overlay {
+.hero-slide-stack {
   position: absolute;
   inset: 0;
+  overflow: hidden;
+  z-index: 0;
 }
 
-.hero-bg {
+.hero-slide {
+  position: absolute;
+  inset: 0;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  transform: translateX(0);
+  transition:
+    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.8s ease,
+    filter 0.8s ease;
+  will-change: transform;
+}
+
+.hero-slide.active {
   opacity: 1;
+  transform: translateX(0) scale(1.05);
+  z-index: 2;
+}
+
+.hero-slide.prev {
+  opacity: 0.48;
+  transform: translateX(-16%) scale(1.12);
+  z-index: 1;
+  filter: saturate(0.8);
+}
+
+.hero-slide.next {
+  opacity: 0.48;
+  transform: translateX(16%) scale(1.12);
+  z-index: 1;
+  filter: saturate(0.8);
+}
+
+.hero-slide.hidden {
+  opacity: 0;
+  transform: translateX(28%) scale(1.18);
+  z-index: 0;
 }
 
 .hero-overlay {
-  content: "";
+  position: absolute;
+  inset: 0;
   background: rgba(0, 0, 0, 0.35);
   z-index: 1;
 }
@@ -165,7 +198,7 @@
     min-height: 400px;
   }
 
-  .hero-bg {
+  .hero-slide {
     background-position: center center;
   }
 
