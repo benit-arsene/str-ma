@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
+import { useCallback, useEffect } from "react";
+import useEmblaCarousel from "embla-carousel-react";
+import Autoplay from "embla-carousel-autoplay";
 import "./Tours.css";
 
 function Tours() {
-  const [currentTour, setCurrentTour] = useState(0);
-
   const tours = [
     {
       image:
@@ -43,26 +43,42 @@ function Tours() {
     },
   ];
 
-  const visibleTours = Array.from(
-    { length: 3 },
-    (_, index) => tours[(currentTour + index) % tours.length],
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    { loop: true, align: "start", skipSnaps: false },
+    [Autoplay({ delay: 5000 })]
   );
 
-  const nextTour = () => {
-    setCurrentTour((prevTour) => (prevTour + 1) % tours.length);
-  };
+  const scrollPrev = useCallback(
+    () => emblaApi && emblaApi.scrollPrev(),
+    [emblaApi]
+  );
 
-  const prevTour = () => {
-    setCurrentTour((prevTour) => (prevTour - 1 + tours.length) % tours.length);
-  };
+  const scrollNext = useCallback(
+    () => emblaApi && emblaApi.scrollNext(),
+    [emblaApi]
+  );
+
+  const scrollTo = useCallback(
+    (index) => emblaApi && emblaApi.scrollTo(index),
+    [emblaApi]
+  );
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTour((prevTour) => (prevTour + 1) % tours.length);
-    }, 5000);
+    if (!emblaApi) return;
 
-    return () => clearInterval(timer);
-  }, []);
+    const onSelect = () => {
+      const selected = emblaApi.selectedScrollSnap();
+      const dots = document.querySelectorAll(".tour-pagination span");
+      dots.forEach((dot, i) => {
+        dot.classList.toggle("active", i === selected);
+      });
+    };
+
+    emblaApi.on("select", onSelect);
+    return () => {
+      emblaApi.off("select", onSelect);
+    };
+  }, [emblaApi]);
 
   return (
     <section className="tours">
@@ -70,58 +86,60 @@ function Tours() {
         <div className="tours-header">
           <div>
             <h4>Amazing Tours</h4>
-
             <h2>
               Trending, <strong>Best Selling Tours</strong> And Fun Destinations
             </h2>
           </div>
 
           <div className="tour-controls">
-            <button onClick={prevTour}>Prev</button>
-            <button onClick={nextTour}>Next</button>
+            <button onClick={scrollPrev}>Prev</button>
+            <button onClick={scrollNext}>Next</button>
           </div>
         </div>
 
-        <div className="tours-grid">
-          {visibleTours.map((tour) => (
-            <div className="tour-card" key={tour.location}>
-              <div className="tour-image">
-                <img src={tour.image} alt={tour.location} />
+        <div className="embla" ref={emblaRef}>
+          <div className="embla__container">
+            {tours.map((tour) => (
+              <div className="embla__slide" key={tour.location}>
+                <div className="tour-card">
+                  <div className="tour-image">
+                    <img src={tour.image} alt={tour.location} />
 
-                {tour.discount && (
-                  <span className="discount">{tour.discount}</span>
-                )}
+                    {tour.discount && (
+                      <span className="discount">{tour.discount}</span>
+                    )}
 
-                <span className="location">{tour.location}</span>
-              </div>
+                    <span className="location">{tour.location}</span>
+                  </div>
 
-              <div className="tour-info">
-                <div className="tour-meta">
-                  <span> {tour.duration}</span>
-                  <span> {tour.group}</span>
+                  <div className="tour-info">
+                    <div className="tour-meta">
+                      <span>{tour.duration}</span>
+                      <span>{tour.group}</span>
+                    </div>
+
+                    <div className="tour-footer">
+                      <strong>{tour.price}</strong>
+                      <button className="booknowbutton">BOOK NOW</button>
+                    </div>
+                  </div>
                 </div>
-
-                <div className="tour-footer">
-                  <strong>{tour.price}</strong>
-
-                  <button className="booknowbutton">BOOK NOW</button>
-                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
 
         <div className="tour-pagination">
           {tours.map((tour, index) => (
             <span
-              className={index === currentTour ? "active" : ""}
+              className={index === 0 ? "active" : ""}
+              onClick={() => scrollTo(index)}
               key={tour.location}
+              style={{ cursor: "pointer" }}
             ></span>
           ))}
         </div>
       </div>
     </section>
   );
-}
-
-export default Tours;
+}export default Tours;
