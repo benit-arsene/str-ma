@@ -60,7 +60,7 @@ nav.navbar-scrolled .contact-bar {
 .contact svg {
   width: 17px;
   height: 17px;
-  color: #c59d4c;
+  color: #c29d59;
 }
 
 .socials {
@@ -73,7 +73,7 @@ nav.navbar-scrolled .contact-bar {
   width: 40px;
   height: 40px;
   border-left: 1px solid #555;
-  color: #c59d4c;
+  color: #c29d59;
 }
 .main-nav {
   display: flex;
@@ -93,7 +93,7 @@ nav.navbar-scrolled .contact-bar {
   gap: 18px;
 }
 .actions button {
-  background: rgb(165, 140, 57);
+  background: #c29d59;
   color: white;
   border: none;
   padding: 13px 38px;
@@ -132,7 +132,7 @@ nav.navbar-scrolled .contact-bar {
 }
 
 .actions svg:last-of-type {
-  background: rgb(165, 140, 57);
+  background: #c29d59;
   color: white;
   border-radius: 50%;
   padding: 10px;

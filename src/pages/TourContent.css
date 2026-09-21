@@ -109,7 +109,7 @@
   background: white;
   overflow: hidden;
   border: 1px solid #e1ddd3;
-  border-left: 3px solid #c49a25;
+  border-left: 3px solid #c29d59;
   box-shadow: 0 3px 10px rgba(34, 34, 34, 0.08);
 }
 
@@ -131,7 +131,7 @@
   left: 0;
 
 
-  background: #c49a25;
+  background: #c29d59;
   color: white;
 
   left: 14px;
@@ -164,7 +164,7 @@
   left: 0;
   z-index: 2;
 
-  background: #c49a25;
+  background: #c29d59;
   color: white;
 
   padding: 8px 16px;
@@ -228,7 +228,7 @@
 }
 
 .tour-content .tour-meta svg {
-  color: #c49a25;
+  color: #c29d59;
 }
 
 .tour-content .tour-footer {
@@ -250,7 +250,7 @@
 .book-button,
 .find-button {
   border: none;
-  background: #c49a25;
+  background: #c29d59;
   color: white;
 
   padding: 13px 20px;
@@ -293,7 +293,7 @@
 .find-tour h2 span {
   width: 4px;
   height: 25px;
-  background: #c49a25;
+  background: #c29d59;
 }
 
 /* INPUTS */
@@ -318,7 +318,7 @@
 
 .search-input svg,
 .select-input svg {
-  color: #c49a25;
+  color: #c29d59;
   flex-shrink: 0;
 }
 
@@ -423,7 +423,7 @@
 }
 
 .categories input:checked {
-  background: #c49a25;
+  background: #c29d59;
 }
 
 .categories label:has(input:checked)::after {
@@ -563,7 +563,7 @@
   font-weight: bold;
   margin: 0 0 22px;
   white-space: nowrap;
-  border-left: 2px solid #c49a25;
+  border-left: 2px solid #c29d59;
   padding-left: 10px;
 }
 

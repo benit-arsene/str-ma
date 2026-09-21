@@ -19,7 +19,7 @@
   width: 75%;
   height: 500px;
 
-  border: 2px solid #c49a25;
+  border: 2px solid #c29d59;
 
   padding: 8px;
 }
@@ -42,7 +42,7 @@
   width: 55%;
   height: 230px;
 
-  border: 2px solid #c49a25;
+  border: 2px solid #c29d59;
 
   padding: 8px;
 
@@ -67,7 +67,7 @@
 }
 
 .about-content h4 {
-  color: #c49a25;
+  color: #c29d59;
 
   font-size: 15px;
 
@@ -101,7 +101,7 @@
 .about-content button {
   border: none;
 
-  background: #c49a25;
+  background: #c29d59;
 
   color: white;
 

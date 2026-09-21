@@ -64,7 +64,7 @@
 }
 
 .tour-tabs button.active {
-  background: #c59d4c;
+  background: #c29d59;
   color: white;
 }
 .tour-tabs button:last-child {
@@ -75,7 +75,7 @@
   width: 17px;
   height: 17px;
   flex-shrink: 0;
-  color: #c59d4c;
+  color: #c29d59;
 }
 
 .tour-tabs button.active svg {
@@ -121,7 +121,7 @@
 .book-tour-card h2 span {
   width: 4px;
   height: 24px;
-  background: #c59d4c;
+  background: #c29d59;
 }
 
 .book-tour-card form {
@@ -182,7 +182,7 @@
 
   border: 1px solid #222;
   background-color: white;
-  accent-color: #c59d4c;
+  accent-color: #c29d59;
 }
 
 .book-tour-card form > button {
@@ -191,7 +191,7 @@
 
   border: none;
 
-  background: #c59d4c;
+  background: #c29d59;
   color: white;
 
   font-size: 13px;
@@ -203,7 +203,7 @@
 }
 
 .book-tour-card form > button:hover {
-  background: #b28b3b;
+  background: #c29d59;
 }
 
 @media (max-width: 1024px) {

@@ -37,7 +37,7 @@
 .tours-header h4 {
   position: relative;
   display: inline-block;
-  color: #b8941f;
+  color: #c29d59;
   margin: 0 0 18px;
   padding-left: 12px;
   font-size: 14px;
@@ -54,7 +54,7 @@
   top: 2px;
   bottom: 2px;
   width: 2px;
-  background: #b8941f;
+  background: #c29d59;
 }
 
 .tours-header h2 {
@@ -87,7 +87,7 @@
   width: 76px;
   height: 38px;
   border: none;
-  background: #b8860b;
+  background: #c29d59;
   color: white;
   cursor: pointer;
   text-transform: uppercase;
@@ -98,7 +98,7 @@
 }
 
 .tour-controls button:hover {
-  background: #98700d;
+  background: #c29d59;
   transform: translateY(-1px);
 }
 
@@ -134,7 +134,7 @@
   top: 0;
   left: 0;
 
-  background: #b8941f;
+  background: #c29d59;
   color: white;
 
   padding: 10px 12px;
@@ -150,7 +150,7 @@
   bottom: 0;
   left: 0;
 
-  background: #b8941f;
+  background: #c29d59;
   color: white;
 
   padding: 10px 18px;
@@ -189,7 +189,7 @@
 
 .tour-footer button {
   border: none;
-  background: #b8941f;
+  background: #c29d59;
   color: white;
   padding: 12px 20px;
   cursor: pointer;
@@ -213,7 +213,7 @@
 }
 
 .tour-pagination span.active {
-  background: #b8941f;
+  background: #c29d59;
 }
 
 @media (max-width: 600px) {

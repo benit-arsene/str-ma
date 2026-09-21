@@ -95,7 +95,7 @@
 
 .hero-title-box {
   display: inline-block;
-  background: #c29d4b;
+  background: #c29d59;
   color: #ffffff;
   font-size: clamp(1.8rem, 3vw, 3.5rem);
   padding: 0.2em 0.8em;
@@ -123,7 +123,7 @@
   min-height: 120px;
   padding: 10px 8px;
   border: none;
-  background: rgba(194, 157, 75, 0.9);
+  background: #c29d59;
   color: white;
   cursor: pointer;
   z-index: 5;

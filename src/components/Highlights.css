@@ -31,7 +31,7 @@
   right: 5%;
   bottom: 50px;
 
-  border: 2px solid rgb(165, 140, 57);
+  border: 2px solid #c29d59;
 
   display: flex;
   flex-direction: column;
@@ -49,7 +49,7 @@
 }
 
 .highlights-frame h4 {
-  color: rgb(165, 140, 57);
+  color: #c29d59;
   font-size: 20px;
   margin-top: 15px;
 }
@@ -65,10 +65,10 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
 
-   background: linear-gradient(
+  background: linear-gradient(
     to bottom,
-    #d1aa32,
-    #a47d12
+    #c29d59,
+    #a8772d
   );
   color: white;
 }

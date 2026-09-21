@@ -37,12 +37,12 @@
 }
 
 .pagination button.active {
-  background: #c59d4c;
+  background: #c29d59;
   color: white;
 }
 
 .pagination button.active:hover {
-  background: #b28b3b;
+  background: #c29d59;
 }
 
 .pagination button:disabled {
