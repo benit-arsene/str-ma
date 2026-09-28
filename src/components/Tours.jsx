@@ -1,6 +1,7 @@
 import { useCallback, useEffect } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
+import { Clock, Users } from "lucide-react";
 import "./Tours.css";
 
 function Tours() {
@@ -11,7 +12,8 @@ function Tours() {
       discount: "15% off",
       location: "GREECE",
       title: "Aegean Dreams: Santorini & Mykonos",
-      description: "Sun-drenched islands, whitewashed villages, and crystal-clear waters await.",
+      description:
+        "Sun-drenched islands, whitewashed villages, and crystal-clear waters await.",
       duration: "6 days 3 hours",
       group: "15+ People",
       price: "$2500",
@@ -21,8 +23,9 @@ function Tours() {
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmyrUYgA10vOt3udjR7BrdzcmJIVyw1FHk_BYWmRfZRyatwyLckV25b5Y&s=10",
       discount: "38% off",
       location: "JAISALMER",
-      title: "Golden Sands of Rajasthan",
-      description: "Explore the Thar Desert's majestic forts and camel safaris under starlit skies.",
+      title: "Golden Sands of Rajasthan and Desert Safari",
+      description:
+        "Explore the Thar Desert's majestic forts and camel safaris under starlit skies.",
       duration: "1 days 8 hours",
       group: "50+ People",
       price: "$750",
@@ -33,7 +36,8 @@ function Tours() {
       discount: null,
       location: "SWITZERLAND",
       title: "Alpine Majesty: Peaks & Glaciers",
-      description: "Journey through Switzerland's breathtaking mountains, lakes, and charming villages.",
+      description:
+        "Journey through Switzerland's breathtaking mountains, lakes, and charming villages.",
       duration: "7 days 8 hours",
       group: "50+ People",
       price: "$750",
@@ -44,7 +48,8 @@ function Tours() {
       discount: null,
       location: "ITALY",
       title: "Italian Splendor: Rome, Florence & Venice",
-      description: "Art, history, and cuisine across Italy's most iconic cities.",
+      description:
+        "Art, history, and cuisine across Italy's most iconic cities.",
       duration: "7 days 8 hours",
       group: "50+ People",
       price: "$1200",
@@ -53,22 +58,22 @@ function Tours() {
 
   const [emblaRef, emblaApi] = useEmblaCarousel(
     { loop: true, align: "start", skipSnaps: false },
-    [Autoplay({ delay: 5000 })]
+    [Autoplay({ delay: 5000 })],
   );
 
   const scrollPrev = useCallback(
     () => emblaApi && emblaApi.scrollPrev(),
-    [emblaApi]
+    [emblaApi],
   );
 
   const scrollNext = useCallback(
     () => emblaApi && emblaApi.scrollNext(),
-    [emblaApi]
+    [emblaApi],
   );
 
   const scrollTo = useCallback(
     (index) => emblaApi && emblaApi.scrollTo(index),
-    [emblaApi]
+    [emblaApi],
   );
 
   useEffect(() => {
@@ -124,8 +129,20 @@ function Tours() {
                     <h3 className="tour-title">{tour.title}</h3>
                     <p className="tour-description">{tour.description}</p>
                     <div className="tour-meta">
-                      <span>{tour.duration}</span>
-                      <span>{tour.group}</span>
+                      <div className="meta-item tour-duration">
+                        <span className="meta-icon"><Clock size={18} /></span>
+                        <div className="meta-text">
+                          <span className="meta-label">Duration</span>
+                          <span className="meta-value">{tour.duration}</span>
+                        </div>
+                      </div>
+                      <div className="meta-item tour-group">
+                        <span className="meta-icon"><Users size={18} /></span>
+                        <div className="meta-text">
+                          <span className="meta-label">Group Size</span>
+                          <span className="meta-value">{tour.group}</span>
+                        </div>
+                      </div>
                     </div>
 
                     <div className="tour-footer">
@@ -152,4 +169,5 @@ function Tours() {
       </div>
     </section>
   );
-}export default Tours;
+}
+export default Tours;
