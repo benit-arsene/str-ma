@@ -10,6 +10,8 @@ function Tours() {
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKnf2s2cwypBVZhtw3Zx8lfJNKvTrRrUV4aBc2Ksn5OA&s=10",
       discount: "15% off",
       location: "GREECE",
+      title: "Aegean Dreams: Santorini & Mykonos",
+      description: "Sun-drenched islands, whitewashed villages, and crystal-clear waters await.",
       duration: "6 days 3 hours",
       group: "15+ People",
       price: "$2500",
@@ -19,6 +21,8 @@ function Tours() {
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmyrUYgA10vOt3udjR7BrdzcmJIVyw1FHk_BYWmRfZRyatwyLckV25b5Y&s=10",
       discount: "38% off",
       location: "JAISALMER",
+      title: "Golden Sands of Rajasthan",
+      description: "Explore the Thar Desert's majestic forts and camel safaris under starlit skies.",
       duration: "1 days 8 hours",
       group: "50+ People",
       price: "$750",
@@ -28,6 +32,8 @@ function Tours() {
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPQWAyDiiNAY0kGKh0NuG8ecd_h2eCBwfTbylS5sXs2UJAr4N0Mg5MgXY&s=10",
       discount: null,
       location: "SWITZERLAND",
+      title: "Alpine Majesty: Peaks & Glaciers",
+      description: "Journey through Switzerland's breathtaking mountains, lakes, and charming villages.",
       duration: "7 days 8 hours",
       group: "50+ People",
       price: "$750",
@@ -37,6 +43,8 @@ function Tours() {
         "https://images.goway.com/production/styles/article_featured_image_3xl/s3/featured_images/Gornergrat-tourist-train-with-waterfall%2C-bridge-and-Matterhorn%2C-Zermatt%2C-Switzerland_AdobeStock_357392613.jpeg.webp?VersionId=9mo5ly3faIhUY3lxrPODTVvbzc801sS6&h=0875ea28&itok=M1d-5FQZ",
       discount: null,
       location: "ITALY",
+      title: "Italian Splendor: Rome, Florence & Venice",
+      description: "Art, history, and cuisine across Italy's most iconic cities.",
       duration: "7 days 8 hours",
       group: "50+ People",
       price: "$1200",
@@ -113,6 +121,8 @@ function Tours() {
                   </div>
 
                   <div className="tour-info">
+                    <h3 className="tour-title">{tour.title}</h3>
+                    <p className="tour-description">{tour.description}</p>
                     <div className="tour-meta">
                       <span>{tour.duration}</span>
                       <span>{tour.group}</span>
