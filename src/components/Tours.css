@@ -14,7 +14,6 @@
 
 .tours-container {
   width: 75%;
-  max-width: 75%;
   margin: 0 auto;
   box-sizing: border-box;
 }
@@ -67,7 +66,6 @@
   font-weight: 400;
   letter-spacing: -0.02em;
   text-align: left;
-  text-rendering: optimizeLegibility;
 }
 
 .tours-header h2 strong {
@@ -96,40 +94,41 @@
 }
 
 .tour-controls button:hover {
-  background: #c29d59;
   transform: translateY(-1px);
 }
 
-.embla {
+/* Neutralize the global button wipe from index.css for carousel controls */
+
+.tour-controls button::before {
+  content: none;
+}
+
+.tours .embla {
   overflow: hidden;
   cursor: grab;
 }
 
-.embla.is-dragging {
+.tours .embla.is-dragging {
   cursor: grabbing;
 }
 
-.embla__container {
+.tours .embla__container {
   display: flex;
   gap: 25px;
 }
 
-.embla__slide {
+.tours .embla__slide {
   flex: 0 0 calc(33.333% - 16.667px);
   min-width: 0;
 }
 
-.embla__slide .tour-card {
+.tours .embla__slide .tour-card {
   height: 100%;
 }
 
 .tour-card {
   background: white;
   overflow: hidden;
-}
-
-.tour-info {
-  border-left: 3px solid #c29d59;
 }
 
 .tour-image {
@@ -168,6 +167,7 @@
 
 .tour-info {
   padding: 20px;
+  border-left: 3px solid #c29d59;
 }
 
 .tour-title {
@@ -255,6 +255,11 @@
   padding: 12px 20px;
   cursor: pointer;
   font-weight: bold;
+  border-radius: 4px;
+}
+
+.tour-footer button::before {
+  content: none;
 }
 
 .tour-pagination {
@@ -281,14 +286,8 @@
   background: #aaa;
 }
 
-.booknowbutton {
-  background: #c29d59;
-  color: white;
-  border-radius: 4px;
-}
-
 @media (max-width: 1024px) {
-  .embla__slide {
+  .tours .embla__slide {
     flex: 0 0 calc(50% - 12.5px);
   }
 }
@@ -312,13 +311,13 @@
     align-self: flex-end;
   }
 
-  .embla__container {
+  .tours .embla__container {
     gap: 16px;
     margin-right: -6vw;
     padding-right: 6vw;
   }
 
-  .embla__slide {
+  .tours .embla__slide {
     flex: 0 0 calc(100% - 16px);
   }
 }
