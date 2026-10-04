@@ -82,11 +82,6 @@
   color: #000;
 }
 
-.tour-tabs button span,
-.tour-tabs button svg {
-  position: relative;
-  z-index: 1;
-}
 .tour-tab-content {
   min-height: 360px;
   padding: 35px;
@@ -198,12 +193,10 @@
   font-weight: 700;
 
   cursor: pointer;
-
-  transition: background 0.2s ease;
 }
 
 .book-tour-card form > button:hover {
-  background: #c29d59;
+  background: #b08a45;
 }
 
 @media (max-width: 1024px) {
@@ -351,35 +344,8 @@
   .book-tour-card textarea {
     min-height: 44px;
   }
-}.information-content {
-  background: white;
 }
 
-.tour-title-section {
-  position: relative;
-
-  display: flex;
-  align-items: center;
-
-  min-height: 180px;
-
-  padding: 35px;
-}
-
-.tour-title {
-  max-width: 650px;
-}
-
-.tour-title h1 {
-  margin: 0;
-
-  font-family: Georgia, serif;
-
-  font-size: 36px;
-  line-height: 1.25;
-
-  color: #222;
-}
 .information-content {
   background: white;
 }
@@ -563,18 +529,6 @@
   object-fit: cover;
 }
 
-.gallery-prev,
-.gallery-next {
-  flex: 0 0 auto;
-  min-width: 60px;
-  min-height: 42px;
-  padding: 8px 10px;
-  border: none;
-  background: #c59d4c;
-  color: white;
-  cursor: pointer;
-}
-
 @media (max-width: 800px) {
   .tour-gallery {
     align-items: stretch;
@@ -585,51 +539,7 @@
     height: 140px;
   }
 }
-.tour-specifications {
-  margin-top: 35px;
-}
 
-.spec-row {
-  display: grid;
-  grid-template-columns: 35% 65%;
-
-  border-bottom: 1px solid #e5e5e5;
-
-  padding: 18px 0;
-}
-
-.spec-label {
-  font-family: Georgia, serif;
-  color: #222;
-}
-
-.spec-value {
-  color: #777;
-  font-size: 14px;
-}
-
-.spec-value ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.spec-value li {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 10px;
-}
-
-.included-list svg {
-  color: #c59d4c;
-  width: 17px;
-}
-
-.excluded-list svg {
-  color: #222;
-  width: 17px;
-}
 .tour-plan {
   background: white;
 }
@@ -783,13 +693,17 @@
   width: 60px;
   height: 60px;
   flex-shrink: 0;
-}
 
-.review-avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: #c59d4c;
+  color: white;
   border-radius: 50%;
+  font-family: Georgia, serif;
+  font-size: 20px;
+  font-weight: bold;
 }
 
 .review-content {
@@ -905,8 +819,4 @@
   color: #fff;
   font-weight: 700;
   cursor: pointer;
-}
-.book-tour-title{
-  color: black;
-  background: white;
 }

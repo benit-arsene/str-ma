@@ -1,4 +1,5 @@
 .footer {
+  position: relative;
   background-color: #292929;
   color: white;
   padding: 70px 7% 0;
@@ -40,10 +41,6 @@
   max-width: 430px;
 }
 
-.footer-brand p strong {
-  color: white;
-}
-
 .newsletter-form {
   display: flex;
   max-width: 350px;
@@ -61,7 +58,7 @@ border-radius: 3px 0 0 3px;
 
   padding: 11px 15px;
   outline: none;
-  border-right: none;;
+  border-right: none;
 }
 
 .newsletter-form input::placeholder {
@@ -73,16 +70,16 @@ border-radius: 3px 0 0 3px;
   color: white;
 
   border: none;
-border-radius: 0 3px 3px 0;
+  border-radius: 0 3px 3px 0;
   padding: 11px 24px;
 
   font-weight: bold;
   cursor: pointer;
 }
 
-
-.newsletter-form button:hover:not(:disabled) {
-  color: #c29d59;
+.newsletter-form button:hover {
+  background: #b08a45;
+  color: white;
 }
 
 .payment-icons {
@@ -143,7 +140,8 @@ border-radius: 0 3px 3px 0;
   background: white;
 }
 
-.footer-navigation a {
+.footer-navigation a,
+.footer-navigation a:visited {
   color: white;
   font-size: 13px;
   text-decoration: none;

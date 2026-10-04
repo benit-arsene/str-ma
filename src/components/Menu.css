@@ -68,15 +68,10 @@
   font-weight: 700;
   letter-spacing: 0.04em;
   font-family: Georgia, Garamond, serif;
-  text-rendering: optimizeLegibility;
 }
 
 .menu-brand-highlight {
   color: #c29d59;
-}
-
-.menu-brand-logo {
-  display: none;
 }
 
 .menu-close {
@@ -130,10 +125,7 @@
 .menu-sub-links a {
   color: #ffffff;
   text-decoration: none;
-  text-shadow: none;
-  -webkit-text-stroke: 0;
   font-family: Georgia, Garamond, serif;
-  text-rendering: optimizeLegibility;
 }
 
 .menu-links a {
@@ -154,12 +146,6 @@
   font-size: 21px;
   text-align: left;
   cursor: pointer;
-  overflow: visible;
-  transition: none;
-}
-
-.menu-links .menu-parent::before {
-  display: none;
 }
 
 .menu-parent span {

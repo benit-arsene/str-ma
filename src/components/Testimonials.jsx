@@ -27,7 +27,7 @@ function Testimonials() {
     }, 5000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [testimonials.length]);
 
   const review = testimonials[currentReview];
 

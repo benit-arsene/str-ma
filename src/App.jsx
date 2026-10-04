@@ -1,10 +1,33 @@
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 
+import "./App.css";
 import Home from "./pages/Home";
 import TourPage from "./pages/TourPage";
 import TourDetail from "./pages/TourDetail";
+import About from "./pages/About";
 import ScrollToTop from "./components/ScrollToTop";
+
+function NotFound() {
+  return (
+    <main
+      style={{
+        minHeight: "60vh",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: "16px",
+        padding: "80px 6%",
+        textAlign: "center",
+      }}
+    >
+      <h1>404</h1>
+      <p>We could not find the page you were looking for.</p>
+      <Link to="/">Back to Home</Link>
+    </main>
+  );
+}
 
 function AppRoutes() {
   const location = useLocation();
@@ -43,10 +66,12 @@ function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
+      <Route path="/about" element={<About />} />
       <Route path="/tour" element={<TourPage />} />
       <Route path="/tour/:tourId" element={<TourDetail />} />
       <Route path="/tours" element={<TourPage />} />
       <Route path="/tours/:tourId" element={<TourDetail />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }

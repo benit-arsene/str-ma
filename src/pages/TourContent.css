@@ -17,35 +17,6 @@
   min-width: 0;
 }
 
-.sort-bar {
-  display: grid;
-  grid-template-columns: 1fr 1.5fr 1.5fr;
-
-  margin-bottom: 35px;
-}
-
-.sort-bar > * {
-  height: 55px;
-
-  border: 1px solid #ddd;
-  background: white;
-
-  display: flex;
-  align-items: center;
-
-  padding: 0 18px;
-}
-
-.sort-bar select {
-  width: 100%;
-  border: none;
-  outline: none;
-  background: transparent;
-  color: #444;
-  font-size: 14px;
-  cursor: pointer;
-
-}
 .sort-group {
   display: inline-flex;
   align-items: stretch;
@@ -142,22 +113,6 @@
   font-weight: 700;
 }
 
-@keyframes fadeIn {
-  from {
-    
-    transform: translateY(20px);
-  }
-  to {
-    
-    transform: translateY(0);
-  }
-}
-
-
-.tour-content .discount:hover {
-  animation-name: fadeIn;
-  animation-duration: 1s;
-}
 .tour-content .location {
   position: absolute;
   bottom: -15px;

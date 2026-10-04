@@ -1,4 +1,4 @@
-import { Search, Menu as MenuIcon, MapPin, Mail, Phone } from "lucide-react";
+import { Search, Menu as MenuIcon, Mail, Phone } from "lucide-react";
 import { FaFacebookF, FaInstagram, FaTwitter } from "react-icons/fa";
 import "./Navbar.css";
 import Menu from "./Menu";

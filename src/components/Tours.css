@@ -97,12 +97,6 @@
   transform: translateY(-1px);
 }
 
-/* Neutralize the global button wipe from index.css for carousel controls */
-
-.tour-controls button::before {
-  content: none;
-}
-
 .tours .embla {
   overflow: hidden;
   cursor: grab;
@@ -256,10 +250,6 @@
   cursor: pointer;
   font-weight: bold;
   border-radius: 4px;
-}
-
-.tour-footer button::before {
-  content: none;
 }
 
 .tour-pagination {

@@ -101,6 +101,11 @@ nav.navbar-scrolled .contact-bar {
   cursor: pointer;
   border-radius: 3px;
 }
+
+.actions button:hover {
+  background: #b08a45;
+}
+
 .brand {
   display: flex;
   align-items: center;

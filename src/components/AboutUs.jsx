@@ -5,7 +5,10 @@ function AboutUs() {
   return (
     <>
       <div className="search-container">
-        <form className="search-form">
+        <form
+          className="search-form"
+          onSubmit={(event) => event.preventDefault()}
+        >
           <div className="search-field">
             <span className="field-icon">
               <MapPin />

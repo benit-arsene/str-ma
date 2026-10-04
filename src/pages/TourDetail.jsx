@@ -26,9 +26,13 @@ const tourImages = {
     "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=900&q=80",
 };
 
+const tourDepartures = {
+  italy: "Rome, Italy",
+  greece: "Athens, Greece",
+  switzerland: "Zurich, Switzerland",
+};
+
 const specifications = {
-  destination: "Greece",
-  departure: "Greece",
   departureTime: "9:15 AM To 9:30 AM",
   returnTime: "7:00 PM",
   dressCode: "Casual",
@@ -46,6 +50,8 @@ function TourDetail() {
   const tourImage =
     tourImages[tourKey] ??
     "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80";
+  const destination =
+    tourDepartures[tourKey] ?? "Selected Destination";
 
   const [activeTab, setActiveTab] = useState("information");
 
@@ -219,16 +225,12 @@ function TourDetail() {
                   <div className="tour-specifications">
                     <div className="spec-row">
                       <div className="spec-label">Destination</div>
-                      <div className="spec-value">
-                        {specifications.destination}
-                      </div>
+                      <div className="spec-value">{destination}</div>
                     </div>
 
                     <div className="spec-row">
                       <div className="spec-label">Departure</div>
-                      <div className="spec-value">
-                        {specifications.departure}
-                      </div>
+                      <div className="spec-value">{destination}</div>
                     </div>
 
                     <div className="spec-row">
@@ -409,9 +411,7 @@ function TourDetail() {
                     <h2>Customer Reviews</h2>
 
                     <div className="review-item">
-                      <div className="review-avatar">
-                        <img src="" alt="John Doe" />
-                      </div>
+                      <div className="review-avatar">JD</div>
 
                       <div className="review-content">
                         <div className="review-header">
@@ -432,9 +432,7 @@ function TourDetail() {
                     </div>
 
                     <div className="review-item">
-                      <div className="review-avatar">
-                        <img src="" alt="Jane Doe" />
-                      </div>
+                      <div className="review-avatar">JD</div>
 
                       <div className="review-content">
                         <div className="review-header">
@@ -482,7 +480,10 @@ function TourDetail() {
                       ))}
                     </div>
 
-                    <form className="comment-form">
+                    <form
+                      className="comment-form"
+                      onSubmit={(event) => event.preventDefault()}
+                    >
                       <div className="comment-fields">
                         <input type="text" placeholder="Your Name" />
 
@@ -508,7 +509,7 @@ function TourDetail() {
               BOOK THIS TOUR
             </h2>
 
-            <form>
+            <form onSubmit={(event) => event.preventDefault()}>
               <input type="text" placeholder="Full Name" />
 
               <input type="email" placeholder="Email" />

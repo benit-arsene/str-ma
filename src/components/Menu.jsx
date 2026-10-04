@@ -1,14 +1,11 @@
 import { X, ChevronDown, ChevronUp } from "lucide-react";
 import { FaFacebookF, FaInstagram, FaTwitter } from "react-icons/fa";
 import "./Menu.css";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 
 function Menu({ onClose, isClosing = false }) {
-  const location = useLocation();
-  const [isTourOpen, setIsTourOpen] = useState(
-    location.pathname.startsWith("/tour") || true,
-  );
+  const [isTourOpen, setIsTourOpen] = useState(true);
 
   return (
     <div className={`menu-overlay ${isClosing ? "menu-overlay-closing" : ""}`}>

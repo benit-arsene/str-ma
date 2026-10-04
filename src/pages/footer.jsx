@@ -7,6 +7,7 @@ import {
   FaCcMastercard,
   FaCcAmex,
 } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 import "./footer.css";
 
@@ -28,7 +29,10 @@ function Footer() {
             destinations and create unforgettable memories.
           </p>
 
-          <form className="newsletter-form">
+          <form
+            className="newsletter-form"
+            onSubmit={(event) => event.preventDefault()}
+          >
             <input type="email" placeholder="Enter Your Email" />
             <button type="submit">SUBMIT</button>
           </form>
@@ -47,16 +51,16 @@ function Footer() {
 
           <ul>
             <li>
-              <a href="/">Home</a>
+              <Link to="/">Home</Link>
             </li>
             <li>
-              <a href="#">About</a>
+              <Link to="/about">About</Link>
             </li>
             <li>
               <a href="#">Destination</a>
             </li>
             <li>
-              <a href="/tours">Tour</a>
+              <Link to="/tours">Tour</Link>
             </li>
             <li>
               <a href="#">Blog</a>

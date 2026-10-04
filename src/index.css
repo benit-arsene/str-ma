@@ -56,32 +56,6 @@ body {
   background-color: white;
 }
 
-button {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  transition: color 1s ease;
-}
-
-button::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: #000;
-  transform: scaleY(0);
-  transform-origin: top;
-  transition: transform 1s ease;
-}
-
-button:hover:not(:disabled) {
-  color: white;
-}
-
-button:hover:not(:disabled)::before {
-  transform: scaleY(1);
-}
-
 #root {
   width: 100%;
   max-width: 100%;
