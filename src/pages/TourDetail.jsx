@@ -16,13 +16,16 @@ import {
 import Navbar from "../components/Navbar";
 import Footer from "./footer";
 import "./TourDetail.css";
-import { fetchTourBySlug } from "../api/tours";
+import { fetchTourBySlug, fetchItinerary } from "../api/tours";
 
 function TourDetail() {
   const { tourId } = useParams();
   const [tour, setTour] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [itinerary, setItinerary] = useState([]);
+  const [itineraryLoading, setItineraryLoading] = useState(false);
+  const [itineraryError, setItineraryError] = useState(null);
   const [activeTab, setActiveTab] = useState("information");
 
   useEffect(() => {
@@ -46,6 +49,34 @@ function TourDetail() {
       }
     };
     loadTour();
+    return () => {
+      cancelled = true;
+    };
+  }, [tourId]);
+
+  useEffect(() => {
+    let cancelled = false;
+    const loadItinerary = async () => {
+      try {
+        setItineraryLoading(true);
+        setItineraryError(null);
+        const data = await fetchItinerary(tourId);
+        if (!cancelled) {
+          setItinerary(data);
+        }
+      } catch (err) {
+        if (!cancelled) {
+          setItineraryError(err.message);
+        }
+      } finally {
+        if (!cancelled) {
+          setItineraryLoading(false);
+        }
+      }
+    };
+    if (tourId) {
+      loadItinerary();
+    }
     return () => {
       cancelled = true;
     };
@@ -254,10 +285,45 @@ function TourDetail() {
 
               {activeTab === "tour-plan" && (
                 <div className="tour-plan">
-                  <div style={{ padding: "20px", textAlign: "center", color: "#6c757d" }}>
-                    <p>Detailed itinerary is not available for this tour.</p>
-                    <p style={{ fontSize: "14px" }}>Itinerary data will be added when available.</p>
-                  </div>
+                  {itineraryLoading ? (
+                    <div style={{ padding: "40px", textAlign: "center", color: "#007bff" }}>
+                      <Loader2 size={32} style={{ animation: "spin 1s linear infinite", marginBottom: "12px" }} />
+                      <p>Loading itinerary...</p>
+                    </div>
+                  ) : itineraryError ? (
+                    <div style={{ padding: "40px", textAlign: "center", color: "#dc3545" }}>
+                      <AlertCircle size={32} style={{ marginBottom: "12px" }} />
+                      <p>Failed to load itinerary</p>
+                      <p style={{ fontSize: "14px", opacity: 0.8 }}>{itineraryError}</p>
+                    </div>
+                  ) : itinerary.length === 0 ? (
+                    <div style={{ padding: "40px", textAlign: "center", color: "#6c757d" }}>
+                      <BookOpen size={32} style={{ marginBottom: "12px", opacity: 0.5 }} />
+                      <p>No itinerary available for this tour.</p>
+                      <p style={{ fontSize: "14px" }}>Detailed day-by-day plan will be added when available.</p>
+                    </div>
+                  ) : (
+                    <div style={{ padding: "20px" }}>
+                      {itinerary.map((day, index) => (
+                        <div key={`${day.day_number}-${index}`} className="itinerary-day" style={{ marginBottom: "24px", paddingBottom: "24px", borderBottom: index < itinerary.length - 1 ? "1px solid #eee" : "none" }}>
+                          <div className="itinerary-day-header" style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "12px" }}>
+                            <span className="day-number" style={{ background: "#007bff", color: "white", width: "36px", height: "36px", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "bold", flexShrink: 0 }}>
+                              {day.day_number ?? index + 1}
+                            </span>
+                            <div>
+                              <h3 style={{ margin: 0, fontSize: "18px" }}>{day.day_label ?? `Day ${day.day_number ?? index + 1}`}</h3>
+                              {day.title && <p style={{ margin: "4px 0 0", fontSize: "16px", fontWeight: "600", color: "#333" }}>{day.title}</p>}
+                            </div>
+                          </div>
+                          {day.description && (
+                            <div className="itinerary-day-description" style={{ marginLeft: "48px", color: "#555", lineHeight: "1.6" }}>
+                              <p style={{ margin: 0 }}>{day.description}</p>
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               )}
 
