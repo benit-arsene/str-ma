@@ -1,64 +1,85 @@
 import { useState, useEffect } from "react";
+import {
+  MapPin,
+  Shield,
+  Headphones,
+  Sparkles,
+} from "lucide-react";
 import "./Testimonials.css";
 
 function Testimonials() {
-  const [currentReview, setCurrentReview] = useState(0);
+  const [currentFeature, setCurrentFeature] = useState(0);
 
-  const testimonials = [
+  const features = [
     {
-      name: "John Doe",
-      review: "Far far away, behind the word mountains, far countries Vokalia.",
+      icon: MapPin,
+      title: "Hand-Picked Destinations",
+      description:
+        "We carefully select each destination for its unique experiences, cultural richness, and natural beauty.",
     },
     {
-      name: "Jane Smith",
-      review:
-        "Traveling with Holiday Planners was an amazing experience. Everything was perfectly organized.",
+      icon: Shield,
+      title: "Travel with Confidence",
+      description:
+        "Best price guarantee, 24/7 customer support, and free travel insurance on every booking.",
     },
     {
-      name: "Michael Brown",
-      review:
-        "An unforgettable journey with excellent service and beautiful destinations.",
+      icon: Headphones,
+      title: "Expert Local Guides",
+      description:
+        "Our knowledgeable guides bring destinations to life with insider stories and hidden gems.",
+    },
+    {
+      icon: Sparkles,
+      title: "Unforgettable Experiences",
+      description:
+        "From desert safaris to island hopping, we craft journeys that create lasting memories.",
     },
   ];
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentReview((current) => (current + 1) % testimonials.length);
+      setCurrentFeature((current) => (current + 1) % features.length);
     }, 5000);
 
     return () => clearInterval(timer);
-  }, [testimonials.length]);
+  }, [features.length]);
 
-  const review = testimonials[currentReview];
+  const feature = features[currentFeature];
 
   return (
     <section className="testimonials">
       <div className="testimonial-header">
-        <h4>| Testimonials</h4>
+        <h4>| Why Choose Us</h4>
 
         <h2>
-          Customer <strong>Reviews</strong>
+          Travel <strong>with Confidence</strong>
         </h2>
       </div>
 
       <div className="testimonial-content">
         <div className="quote-icon">“”</div>
 
-        <div className="review" key={currentReview}>
-          <div className="stars">★ ★ ★ ★ ★</div>
+        <div className="review" key={currentFeature}>
+          <div className="feature-icon" style={{ color: "#c29d59", fontSize: "40px", marginBottom: "25px" }}>
+            <feature.icon size={40} />
+          </div>
 
-          <p>{review.review}</p>
+          <h3 style={{ color: "#c29d59", fontFamily: "Georgia, serif", fontSize: "22px", marginBottom: "15px" }}>
+            {feature.title}
+          </h3>
 
-          <h3>{review.name}</h3>
-
-          <span>Rated by travelers on facebook</span>
+          <p style={{ color: "#777", maxWidth: "650px", fontSize: "16px", lineHeight: "1.8" }}>
+            {feature.description}
+          </p>
 
           <div className="testimonial-dots">
-            {testimonials.map((_, index) => (
+            {features.map((_, index) => (
               <button
                 key={index}
-                className={index === currentReview ? "active" : ""}
-                onClick={() => setCurrentReview(index)}
+                className={index === currentFeature ? "active" : ""}
+                onClick={() => setCurrentFeature(index)}
+                aria-label={`View feature ${index + 1}`}
               />
             ))}
           </div>
