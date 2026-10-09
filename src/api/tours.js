@@ -34,3 +34,16 @@ export async function fetchTourBySlug(slug) {
   
   return response.json();
 }
+
+export async function fetchDestinations() {
+  const baseUrl = getApiBaseUrl();
+  const url = `${baseUrl}/api/destinations`;
+  
+  const response = await fetch(url);
+  
+  if (!response.ok) {
+    throw new Error(`Failed to fetch destinations: ${response.status} ${response.statusText}`);
+  }
+  
+  return response.json();
+}
