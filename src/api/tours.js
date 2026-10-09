@@ -18,3 +18,19 @@ export async function fetchTours() {
   
   return response.json();
 }
+
+export async function fetchTourBySlug(slug) {
+  const baseUrl = getApiBaseUrl();
+  const url = `${baseUrl}/api/tours/${slug}`;
+  
+  const response = await fetch(url);
+  
+  if (!response.ok) {
+    if (response.status === 404) {
+      throw new Error("Tour not found");
+    }
+    throw new Error(`Failed to fetch tour: ${response.status} ${response.statusText}`);
+  }
+  
+  return response.json();
+}

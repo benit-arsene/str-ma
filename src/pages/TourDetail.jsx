@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Info,
   BookOpen,
@@ -7,53 +7,49 @@ import {
   Camera,
   Users,
   Clock,
-  UserPlus,
   BadgeCheck,
   Check,
-  X,
+  Loader2,
+  AlertCircle,
 } from "lucide-react";
 
 import Navbar from "../components/Navbar";
 import Footer from "./footer";
 import "./TourDetail.css";
+import { fetchTourBySlug } from "../api/tours";
 
-const tourImages = {
-  italy:
-    "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=900&q=80",
-  greece:
-    "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=900&q=80",
-  switzerland:
-    "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=900&q=80",
-};
-
-const tourDepartures = {
-  italy: "Rome, Italy",
-  greece: "Athens, Greece",
-  switzerland: "Zurich, Switzerland",
-};
-
-const specifications = {
-  departureTime: "9:15 AM To 9:30 AM",
-  returnTime: "7:00 PM",
-  dressCode: "Casual",
-  included: [
-    "5 Star Accommodation",
-    "Air fares",
-    "3 Nights Hotel Accommodation",
-    "All transportation in destination location",
-  ],
-  excluded: ["Guide Service Fee", "Any Private Expenses", "Room Service Fees"],
-};
 function TourDetail() {
   const { tourId } = useParams();
-  const tourKey = tourId?.toLowerCase();
-  const tourImage =
-    tourImages[tourKey] ??
-    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80";
-  const destination =
-    tourDepartures[tourKey] ?? "Selected Destination";
-
+  const [tour, setTour] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState("information");
+
+  useEffect(() => {
+    let cancelled = false;
+    const loadTour = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const data = await fetchTourBySlug(tourId);
+        if (!cancelled) {
+          setTour(data);
+        }
+      } catch (err) {
+        if (!cancelled) {
+          setError(err.message);
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
+    };
+    loadTour();
+    return () => {
+      cancelled = true;
+    };
+  }, [tourId]);
 
   const tabs = [
     {
@@ -82,38 +78,49 @@ function TourDetail() {
       icon: Users,
     },
   ];
-  const itinerary = [
-    {
-      number: 1,
-      dayLabel: "Day 1",
-      title: "Departure",
-      desc: "I should be incapable of drawing a single stroke at the present moment; and yet I feel that I never was a greater artist than now.",
-    },
-    {
-      number: 2,
-      dayLabel: "Day 2",
-      title: "Adventure Beggins",
-      desc: "I should be incapable of drawing a single stroke at the present moment; and yet I feel that I never was a greater artist than now.",
-    },
-    {
-      number: 3,
-      dayLabel: "Day 3 - 7",
-      title: "Historical Tour",
-      desc: "I should be incapable of drawing a single stroke at the present moment; and yet I feel that I never was a greater artist than now. When, while the lovely valley teems with vapour around me, and the meridian sun strikes the upper surface of the impenetrable foliage of my trees, and but a few stray gleams steal into the inner sanctuary, I throw myself down among the tall grass by the trickling stream; and, as I lie close to the earth, a thousand unknown plants are noticed by me: when I hear the buzz of the little world among the stalks, and grow familiar with the countless",
-    },
-    {
-      number: 4,
-      dayLabel: "Day 8 - 11",
-      title: " City Tour",
-      desc: "I should be incapable of drawing a single stroke at the present moment; and yet I feel that I never was a greater artist than now. When, while the lovely valley teems with vapour around me, and the meridian sun strikes the upper surface of the impenetrable foliage of my trees, and but a few stray gleams steal into the inner sanctuary, I throw myself down among the tall grass by the trickling stream; and, as I lie close to the earth, a thousand unknown plants are noticed by me: when I hear the buzz of the little world among the stalks, and grow familiar with the countless",
-    },
-    {
-      number: 5,
-      dayLabel: "Day 12",
-      title: " Return",
-      desc: "I should be incapable of drawing a single stroke at the present moment; and yet I feel that I never was a greater artist than now. When, while the lovely valley teems with vapour around me, and the meridian sun strikes the upper surface of the impenetrable foliage of my trees, and but a few stray gleams steal into the inner sanctuary, I throw myself down among the tall grass by the trickling stream; and, as I lie close to the earth, a thousand unknown plants are noticed by me: when I hear the buzz of the little world among the stalks, and grow familiar with the countless",
-    },
-  ];
+
+  if (loading) {
+    return (
+      <>
+        <Navbar />
+        <section className="tour-detail-hero" style={{ minHeight: "400px", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <Loader2 size={40} style={{ color: "#007bff", animation: "spin 1s linear infinite" }} />
+        </section>
+      </>
+    );
+  }
+
+  if (error) {
+    return (
+      <>
+        <Navbar />
+        <section className="tour-detail-hero" style={{ minHeight: "400px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "12px", color: "#dc3545" }}>
+          <AlertCircle size={40} />
+          <p>{error === "Tour not found" ? "Tour not found" : "Failed to load tour"}</p>
+          <p style={{ fontSize: "14px", opacity: 0.8 }}>{error}</p>
+        </section>
+      </>
+    );
+  }
+
+  if (!tour) {
+    return (
+      <>
+        <Navbar />
+        <section className="tour-detail-hero" style={{ minHeight: "400px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "12px", color: "#6c757d" }}>
+          <p>Tour not available</p>
+        </section>
+      </>
+    );
+  }
+
+  const tourImage = tour.primary_image?.image_url ?? "";
+  const destination = tour.destination_name ?? "";
+  const price = tour.base_price ? `${tour.currency} ${tour.base_price}` : "";
+  const duration = tour.duration_days ? `${tour.duration_days} days` : "";
+  const groupSize = tour.group_size ? `${tour.group_size}${tour.group_size_is_minimum ? "+" : ""} People` : "";
+  const categories = tour.categories ?? [];
+
   return (
     <>
       <Navbar />
@@ -123,7 +130,7 @@ function TourDetail() {
         style={{ backgroundImage: `url("${tourImage}")` }}
       >
         <div className="tour-detail-hero-overlay">
-          <h1>{tourId}</h1>
+          <h1>{tour.name}</h1>
         </div>
       </section>
 
@@ -135,7 +142,6 @@ function TourDetail() {
             <div className="tour-tabs">
               {tabs.map((tab) => {
                 const Icon = tab.icon;
-
                 return (
                   <button
                     key={tab.id}
@@ -156,20 +162,12 @@ function TourDetail() {
                   {/* Tour title + price */}
                   <div className="tour-title-section">
                     <div className="tour-title">
-                      <h1>
-                        A wonderful serenity has taken possession of my entire
-                        soul
-                      </h1>
+                      <h1>{tour.name}</h1>
                     </div>
 
                     <div className="tour-price">
-                      <strong>$1200</strong>
+                      <strong>{price}</strong>
                       <span>Per Person</span>
-                    </div>
-
-                    <div className="discount-badge">
-                      <span>22%</span>
-                      <span>Off</span>
                     </div>
                   </div>
 
@@ -177,51 +175,46 @@ function TourDetail() {
                   <div className="tour-highlights">
                     <div className="highlight-item">
                       <Clock />
-                      <strong>2 days</strong>
+                      <strong>{duration}</strong>
                     </div>
 
                     <div className="highlight-item">
                       <Users />
-                      <strong>6 People</strong>
-                    </div>
-
-                    <div className="highlight-item">
-                      <UserPlus />
-                      <strong>18</strong>
+                      <strong>{groupSize}</strong>
                     </div>
 
                     <div className="highlight-item">
                       <MapPin />
-                      <strong>Greece</strong>
+                      <strong>{destination}</strong>
                     </div>
 
                     <div className="highlight-item">
                       <BadgeCheck />
-                      <strong>Discovery</strong>
+                      <strong>{categories.map(c => c.name).join(", ") || "General"}</strong>
                     </div>
                   </div>
 
                   {/* Information */}
                   <div className="tour-information-text">
                     <h2>Tour Information</h2>
-
-                    <p>
-                      Far far away, behind the word mountains, far from the
-                      countries Vokalia and Consonantia, there live the blind
-                      texts. Separated they live in Bookmarksgrove right at the
-                      coast of the Semantics.
-                    </p>
-
-                    <p>
-                      A small river named Duden flows by their place and
-                      supplies it with the necessary regelialia.
-                    </p>
+                    {tour.full_description ? (
+                      <p>{tour.full_description}</p>
+                    ) : (
+                      <p>No detailed description available for this tour.</p>
+                    )}
+                    {tour.short_description && tour.short_description !== tour.full_description && (
+                      <p>{tour.short_description}</p>
+                    )}
                   </div>
+
+                  {/* Video - keep static if available */}
                   <div className="tour-video">
                     <video autoPlay muted loop playsInline>
                       <source src="/videos/video.mp4" type="video/mp4" />
                     </video>
                   </div>
+
+                  {/* Specifications - only show what we have from API */}
                   <div className="tour-specifications">
                     <div className="spec-row">
                       <div className="spec-label">Destination</div>
@@ -229,58 +222,30 @@ function TourDetail() {
                     </div>
 
                     <div className="spec-row">
-                      <div className="spec-label">Departure</div>
-                      <div className="spec-value">{destination}</div>
+                      <div className="spec-label">Duration</div>
+                      <div className="spec-value">{duration}</div>
                     </div>
 
                     <div className="spec-row">
-                      <div className="spec-label">Departure Time</div>
-                      <div className="spec-value">
-                        {specifications.departureTime}
-                      </div>
+                      <div className="spec-label">Group Size</div>
+                      <div className="spec-value">{groupSize}</div>
                     </div>
 
                     <div className="spec-row">
-                      <div className="spec-label">Return Time</div>
+                      <div className="spec-label">Categories</div>
                       <div className="spec-value">
-                        {specifications.returnTime}
-                      </div>
-                    </div>
-
-                    <div className="spec-row">
-                      <div className="spec-label">Dress Code</div>
-                      <div className="spec-value">
-                        {specifications.dressCode}
-                      </div>
-                    </div>
-
-                    <div className="spec-row">
-                      <div className="spec-label">Price Included</div>
-
-                      <div className="spec-value">
-                        <ul className="included-list">
-                          {specifications.included.map((item) => (
-                            <li key={item}>
-                              <Check />
-                              {item}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </div>
-
-                    <div className="spec-row">
-                      <div className="spec-label">Price Not Included</div>
-
-                      <div className="spec-value">
-                        <ul className="excluded-list">
-                          {specifications.excluded.map((item) => (
-                            <li key={item}>
-                              <X />
-                              {item}
-                            </li>
-                          ))}
-                        </ul>
+                        {categories.length > 0 ? (
+                          <ul className="included-list">
+                            {categories.map((cat) => (
+                              <li key={cat.slug}>
+                                <Check />
+                                {cat.name}
+                              </li>
+                            ))}
+                          </ul>
+                        ) : (
+                          "General"
+                        )}
                       </div>
                     </div>
                   </div>
@@ -289,59 +254,29 @@ function TourDetail() {
 
               {activeTab === "tour-plan" && (
                 <div className="tour-plan">
-                  {itinerary.map((item) => (
-                    <div className="itinerary-item" key={item.number}>
-                      <div className="itinerary-header">
-                        <div className="day-badge">{item.number}</div>
-
-                        <h2>
-                          <strong>{item.dayLabel}</strong>
-                          {":  "}
-                          {item.title}
-                        </h2>
-                      </div>
-
-                      <div className="itinerary-description">
-                        <p>{item.desc}</p>
-                      </div>
-                    </div>
-                  ))}
+                  <div style={{ padding: "20px", textAlign: "center", color: "#6c757d" }}>
+                    <p>Detailed itinerary is not available for this tour.</p>
+                    <p style={{ fontSize: "14px" }}>Itinerary data will be added when available.</p>
+                  </div>
                 </div>
               )}
 
               {activeTab === "location" && (
                 <div className="tour-location">
                   <h2>Tour Location</h2>
-
                   <div className="map-container">
-                    <iframe
-                      src="https://www.google.com/maps?q=India&t=&z=5&ie=UTF8&iwloc=&output=embed"
-                      width="100%"
-                      height="450"
-                      style={{ border: 0 }}
-                      loading="lazy"
-                      allowFullScreen
-                      title="Tour Location"
-                    ></iframe>
-
+                    <div style={{ width: "100%", height: "450px", display: "flex", alignItems: "center", justifyContent: "center", color: "#6c757d", backgroundColor: "#f8f9fa" }}>
+                      <p>Map integration requires Google Maps API key. Location: {destination}</p>
+                    </div>
                     <div className="map-location-card">
                       <div>
-                        <h3>India</h3>
-                        <p>India</p>
-                      </div>
-
-                      <div className="map-actions">
-                        <button title="Open in Google Maps">↗</button>
-
-                        <button title="Directions">➤</button>
+                        <h3>{destination}</h3>
+                        <p>{destination}</p>
                       </div>
                     </div>
                     <div>
-                      <h2>History Of The CIty</h2>
-                      <p>
-                        India has a rich history spanning thousands of years,
-                        with influences from various cultures and civilizations.
-                      </p>
+                      <h2>About This Destination</h2>
+                      <p>Detailed destination information will be added when available.</p>
                     </div>
                   </div>
                 </div>
@@ -349,27 +284,19 @@ function TourDetail() {
 
               {activeTab === "gallery" && (
                 <div>
-                  <h3>
-                    Make Your <strong>Own Memories</strong>
-                  </h3>
+                  <h3>Make Your <strong>Own Memories</strong></h3>
                   <div className="tour-gallery">
                     <div className="gallery-images">
-                      <img
-                        src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=900&q=80"
-                        alt={`${tourId} tour view 1`}
-                      />
-                      <img
-                        src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=900&q=80"
-                        alt={`${tourId} tour view 2`}
-                      />
-                      <img
-                        src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=900&q=80"
-                        alt={`${tourId} tour view 3`}
-                      />
-                      <img
-                        src="https://images.unsplash.com/photo-1530789253388-582c481c54b0?auto=format&fit=crop&w=900&q=80"
-                        alt={`${tourId} tour view 4`}
-                      />
+                      {tour.primary_image?.image_url ? (
+                        <img
+                          src={tour.primary_image.image_url}
+                          alt={tour.primary_image.alt_text || `${tour.name} tour view`}
+                        />
+                      ) : (
+                        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "300px", color: "#6c757d", backgroundColor: "#f8f9fa" }}>
+                          No images available for this tour
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -377,125 +304,9 @@ function TourDetail() {
 
               {activeTab === "review" && (
                 <div className="tour-reviews">
-                  {/* Rating Summary */}
-                  <div className="rating-summary">
-                    <div className="overall-rating">
-                      <strong>10.0</strong>
-                      <span>Superb</span>
-                    </div>
-
-                    <div className="rating-breakdown">
-                      {[
-                        "Accommodation",
-                        "Destination",
-                        "Meals",
-                        "Transport",
-                        "Overall",
-                        "Value for Money",
-                      ].map((category) => (
-                        <div className="rating-row" key={category}>
-                          <span>{category}</span>
-
-                          <div className="rating-bar">
-                            <div className="rating-bar-fill"></div>
-                          </div>
-
-                          <span>10</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Customer Reviews */}
-                  <div className="customer-reviews">
-                    <h2>Customer Reviews</h2>
-
-                    <div className="review-item">
-                      <div className="review-avatar">JD</div>
-
-                      <div className="review-content">
-                        <div className="review-header">
-                          <div>
-                            <h3>John Doe</h3>
-                            <span>2 days ago</span>
-                          </div>
-
-                          <div className="review-stars">★★★★★</div>
-                        </div>
-
-                        <p>
-                          Far far away, behind the word mountains, far from the
-                          countries Vokalia and Consonantia, there live the
-                          blind texts.
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="review-item">
-                      <div className="review-avatar">JD</div>
-
-                      <div className="review-content">
-                        <div className="review-header">
-                          <div>
-                            <h3>Jane Doe</h3>
-                            <span>5 days ago</span>
-                          </div>
-
-                          <div className="review-stars">★★★★★</div>
-                        </div>
-
-                        <p>
-                          Far far away, behind the word mountains, far from the
-                          countries Vokalia and Consonantia, there live the
-                          blind texts.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Post Comment */}
-                  <div className="post-comment">
-                    <h2>Post a Comment</h2>
-
-                    <div className="comment-ratings">
-                      {[
-                        "Accommodation",
-                        "Destination",
-                        "Meals",
-                        "Transport",
-                        "Overall",
-                        "Value for Money",
-                      ].map((category) => (
-                        <div className="comment-rating" key={category}>
-                          <label>{category}</label>
-
-                          <div className="star-picker">
-                            {[1, 2, 3, 4, 5].map((star) => (
-                              <button type="button" key={star}>
-                                ★
-                              </button>
-                            ))}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-
-                    <form
-                      className="comment-form"
-                      onSubmit={(event) => event.preventDefault()}
-                    >
-                      <div className="comment-fields">
-                        <input type="text" placeholder="Your Name" />
-
-                        <input type="email" placeholder="Your Email *" />
-
-                        <input type="url" placeholder="Website" />
-                      </div>
-
-                      <textarea placeholder="Your Comment"></textarea>
-
-                      <button type="submit">SUBMIT</button>
-                    </form>
+                  <div style={{ padding: "20px", textAlign: "center", color: "#6c757d" }}>
+                    <p>Customer reviews are not available for this tour yet.</p>
+                    <p style={{ fontSize: "14px" }}>Reviews will appear here when customers share their experiences.</p>
                   </div>
                 </div>
               )}
@@ -511,24 +322,16 @@ function TourDetail() {
 
             <form onSubmit={(event) => event.preventDefault()}>
               <input type="text" placeholder="Full Name" />
-
               <input type="email" placeholder="Email" />
-
               <input type="email" placeholder="Confirm Email" />
-
               <input type="tel" placeholder="Phone" />
-
               <input type="date" />
-
               <input type="number" placeholder="Number Of Tickets" />
-
               <textarea placeholder="Message"></textarea>
-
               <label className="availability">
                 <input type="checkbox" />
                 <span>Check Availability</span>
               </label>
-
               <button type="submit">BOOK NOW</button>
             </form>
           </aside>

@@ -166,7 +166,7 @@ function TourContent() {
                     <strong>{tour.price}</strong>
 
                     <Link
-                      to={`/tours/${tour.location.toLowerCase()}`}
+                      to={`/tours/${tour.slug}`}
                       className="book-button"
                     >
                       BOOK NOW
