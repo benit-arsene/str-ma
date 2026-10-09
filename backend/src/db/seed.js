@@ -108,6 +108,41 @@ const tourCategories = {
   "italian-splendor-rome-florence-venice": ["cultural", "historical", "discovery"],
 };
 
+const tourImages = {
+  "aegean-dreams-santorini-mykonos": [
+    {
+      imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKnf2s2cwypBVZhtw3Zx8lfJNKvTrRrUV4aBc2Ksn5OA&s=10",
+      altText: "Aegean Dreams: Santorini & Mykonos tour",
+      displayOrder: 0,
+      isPrimary: true,
+    },
+  ],
+  "golden-sands-rajasthan-desert-safari": [
+    {
+      imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmyrUYgA10vOt3udjR7BrdzcmJIVyw1FHk_BYWmRfZRyatwyLckV25b5Y&s=10",
+      altText: "Golden Sands of Rajasthan and Desert Safari tour",
+      displayOrder: 0,
+      isPrimary: true,
+    },
+  ],
+  "alpine-majesty-peaks-glaciers": [
+    {
+      imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPQWAyDiiNAY0kGKh0NuG8ecd_h2eCBwfTbylS5sXs2UJAr4N0Mg5MgXY&s=10",
+      altText: "Alpine Majesty: Peaks & Glaciers tour",
+      displayOrder: 0,
+      isPrimary: true,
+    },
+  ],
+  "italian-splendor-rome-florence-venice": [
+    {
+      imageUrl: "https://images.goway.com/production/styles/article_featured_image_3xl/s3/featured_images/Gornergrat-tourist-train-with-waterfall%2C-bridge-and-Matterhorn%2C-Zermatt%2C-Switzerland_AdobeStock_357392613.jpeg.webp?VersionId=9mo5ly3faIhUY3lxrPODTVvbzc801sS6&h=0875ea28&itok=M1d-5FQZ",
+      altText: "Italian Splendor: Rome, Florence & Venice tour",
+      displayOrder: 0,
+      isPrimary: true,
+    },
+  ],
+};
+
 async function seedDestinations(client) {
   for (const dest of destinations) {
     await client.query(
@@ -211,6 +246,33 @@ async function seedTourCategories(client) {
   }
 }
 
+async function seedTourImages(client) {
+  for (const [tourSlug, images] of Object.entries(tourImages)) {
+    const tourResult = await client.query(
+      `SELECT id FROM tours WHERE slug = $1`,
+      [tourSlug]
+    );
+    if (tourResult.rows.length === 0) {
+      throw new Error(`Tour not found for slug: ${tourSlug}`);
+    }
+    const tourId = tourResult.rows[0].id;
+
+    // Delete existing images for this tour to ensure idempotency
+    await client.query(
+      `DELETE FROM tour_images WHERE tour_id = $1`,
+      [tourId]
+    );
+
+    for (const img of images) {
+      await client.query(
+        `INSERT INTO tour_images (tour_id, image_url, alt_text, display_order, is_primary)
+         VALUES ($1, $2, $3, $4, $5)`,
+        [tourId, img.imageUrl, img.altText, img.displayOrder, img.isPrimary]
+      );
+    }
+  }
+}
+
 async function main() {
   const client = await pool.connect();
   try {
@@ -219,8 +281,9 @@ async function main() {
     await seedCategories(client);
     await seedTours(client);
     await seedTourCategories(client);
+    await seedTourImages(client);
     await client.query("COMMIT");
-    console.log("Destinations, categories, tours, and tour-category associations seeded successfully");
+    console.log("Destinations, categories, tours, tour-category associations, and tour images seeded successfully");
   } catch (err) {
     await client.query("ROLLBACK");
     console.error("Seed failed:", err.message);
