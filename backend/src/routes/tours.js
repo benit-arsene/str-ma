@@ -37,6 +37,31 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/:slug/itinerary", async (req, res) => {
+  try {
+    const { slug } = req.params;
+    const tourResult = await pool.query(
+      `SELECT id FROM tours WHERE slug = $1`,
+      [slug]
+    );
+    if (tourResult.rows.length === 0) {
+      return res.status(404).json({ error: "Tour not found" });
+    }
+    const tourId = tourResult.rows[0].id;
+    const itineraryResult = await pool.query(
+      `SELECT day_number, day_label, title, description, display_order
+       FROM tour_itinerary
+       WHERE tour_id = $1
+       ORDER BY COALESCE(display_order, day_number)`,
+      [tourId]
+    );
+    res.json(itineraryResult.rows);
+  } catch (err) {
+    console.error("GET /api/tours/:slug/itinerary error:", err.message);
+    res.status(500).json({ error: "Failed to fetch itinerary" });
+  }
+});
+
 router.get("/:slug", async (req, res) => {
   try {
     const { slug } = req.params;
