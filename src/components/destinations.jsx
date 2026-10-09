@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Loader2, AlertCircle } from "lucide-react";
+import { Link } from "react-router-dom";
 import "./Destinations.css";
 import { fetchDestinations } from "../api/tours";
 
@@ -69,21 +70,24 @@ function Destinations() {
         <>
           <div className="destinations-grid">
             {destinations.slice(0, 4).map((dest, index) => (
-              <div
-                className={`destination-card card${index + 1}`}
+              <Link
+                to="/tours"
                 key={dest.slug}
-                style={{ "--reveal-delay": `${index * 120}ms` }}
+                className={`destination-card card${index + 1}`}
+                style={{ "--reveal-delay": `${index * 120}ms`, textDecoration: "none", color: "inherit" }}
               >
                 <img
                   src={destinationImages[dest.slug] ?? ""}
                   alt={dest.name}
                 />
-                <button>{dest.name}</button>
-              </div>
+                <span>{dest.name}</span>
+              </Link>
             ))}
           </div>
           <div>
-            <button className="view-all">VIEW ALL</button>
+            <Link to="/destinations" className="view-all" style={{ textDecoration: "none", color: "inherit" }}>
+              VIEW ALL
+            </Link>
           </div>
         </>
       )}

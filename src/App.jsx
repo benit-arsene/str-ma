@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import TourPage from "./pages/TourPage";
 import TourDetail from "./pages/TourDetail";
 import About from "./pages/About";
+import DestinationsPage from "./pages/DestinationsPage";
 import ScrollToTop from "./components/ScrollToTop";
 
 function NotFound() {
@@ -67,6 +68,7 @@ function AppRoutes() {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/about" element={<About />} />
+      <Route path="/destinations" element={<DestinationsPage />} />
       <Route path="/tour" element={<TourPage />} />
       <Route path="/tour/:tourId" element={<TourDetail />} />
       <Route path="/tours" element={<TourPage />} />

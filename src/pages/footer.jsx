@@ -57,16 +57,16 @@ function Footer() {
               <Link to="/about">About</Link>
             </li>
             <li>
-              <a href="#">Destination</a>
+              <Link to="/destinations">Destination</Link>
             </li>
             <li>
               <Link to="/tours">Tour</Link>
             </li>
             <li>
-              <a href="#">Blog</a>
+              <Link to="/tours">Blog</Link>
             </li>
             <li>
-              <a href="#">Contact us</a>
+              <a href="mailto:holidayplanners@gmail.com">Contact us</a>
             </li>
           </ul>
         </div>

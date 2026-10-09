@@ -43,7 +43,8 @@
   filter: brightness(0.82);
 }
 
-.destination-card button {
+.destination-card > button,
+.destination-card > span {
   position: absolute;
   bottom: 20px;
   left: 20px;
@@ -58,7 +59,8 @@
     box-shadow 0.35s ease;
 }
 
-.destination-card:hover button {
+.destination-card:hover > button,
+.destination-card:hover > span {
   background: #c29d59;
   color: white;
   transform: translateY(-2px);
@@ -74,6 +76,11 @@
   color: white;
   font-weight: bold;
   cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+}
+.view-all:hover {
+  background: #a8772d;
 }
 .destinations {
   background: white;

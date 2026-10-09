@@ -25,11 +25,15 @@ function Menu({ onClose, isClosing = false }) {
 
       <div className="menu-content">
         <div className="menu-links">
-          <Link to="/">Home</Link>
+          <Link to="/" onClick={onClose}>
+            Home
+          </Link>
 
-          <Link to="/about">About</Link>
+          <Link to="/about" onClick={onClose}>
+            About
+          </Link>
 
-          <Link to="/destinations">
+          <Link to="/destinations" onClick={onClose}>
             Destinations
             <ChevronDown />
           </Link>
@@ -54,12 +58,17 @@ function Menu({ onClose, isClosing = false }) {
             </div>
           )}
 
-          <Link to="/blog">
+          <Link to="/tours" onClick={onClose}>
             Blog
             <ChevronDown />
           </Link>
 
-          <Link to="/contact">Contact us</Link>
+          <a
+            href="mailto:holidayplanners@gmail.com"
+            onClick={onClose}
+          >
+            Contact us
+          </a>
         </div>
         <div className="menu-socials">
           <button>
