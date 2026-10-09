@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Search,
   MapPin,
@@ -7,93 +7,101 @@ import {
   Users,
   Mail,
   Phone,
+  Loader2,
+  AlertCircle,
 } from "lucide-react";
 import "./TourContent.css";
 import "./pagination.css";
 import Pagination from "./pagination";
 import { Link } from "react-router-dom";
+import { fetchTours } from "../api/tours";
 
 function TourContent() {
-  const tours = [
-    {
-      image:
-        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=900&q=80",
-      location: "ITALY",
-      title: "Holiday Planners is a World Leading Online Tour Booking Platform",
-      description:
-        "Far far away, behind the word mountains, far countries Vokalia.",
-      duration: "2 days",
-      groupSize: "6 People",
-      price: "$1200",
-      discount: null,
-    },
-    {
-      image:
-        "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=900&q=80",
-      location: "GREECE",
-      title: "Holiday Planners is a World Leading Online Tour Booking Platform",
-      description:
-        "Far far away, behind the word mountains, far countries Vokalia.",
-      duration: "6 days 3 hours",
-      groupSize: "15+ People",
-      price: "$2500",
-      discount: "15% off",
-    },
-    {
-      image:
-        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=900&q=80",
-      location: "ITALY",
-      title: "Holiday Planners is a World Leading Online Tour Booking Platform",
-      description:
-        "Far far away, behind the word mountains, far countries Vokalia.",
-      duration: "2 days",
-      groupSize: "6 People",
-      price: "$1200",
-      discount: null,
-    },
-    {
-      image:
-        "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=900&q=80",
-      location: "SWITZERLAND",
-      title: "Holiday Planners is a World Leading Online Tour Booking Platform",
-      description:
-        "Far far away, behind the word mountains, far countries Vokalia.",
-      duration: "6 days 3 hours",
-      groupSize: "15+ People",
-      price: "$2500",
-      discount: "15% off",
-    },
-    {
-      image:
-        "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=900&q=80",
-      location: "ITALY",
-      title: "Holiday Planners is a World Leading Online Tour Booking Platform",
-      description:
-        "Far far away, behind the word mountains, far countries Vokalia.",
-      duration: "2 days",
-      groupSize: "6 People",
-      price: "$1200",
-      discount: null,
-    },
-    {
-      image:
-        "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=900&q=80",
-      location: "SWITZERLAND",
-      title: "Holiday Planners is a World Leading Online Tour Booking Platform",
-      description:
-        "Far far away, behind the word mountains, far countries Vokalia.",
-      duration: "6 days 3 hours",
-      groupSize: "15+ People",
-      price: "$2500",
-      discount: "15% off",
-    },
-  ];
-
+  const [tours, setTours] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 4;
-  const totalPages = Math.ceil(tours.length / itemsPerPage);
+
+  useEffect(() => {
+    let cancelled = false;
+    const loadTours = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const data = await fetchTours();
+        if (!cancelled) {
+          setTours(data);
+        }
+      } catch (err) {
+        if (!cancelled) {
+          setError(err.message);
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
+    };
+    loadTours();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const mapApiTour = (tour) => {
+    const groupSuffix = tour.group_size_is_minimum ? "+" : "";
+    return {
+      image: tour.primary_image?.image_url ?? "",
+      location: tour.destination_slug?.toUpperCase() ?? "",
+      title: tour.name ?? "",
+      description: tour.short_description ?? "",
+      duration: `${tour.duration_days ?? 0} days`,
+      groupSize: `${tour.group_size ?? 0}${groupSuffix} People`,
+      price: `${tour.currency ?? "USD"} ${tour.base_price ?? 0}`,
+      discount: null,
+      categories: tour.categories ?? [],
+      slug: tour.slug ?? "",
+    };
+  };
+
+  const mappedTours = tours.map(mapApiTour);
+  const totalPages = Math.ceil(mappedTours.length / itemsPerPage) || 1;
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const visibleTours = tours.slice(startIndex, startIndex + itemsPerPage);
+  const visibleTours = mappedTours.slice(startIndex, startIndex + itemsPerPage);
+
+  if (loading) {
+    return (
+      <section className="tour-content" style={{ padding: "60px 6%" }}>
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "300px" }}>
+          <Loader2 size={40} style={{ color: "#007bff", animation: "spin 1s linear infinite" }} />
+          <span style={{ marginLeft: "12px", fontSize: "18px" }}>Loading tours...</span>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className="tour-content" style={{ padding: "60px 6%" }}>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "12px", color: "#dc3545" }}>
+          <AlertCircle size={40} />
+          <p>Failed to load tours</p>
+          <p style={{ fontSize: "14px", opacity: 0.8 }}>{error}</p>
+        </div>
+      </section>
+    );
+  }
+
+  if (mappedTours.length === 0) {
+    return (
+      <section className="tour-content" style={{ padding: "60px 6%" }}>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "12px", color: "#6c757d" }}>
+          <p>No tours available</p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <>
