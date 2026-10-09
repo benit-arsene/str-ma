@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "node src/server.js",
+    "db:seed": "node src/db/seed.js",
     "migrate:create": "node-pg-migrate create --migrations-dir ./migrations",
     "migrate:up": "node-pg-migrate up --migrations-dir ./migrations",
     "migrate:down": "node-pg-migrate down --migrations-dir ./migrations"
