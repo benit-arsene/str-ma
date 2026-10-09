@@ -4,11 +4,23 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "start": "node src/server.js"
+    "start": "node src/server.js",
+    "migrate:create": "node-pg-migrate create --migrations-dir ./migrations",
+    "migrate:up": "node-pg-migrate up --migrations-dir ./migrations",
+    "migrate:down": "node-pg-migrate down --migrations-dir ./migrations"
   },
   "dependencies": {
     "dotenv": "^18.0.6",
     "express": "^4.21.2",
     "pg": "^8.23.1"
+  },
+  "devDependencies": {
+    "node-pg-migrate": "^9.0.0"
+  },
+  "node-pg-migrate": {
+    "migrationsDir": "migrations",
+    "databaseUrlVar": "DATABASE_URL",
+    "driver": "pg",
+    "singleTransaction": true
   }
 }
