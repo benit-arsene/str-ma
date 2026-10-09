@@ -46,6 +46,68 @@ const categories = [
   { name: "Discovery", slug: "discovery", description: "Uncover hidden gems and off-the-beaten-path destinations." },
 ];
 
+const tours = [
+  {
+    slug: "aegean-dreams-santorini-mykonos",
+    destinationSlug: "greece",
+    name: "Aegean Dreams: Santorini & Mykonos",
+    shortDescription: "Sun-drenched islands, whitewashed villages, and crystal-clear waters await.",
+    fullDescription: "Experience the magic of the Aegean Sea with visits to Santorini's iconic caldera and Mykonos' vibrant nightlife. Discover whitewashed villages perched on cliffs, sample fresh seafood, and watch unforgettable sunsets over the Mediterranean.",
+    durationDays: 7, // "6 days 3 hours" rounded up to next whole day
+    basePrice: 2500.00,
+    currency: "USD",
+    groupSize: 15,
+    groupSizeIsMinimum: true,
+    isFeatured: true,
+  },
+  {
+    slug: "golden-sands-rajasthan-desert-safari",
+    destinationSlug: "india",
+    name: "Golden Sands of Rajasthan and Desert Safari",
+    shortDescription: "Explore the Thar Desert's majestic forts and camel safaris under starlit skies.",
+    fullDescription: "Journey into the heart of Rajasthan's Thar Desert. Visit the golden city of Jaisalmer with its magnificent fort, ride camels across rolling sand dunes, and spend nights under starlit skies at desert camps. Experience Rajasthani culture, music, and cuisine.",
+    durationDays: 2, // "1 day 8 hours" rounded up to next whole day
+    basePrice: 750.00,
+    currency: "USD",
+    groupSize: 50,
+    groupSizeIsMinimum: true,
+    isFeatured: false,
+  },
+  {
+    slug: "alpine-majesty-peaks-glaciers",
+    destinationSlug: "switzerland",
+    name: "Alpine Majesty: Peaks & Glaciers",
+    shortDescription: "Journey through Switzerland's breathtaking mountains, lakes, and charming villages.",
+    fullDescription: "Discover Switzerland's alpine wonders from towering peaks to pristine glacial lakes. Ride scenic mountain railways, visit car-free villages like Zermatt, and marvel at the Matterhorn. Experience Swiss hospitality in charming mountain chalets.",
+    durationDays: 8, // "7 days 8 hours" rounded up to next whole day
+    basePrice: 750.00,
+    currency: "USD",
+    groupSize: 50,
+    groupSizeIsMinimum: true,
+    isFeatured: false,
+  },
+  {
+    slug: "italian-splendor-rome-florence-venice",
+    destinationSlug: "italy",
+    name: "Italian Splendor: Rome, Florence & Venice",
+    shortDescription: "Art, history, and cuisine across Italy's most iconic cities.",
+    fullDescription: "Explore the cultural treasures of Italy's three most iconic cities. In Rome, walk through ancient ruins and Vatican museums. In Florence, admire Renaissance masterpieces. In Venice, glide through canals and visit St. Mark's Square. Savor authentic Italian cuisine throughout.",
+    durationDays: 8, // "7 days 8 hours" rounded up to next whole day
+    basePrice: 1200.00,
+    currency: "USD",
+    groupSize: 50,
+    groupSizeIsMinimum: true,
+    isFeatured: false,
+  },
+];
+
+const tourCategories = {
+  "aegean-dreams-santorini-mykonos": ["seaside", "discovery", "cultural"],
+  "golden-sands-rajasthan-desert-safari": ["adventure", "cultural", "discovery"],
+  "alpine-majesty-peaks-glaciers": ["adventure", "discovery"],
+  "italian-splendor-rome-florence-venice": ["cultural", "historical", "discovery"],
+};
+
 async function seedDestinations(client) {
   for (const dest of destinations) {
     await client.query(
@@ -75,14 +137,90 @@ async function seedCategories(client) {
   }
 }
 
+async function seedTours(client) {
+  for (const tour of tours) {
+    const destResult = await client.query(
+      `SELECT id FROM destinations WHERE slug = $1`,
+      [tour.destinationSlug]
+    );
+    if (destResult.rows.length === 0) {
+      throw new Error(`Destination not found for slug: ${tour.destinationSlug}`);
+    }
+    const destinationId = destResult.rows[0].id;
+
+    await client.query(
+      `INSERT INTO tours (destination_id, name, slug, short_description, full_description, duration_days, base_price, currency, group_size, group_size_is_minimum, is_featured)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+       ON CONFLICT (slug) DO UPDATE SET
+         destination_id = EXCLUDED.destination_id,
+         name = EXCLUDED.name,
+         short_description = EXCLUDED.short_description,
+         full_description = EXCLUDED.full_description,
+         duration_days = EXCLUDED.duration_days,
+         base_price = EXCLUDED.base_price,
+         currency = EXCLUDED.currency,
+         group_size = EXCLUDED.group_size,
+         group_size_is_minimum = EXCLUDED.group_size_is_minimum,
+         is_featured = EXCLUDED.is_featured,
+         updated_at = now()`,
+      [
+        destinationId,
+        tour.name,
+        tour.slug,
+        tour.shortDescription,
+        tour.fullDescription,
+        tour.durationDays,
+        tour.basePrice,
+        tour.currency,
+        tour.groupSize,
+        tour.groupSizeIsMinimum,
+        tour.isFeatured,
+      ]
+    );
+  }
+}
+
+async function seedTourCategories(client) {
+  for (const [tourSlug, categorySlugs] of Object.entries(tourCategories)) {
+    const tourResult = await client.query(
+      `SELECT id FROM tours WHERE slug = $1`,
+      [tourSlug]
+    );
+    if (tourResult.rows.length === 0) {
+      throw new Error(`Tour not found for slug: ${tourSlug}`);
+    }
+    const tourId = tourResult.rows[0].id;
+
+    for (const categorySlug of categorySlugs) {
+      const catResult = await client.query(
+        `SELECT id FROM categories WHERE slug = $1`,
+        [categorySlug]
+      );
+      if (catResult.rows.length === 0) {
+        throw new Error(`Category not found for slug: ${categorySlug}`);
+      }
+      const categoryId = catResult.rows[0].id;
+
+      await client.query(
+        `INSERT INTO tour_categories (tour_id, category_id)
+         VALUES ($1, $2)
+         ON CONFLICT (tour_id, category_id) DO NOTHING`,
+        [tourId, categoryId]
+      );
+    }
+  }
+}
+
 async function main() {
   const client = await pool.connect();
   try {
     await client.query("BEGIN");
     await seedDestinations(client);
     await seedCategories(client);
+    await seedTours(client);
+    await seedTourCategories(client);
     await client.query("COMMIT");
-    console.log("Destinations and categories seeded successfully");
+    console.log("Destinations, categories, tours, and tour-category associations seeded successfully");
   } catch (err) {
     await client.query("ROLLBACK");
     console.error("Seed failed:", err.message);
