@@ -14,12 +14,15 @@ import "./TourContent.css";
 import "./pagination.css";
 import Pagination from "./pagination";
 import { Link } from "react-router-dom";
-import { fetchTours } from "../api/tours";
+import { fetchTours, fetchCategories } from "../api/tours";
 
 function TourContent() {
   const [tours, setTours] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [categories, setCategories] = useState([]);
+  const [categoriesLoading, setCategoriesLoading] = useState(true);
+  const [categoriesError, setCategoriesError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 4;
 
@@ -44,6 +47,32 @@ function TourContent() {
       }
     };
     loadTours();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    const loadCategories = async () => {
+      try {
+        setCategoriesLoading(true);
+        setCategoriesError(null);
+        const data = await fetchCategories();
+        if (!cancelled) {
+          setCategories(data);
+        }
+      } catch (err) {
+        if (!cancelled) {
+          setCategoriesError(err.message);
+        }
+      } finally {
+        if (!cancelled) {
+          setCategoriesLoading(false);
+        }
+      }
+    };
+    loadCategories();
     return () => {
       cancelled = true;
     };
@@ -226,30 +255,18 @@ function TourContent() {
               <input type="number" placeholder="Max Price" defaultValue="100" />
             </div>
             <div className="categories">
-              <label>
-                <input type="checkbox" />
-                Cultural
-              </label>
-
-              <label>
-                <input type="checkbox" />
-                Adventure
-              </label>
-
-              <label>
-                <input type="checkbox" />
-                Historical
-              </label>
-
-              <label>
-                <input type="checkbox" />
-                Seaside
-              </label>
-
-              <label>
-                <input type="checkbox" />
-                Discovery
-              </label>
+              {categoriesLoading ? (
+                <span style={{ fontSize: "14px", color: "#6c757d" }}>Loading categories...</span>
+              ) : categoriesError ? (
+                <span style={{ fontSize: "14px", color: "#dc3545" }}>Failed to load categories</span>
+              ) : (
+                categories.map((cat) => (
+                  <label key={cat.id}>
+                    <input type="checkbox" value={cat.slug} />
+                    {cat.name}
+                  </label>
+                ))
+              )}
             </div>
             <button className="find-button">FIND NOW</button>
           </div>

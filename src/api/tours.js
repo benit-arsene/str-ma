@@ -47,3 +47,16 @@ export async function fetchDestinations() {
   
   return response.json();
 }
+
+export async function fetchCategories() {
+  const baseUrl = getApiBaseUrl();
+  const url = `${baseUrl}/api/categories`;
+  
+  const response = await fetch(url);
+  
+  if (!response.ok) {
+    throw new Error(`Failed to fetch categories: ${response.status} ${response.statusText}`);
+  }
+  
+  return response.json();
+}
