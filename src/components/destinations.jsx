@@ -43,62 +43,50 @@ function Destinations() {
     };
   }, []);
 
-  if (loading) {
-    return (
-      <section className="destinations" data-reveal style={{ padding: "60px 6%" }}>
-        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "200px" }}>
-          <Loader2 size={40} style={{ color: "#007bff", animation: "spin 1s linear infinite" }} />
-          <span style={{ marginLeft: "12px", fontSize: "18px" }}>Loading destinations...</span>
-        </div>
-      </section>
-    );
-  }
-
-  if (error) {
-    return (
-      <section className="destinations" data-reveal style={{ padding: "60px 6%" }}>
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "12px", color: "#dc3545" }}>
-          <AlertCircle size={40} />
-          <p>Failed to load destinations</p>
-          <p style={{ fontSize: "14px", opacity: 0.8 }}>{error}</p>
-        </div>
-      </section>
-    );
-  }
-
-  if (destinations.length === 0) {
-    return (
-      <section className="destinations" data-reveal style={{ padding: "60px 6%" }}>
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "12px", color: "#6c757d" }}>
-          <p>No destinations available</p>
-        </div>
-      </section>
-    );
-  }
-
   return (
     <section className="destinations" data-reveal>
       <h4>Amazing Destination</h4>
       <h2>Choose The Destination Just Right For Your Vacation</h2>
-      <div className="destinations-grid">
-        {destinations.map((dest, index) => (
-          <div
-            className={`destination-card card${index + 1}`}
-            key={dest.slug}
-            data-reveal
-            style={{ "--reveal-delay": `${index * 120}ms` }}
-          >
-            <img 
-              src={destinationImages[dest.slug] ?? ""} 
-              alt={dest.name} 
-            />
-            <button>{dest.name}</button>
+      {loading && (
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight: "200px" }}>
+          <Loader2 size={40} style={{ color: "#007bff", animation: "spin 1s linear infinite" }} />
+          <span style={{ marginLeft: "12px", fontSize: "18px" }}>Loading destinations...</span>
+        </div>
+      )}
+      {error && (
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "12px", color: "#dc3545", padding: "40px" }}>
+          <AlertCircle size={40} />
+          <p>Failed to load destinations</p>
+          <p style={{ fontSize: "14px", opacity: 0.8 }}>{error}</p>
+        </div>
+      )}
+      {!loading && !error && destinations.length === 0 && (
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "12px", color: "#6c757d", padding: "40px" }}>
+          <p>No destinations available</p>
+        </div>
+      )}
+      {!loading && !error && destinations.length > 0 && (
+        <>
+          <div className="destinations-grid">
+            {destinations.slice(0, 4).map((dest, index) => (
+              <div
+                className={`destination-card card${index + 1}`}
+                key={dest.slug}
+                style={{ "--reveal-delay": `${index * 120}ms` }}
+              >
+                <img
+                  src={destinationImages[dest.slug] ?? ""}
+                  alt={dest.name}
+                />
+                <button>{dest.name}</button>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-      <div>
-        <button className="view-all">VIEW ALL</button>
-      </div>
+          <div>
+            <button className="view-all">VIEW ALL</button>
+          </div>
+        </>
+      )}
     </section>
   );
 }
