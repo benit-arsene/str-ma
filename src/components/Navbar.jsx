@@ -4,11 +4,16 @@ import "./Navbar.css";
 import Menu from "./Menu";
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
+import { useNavigate } from "react-router-dom";
+import SearchPanel from "./SearchPanel";
 
 function Navbar() {
+  const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMenuClosing, setIsMenuClosing] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isSearchClosing, setIsSearchClosing] = useState(false);
 
   const handleMenuOpen = () => {
     setIsMenuClosing(false);
@@ -21,6 +26,29 @@ function Navbar() {
       setIsMenuOpen(false);
       setIsMenuClosing(false);
     }, 350);
+  };
+
+  const handleSearchOpen = () => {
+    setIsSearchClosing(false);
+    setIsSearchOpen(true);
+  };
+
+  const handleSearchClose = () => {
+    setIsSearchClosing(true);
+    window.setTimeout(() => {
+      setIsSearchOpen(false);
+      setIsSearchClosing(false);
+    }, 950);
+  };
+
+  const handleSearch = (query) => {
+    const normalizedQuery = query.trim();
+    navigate(
+      normalizedQuery
+        ? `/tour?search=${encodeURIComponent(normalizedQuery)}&page=1`
+        : "/tour"
+    );
+    handleSearchClose();
   };
 
   useEffect(() => {
@@ -121,13 +149,27 @@ function Navbar() {
           </a>
           <div className="actions">
             <button>RESERVE</button>
-            <Search />
+            <button
+              className="search-button"
+              onClick={isSearchOpen ? handleSearchClose : handleSearchOpen}
+              aria-label={isSearchOpen ? "Close search" : "Open search"}
+              aria-expanded={isSearchOpen}
+            >
+              <Search />
+            </button>
             <MenuIcon className="menu-icon" onClick={handleMenuOpen} />
           </div>
         </motion.div>
       </nav>
       {isMenuOpen && (
         <Menu onClose={handleMenuClose} isClosing={isMenuClosing} />
+      )}
+      {isSearchOpen && (
+        <SearchPanel
+          onClose={handleSearchClose}
+          onSearch={handleSearch}
+          isClosing={isSearchClosing}
+        />
       )}
     </>
   );

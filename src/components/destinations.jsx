@@ -85,7 +85,7 @@ function Destinations() {
             ))}
           </div>
           <div>
-            <Link to="/destinations" className="view-all" style={{ textDecoration: "none", color: "inherit" }}>
+            <Link to="/destinations" className="view-all" style={{ textDecoration: "none" }}>
               VIEW ALL
             </Link>
           </div>

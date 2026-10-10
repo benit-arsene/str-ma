@@ -56,52 +56,69 @@ color: #c29d59;
 
 /* 2. About Us Layout */
 .about-section {
-  display: flex;
-  width: 89%;
-  max-width: none;
-  margin: 0 auto;
+  padding: 80px 0;
   background-color: white;
-  gap: 60px;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.about-container {
+  display: flex;
   align-items: center;
-  padding: 40px max(20px, calc((100% - 1100px) / 2));
+  justify-content: space-between;
+  gap: 50px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
   box-sizing: border-box;
 }
 
 /* 3. Overlapping Double Border Image Frame */
-.about-images {
-  position: relative;
+.about-images-wrapper {
   flex: 1;
+  position: relative;
+  max-width: 500px;
+  padding-bottom: 30px;
+  padding-right: 30px;
 }
 
 .main-image-frame {
   border: 3px solid #c29d59;
   padding: 8px;
   background: #ffffff;
+  position: relative;
+  z-index: 1;
+  aspect-ratio: 4 / 3;
 }
 
 .main-image-frame img {
   width: 100%;
+  height: 100%;
+  object-fit: cover;
   display: block;
 }
 
 .sub-image-frame {
   position: absolute;
-  bottom: -30px;
-  right: -20px;
-  width: 52%;
+  bottom: 0;
+  right: 0;
+  width: 50%;
   border: 3px solid #c29d59;
   padding: 6px;
   background: #ffffff;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  z-index: 2;
 }
 
 .sub-image-frame img {
   width: 100%;
+  height: 100%;
+  object-fit: cover;
   display: block;
 }
 
 /* 4. Text Content Area */
-.about-content {
+.about-text-content {
   flex: 1;
   text-align: left;
 }
@@ -114,14 +131,14 @@ color: #c29d59;
   font-size: 14px;
 }
 
-.about-content h2 {
+.about-text-content h2 {
   font-family: Georgia, Garamond, serif;
   font-size: 32px;
   margin: 12px 0 16px 0;
   color: #1f2937;
 }
 
-.about-content p {
+.about-text-content p {
   color: #6b7280;
   line-height: 1.6;
   font-size: 14px;
@@ -143,10 +160,9 @@ color: #c29d59;
     margin: -30px 5% 48px;
   }
 
-  .about-section {
+  .about-container {
     gap: 36px;
-    padding-right: 5%;
-    padding-left: 5%;
+    padding: 0 5%;
   }
 }
 
@@ -164,26 +180,27 @@ color: #c29d59;
   }
 
   .about-section {
-    flex-direction: column;
-    gap: 48px;
     padding-top: 24px;
     padding-bottom: 64px;
   }
 
-  .about-images,
-  .about-content {
-    width: 100%;
+  .about-container {
+    flex-direction: column;
+    gap: 48px;
+    padding: 0 5%;
   }
 
-  .about-images {
-    padding-bottom: 30px;
+  .about-images-wrapper {
+    max-width: 100%;
+    padding-bottom: 20px;
+    padding-right: 20px;
   }
 
   .sub-image-frame {
-    right: 0;
+    width: 50%;
   }
 
-  .about-content h2 {
+  .about-text-content h2 {
     font-size: 30px;
   }
 }
@@ -194,21 +211,25 @@ color: #c29d59;
     margin-left: 4%;
   }
 
-  .about-section {
-    padding-right: 4%;
-    padding-left: 4%;
+  .about-container {
+    padding: 0 4%;
   }
 
   .main-image-frame {
     padding: 6px;
   }
 
+  .about-images-wrapper {
+    padding-bottom: 15px;
+    padding-right: 15px;
+  }
+
   .sub-image-frame {
-    width: 58%;
+    width: 55%;
     padding: 4px;
   }
 
-  .about-content h2 {
+  .about-text-content h2 {
     font-size: 26px;
   }
 }

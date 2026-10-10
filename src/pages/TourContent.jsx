@@ -13,7 +13,7 @@ import {
 import "./TourContent.css";
 import "./pagination.css";
 import Pagination from "./pagination";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { fetchTours, fetchCategories } from "../api/tours";
 
 function TourContent() {
@@ -24,6 +24,8 @@ function TourContent() {
   const [categoriesLoading, setCategoriesLoading] = useState(true);
   const [categoriesError, setCategoriesError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const searchQuery = searchParams.get("search") ?? "";
   const itemsPerPage = 4;
 
   useEffect(() => {
@@ -95,9 +97,37 @@ function TourContent() {
   };
 
   const mappedTours = tours.map(mapApiTour);
-  const totalPages = Math.ceil(mappedTours.length / itemsPerPage) || 1;
+
+  // Filter tours based on search query
+  const filteredTours = mappedTours.filter((tour) => {
+    if (!searchQuery.trim()) return true;
+    const query = searchQuery.trim().toLowerCase();
+    const titleMatch = tour.title.toLowerCase().includes(query);
+    const locationMatch = tour.location.toLowerCase().includes(query);
+    const categoryMatch = tour.categories.some((cat) =>
+      cat.name.toLowerCase().includes(query)
+    );
+    return titleMatch || locationMatch || categoryMatch;
+  });
+
+  const totalPages = Math.ceil(filteredTours.length / itemsPerPage) || 1;
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const visibleTours = mappedTours.slice(startIndex, startIndex + itemsPerPage);
+  const visibleTours = filteredTours.slice(startIndex, startIndex + itemsPerPage);
+
+  const handleSearchChange = (event) => {
+    const nextSearch = event.target.value;
+    setSearchParams((currentParams) => {
+      const nextParams = new URLSearchParams(currentParams);
+      if (nextSearch) {
+        nextParams.set("search", nextSearch);
+      } else {
+        nextParams.delete("search");
+      }
+      nextParams.set("page", "1");
+      return nextParams;
+    }, { replace: true });
+    setCurrentPage(1);
+  };
 
   if (loading) {
     return (
@@ -122,11 +152,13 @@ function TourContent() {
     );
   }
 
-  if (mappedTours.length === 0) {
+  if (filteredTours.length === 0) {
     return (
       <section className="tour-content" style={{ padding: "60px 6%" }}>
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "12px", color: "#6c757d" }}>
-          <p>No tours available</p>
+          <Search size={40} style={{ color: "#6c757d", marginBottom: "12px" }} />
+          <p>No tours found matching "{searchQuery}"</p>
+          <p style={{ fontSize: "14px", opacity: 0.8 }}>Try a different search term</p>
         </div>
       </section>
     );
@@ -216,7 +248,11 @@ function TourContent() {
             </h2>
             <div className="search-input">
               <Search size={18} />
-              <input placeholder="Search Tour" />
+              <input
+                placeholder="Search Tour"
+                value={searchQuery}
+                onChange={handleSearchChange}
+              />
             </div>
             <div className="search-input">
               <MapPin size={18} />

@@ -47,30 +47,32 @@ function AboutUs() {
       </div>
 
       <section className="about-section">
-        <div className="about-images">
-          <div className="main-image-frame">
-            <img
-              src="/8eab4b81-ba64-420d-ae9f-1be5197e8268.jpg"
-              alt="Train Station"
-            />
+        <div className="about-container">
+          <div className="about-images-wrapper">
+            <div className="main-image-frame">
+              <img
+                src="/8eab4b81-ba64-420d-ae9f-1be5197e8268.jpg"
+                alt="Train Station"
+              />
+            </div>
+            <div className="sub-image-frame">
+              <img
+                src="/78576aa1-3b01-40eb-bd90-d9e806fedfb4.jpg"
+                alt="Traveler"
+              />
+            </div>
           </div>
-          <div className="sub-image-frame">
-            <img
-              src="/78576aa1-3b01-40eb-bd90-d9e806fedfb4.jpg"
-              alt="Traveler"
-            />
-          </div>
-        </div>
 
-        <div className="about-content">
-          <span className="sub-title">About us</span>
-          <h2>Plan Your Trip with Us</h2>
-          <p>
-            Far far away, behind the word mountains, far from the countries
-            Vokalia and Consonantia, there live the blind texts. Separated they
-            live in Bookmarksgrove...
-          </p>
-          <button className="btn-gold">READ MORE</button>
+          <div className="about-text-content">
+            <span className="sub-title">About us</span>
+            <h2>Plan Your Trip with Us</h2>
+            <p>
+              Far far away, behind the word mountains, far from the countries
+              Vokalia and Consonantia, there live the blind texts. Separated they
+              live in Bookmarksgrove...
+            </p>
+            <button className="btn-gold">READ MORE</button>
+          </div>
         </div>
       </section>
     </>
