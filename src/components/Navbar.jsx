@@ -148,7 +148,7 @@ function Navbar() {
             />
           </a>
           <div className="actions">
-            <button>RESERVE</button>
+            <button onClick={() => navigate("/reservation")}>RESERVE</button>
             <button
               className="search-button"
               onClick={isSearchOpen ? handleSearchClose : handleSearchOpen}

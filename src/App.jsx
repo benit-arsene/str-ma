@@ -7,6 +7,7 @@ import TourPage from "./pages/TourPage";
 import TourDetail from "./pages/TourDetail";
 import About from "./pages/About";
 import DestinationsPage from "./pages/DestinationsPage";
+import Reservation from "./pages/Reservation";
 import ScrollToTop from "./components/ScrollToTop";
 
 function NotFound() {
@@ -73,6 +74,7 @@ function AppRoutes() {
       <Route path="/tour/:tourId" element={<TourDetail />} />
       <Route path="/tours" element={<TourPage />} />
       <Route path="/tours/:tourId" element={<TourDetail />} />
+      <Route path="/reservation" element={<Reservation />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
