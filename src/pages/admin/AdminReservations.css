@@ -1,106 +1,197 @@
-.admin-filters {
+.admin-reservations-controls {
   display: flex;
-  gap: 16px;
   flex-wrap: wrap;
-  margin-bottom: 20px;
+  align-items: center;
+  gap: 12px;
 }
 
-.admin-filter-field {
-  display: flex;
-  flex-direction: column;
-  gap: 7px;
-  text-align: left;
+/* Status filter tabs */
+.admin-filter-tabs {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 4px;
+  background: var(--adm-surface-container);
+  border-radius: 12px;
 }
 
-.admin-filter-field label {
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.6px;
-  color: #8a8f9c;
-}
-
-.admin-filter-field select {
-  height: 42px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  background: #fff;
-  color: #222;
-  padding: 0 12px;
-  font-size: 14px;
-  outline: none;
-  min-width: 180px;
+.admin-filter-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--adm-secondary);
+  font-family: inherit;
+  font-size: 0.8125rem;
+  font-weight: 500;
   cursor: pointer;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
-.admin-filter-field select:focus {
-  border-color: #c29d59;
-  box-shadow: 0 0 0 3px rgba(194, 157, 89, 0.15);
+.admin-filter-tab:hover {
+  color: var(--adm-on-surface);
 }
 
-.admin-filter-search {
-  flex: 1;
-  min-width: 240px;
+.admin-filter-tab.is-active {
+  background: var(--adm-surface-container-lowest);
+  color: var(--adm-on-surface);
+  box-shadow: var(--adm-shadow-sm);
 }
 
-.admin-search-wrapper {
+.admin-filter-tab-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 9999px;
+  background: var(--adm-surface-container-high);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--adm-on-surface-variant);
+  font-variant-numeric: tabular-nums;
+}
+
+.admin-filter-tab.is-active .admin-filter-tab-count {
+  background: var(--adm-primary-fixed);
+  color: var(--adm-on-primary-fixed-variant);
+}
+
+/* Quick search */
+.admin-search-field {
   position: relative;
-  display: flex;
+  display: inline-flex;
   align-items: center;
 }
 
 .admin-search-icon {
   position: absolute;
-  left: 12px;
+  left: 10px;
   width: 16px;
   height: 16px;
-  color: #999;
+  color: var(--adm-outline);
   pointer-events: none;
 }
 
-.admin-search-wrapper input {
-  width: 100%;
-  height: 42px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  background: #fff;
-  color: #222;
-  padding: 0 12px 0 38px;
-  font-size: 14px;
+.admin-search-field input {
+  height: 36px;
+  padding: 0 12px 0 32px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background: var(--adm-surface-container-low);
+  color: var(--adm-on-surface);
+  font-family: inherit;
+  font-size: 0.875rem;
+  width: 220px;
   box-sizing: border-box;
   outline: none;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
-.admin-search-wrapper input:focus {
-  border-color: #c29d59;
-  box-shadow: 0 0 0 3px rgba(194, 157, 89, 0.15);
+.admin-search-field input::placeholder {
+  color: var(--adm-outline);
 }
 
-.admin-results-count {
-  font-size: 13px;
-  color: #8a8f9c;
-  margin: 0 0 14px;
+.admin-search-field input:focus {
+  background: var(--adm-surface-container-lowest);
+  border-color: var(--adm-primary-container);
+  box-shadow: 0 0 0 3px rgba(200, 155, 60, 0.25);
 }
 
+/* Pagination */
 .admin-pagination {
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }
 
-@media (max-width: 600px) {
-  .admin-filters {
-    flex-direction: column;
-  }
+.admin-page-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  height: 32px;
+  padding: 0 8px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--adm-outline);
+  font-family: inherit;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
 
-  .admin-filter-field select {
-    min-width: 0;
+.admin-page-number:hover {
+  background: var(--adm-surface-container-high);
+  color: var(--adm-on-surface);
+}
+
+.admin-page-number.is-active {
+  background: var(--adm-surface-container-lowest);
+  color: var(--adm-primary);
+  box-shadow: var(--adm-shadow-sm);
+  font-weight: 600;
+}
+
+.admin-page-nav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--adm-outline);
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.admin-page-nav:hover:not(:disabled) {
+  background: var(--adm-surface-container-high);
+  color: var(--adm-on-surface);
+}
+
+.admin-page-nav:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+@media (max-width: 640px) {
+  .admin-reservations-controls {
     width: 100%;
   }
 
-  .admin-filter-search {
-    min-width: 0;
+  .admin-search-field {
+    width: 100%;
+  }
+
+  .admin-search-field input {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .admin-filter-tab,
+  .admin-search-field input,
+  .admin-page-number,
+  .admin-page-nav {
+    transition: none;
   }
 }

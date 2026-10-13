@@ -5,8 +5,9 @@ import {
   ArrowRight,
   CheckCircle2,
   ClipboardList,
-  Clock,
+  Hourglass,
   Loader2,
+  Plus,
   XCircle,
 } from "lucide-react";
 
@@ -28,15 +29,21 @@ function formatMetric(value) {
   return value.toLocaleString();
 }
 
-function StatCard({ label, value, icon: Icon, tone }) {
+function StatCard({ label, value, icon: Icon, tone, footer }) {
   return (
     <div className="admin-stat-card">
-      <div className={`admin-stat-icon admin-stat-icon--${tone}`}>
-        <Icon size={20} />
-      </div>
-      <div className="admin-stat-content">
-        <span className="admin-stat-value">{value}</span>
+      <div className="admin-stat-card-top">
         <span className="admin-stat-label">{label}</span>
+        <div className={`admin-stat-icon admin-stat-icon--${tone}`} aria-hidden="true">
+          <Icon size={20} />
+        </div>
+      </div>
+      <div className="admin-stat-value-row">
+        <span className="admin-stat-value">{value}</span>
+        <span className="admin-stat-unit">reservations</span>
+      </div>
+      <div className="admin-stat-footer">
+        <span>{footer}</span>
       </div>
     </div>
   );
@@ -49,6 +56,7 @@ function AdminDashboard() {
 
   const [stats, setStats] = useState(null);
   const [recentReservations, setRecentReservations] = useState([]);
+  const [recentTotal, setRecentTotal] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [retryCount, setRetryCount] = useState(0);
@@ -72,6 +80,7 @@ function AdminDashboard() {
         if (cancelled) return;
         setStats(statsData);
         setRecentReservations(reservationsData.items || []);
+        setRecentTotal(reservationsData.pagination?.total || 0);
       } catch (err) {
         if (cancelled) return;
         if (isUnauthorizedError(err)) {
@@ -101,28 +110,32 @@ function AdminDashboard() {
   const statCards = stats
     ? [
         {
-          label: "Total reservations",
+          label: "Total Bookings",
           value: formatMetric(stats.total),
           icon: ClipboardList,
           tone: "total",
+          footer: "All time",
         },
         {
-          label: "Pending reservations",
+          label: "Pending Review",
           value: formatMetric(stats.byStatus?.pending),
-          icon: Clock,
+          icon: Hourglass,
           tone: "pending",
+          footer: "Awaiting confirmation",
         },
         {
-          label: "Confirmed reservations",
+          label: "Confirmed & Active",
           value: formatMetric(stats.byStatus?.confirmed),
           icon: CheckCircle2,
           tone: "confirmed",
+          footer: "Confirmed bookings",
         },
         {
-          label: "Cancelled reservations",
+          label: "Cancellations",
           value: formatMetric(stats.byStatus?.cancelled),
           icon: XCircle,
           tone: "cancelled",
+          footer: "Cancelled bookings",
         },
       ]
     : [];
@@ -130,11 +143,23 @@ function AdminDashboard() {
   return (
     <div className="admin-dashboard">
       <header className="admin-page-header">
-        <h2>Overview</h2>
-        <p>
-          Welcome back{admin ? `, ${admin.username}` : ""}. Here is the current
-          state of your reservations.
-        </p>
+        <div className="admin-page-header-text">
+          <div className="admin-eyebrow">
+            <span className="admin-eyebrow-dot" aria-hidden="true" />
+            <span>Console Overview</span>
+          </div>
+          <h1>Overview</h1>
+          <p>
+            Welcome back{admin ? `, ${admin.username}` : ""}. Here is the current
+            state of your reservations and bookings.
+          </p>
+        </div>
+        <div className="admin-page-header-actions">
+          <Link to="/reservation" className="admin-btn admin-btn-primary">
+            <Plus size={18} aria-hidden="true" />
+            <span>New Reservation</span>
+          </Link>
+        </div>
       </header>
 
       {loading && (
@@ -149,16 +174,16 @@ function AdminDashboard() {
           <AlertCircle size={32} />
           <p>Failed to load dashboard data.</p>
           <p className="admin-state-detail">{error}</p>
-            <button
-              type="button"
-              className="admin-state-action"
-              onClick={() => {
-                setError(null);
-                setRetryCount((count) => count + 1);
-              }}
-            >
-              Retry
-            </button>
+          <button
+            type="button"
+            className="admin-state-action"
+            onClick={() => {
+              setError(null);
+              setRetryCount((count) => count + 1);
+            }}
+          >
+            Retry
+          </button>
         </div>
       )}
 
@@ -171,13 +196,23 @@ function AdminDashboard() {
                 label={card.label}
                 value={card.value}
                 icon={card.icon}
+                tone={card.tone}
+                footer={card.footer}
               />
             ))}
           </section>
 
-          <section className="admin-section-card">
-            <div className="admin-section-header">
-              <h3>Recent reservations</h3>
+          <section className="admin-table-card">
+            <div className="admin-table-card-header">
+              <div className="admin-table-card-title">
+                <div className="admin-table-card-title-row">
+                  <h2>Recent Reservations</h2>
+                  <span className="admin-count-badge">
+                    {recentReservations.length} items
+                  </span>
+                </div>
+                <p>Central register of upcoming guest bookings and ticketing status.</p>
+              </div>
               <Link to="/admin/reservations" className="admin-section-link">
                 View all <ArrowRight size={15} />
               </Link>
@@ -190,7 +225,16 @@ function AdminDashboard() {
                 <span>Reservations submitted by customers will appear here.</span>
               </div>
             ) : (
-              <ReservationTable reservations={recentReservations} />
+              <>
+                <ReservationTable reservations={recentReservations} />
+                <div className="admin-table-footer">
+                  <span className="admin-table-footer-text">
+                    Showing <strong>1</strong> to{" "}
+                    <strong>{recentReservations.length}</strong> of{" "}
+                    <strong>{formatMetric(recentTotal)}</strong> reservations
+                  </span>
+                </div>
+              </>
             )}
           </section>
         </>

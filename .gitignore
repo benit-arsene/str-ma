@@ -26,6 +26,9 @@ dist-ssr
 
 *.files.txt
 
+# Stitch design reference (local only)
+public/reference.html
+
 #Task/public/videos/
 #*.mp4
 #*.mkv

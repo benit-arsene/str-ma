@@ -41,11 +41,12 @@ function AdminLayout() {
 
       <aside className={`admin-sidebar ${navOpen ? "is-open" : ""}`}>
         <div className="admin-sidebar-brand">
-          <span className="admin-brand-mark">HP</span>
-          <div className="admin-sidebar-brand-text">
-            <span className="admin-brand-name">Holiday Planners</span>
-            <span className="admin-brand-sub">Administration</span>
-          </div>
+          <img
+            className="admin-brand-logo"
+            src="/ImageAssistant_Batch_Image_Downloader/html.geekcodelab.com/Holiday_Planners_-_Travel_Tour_HTML5_Template/10015.png"
+            alt="Holiday Planners"
+          />
+          <span className="admin-brand-sub">Admin</span>
         </div>
 
         <nav className="admin-sidebar-nav">

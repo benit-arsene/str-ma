@@ -3,20 +3,71 @@ import { useLocation, useNavigate } from "react-router-dom";
 import {
   AlertCircle,
   CalendarX,
+  ChevronLeft,
+  ChevronRight,
   Loader2,
   Search,
 } from "lucide-react";
 
 import {
   fetchAdminReservations,
+  fetchAdminStats,
   isUnauthorizedError,
 } from "../../api/admin";
 import ReservationTable from "../../components/admin/ReservationTable";
-import Pagination from "../pagination";
 import "./AdminReservations.css";
 
 const DEFAULT_LIMIT = 10;
-const ALL_STATUSES = ["pending", "confirmed", "cancelled", "completed"];
+
+const STATUS_TABS = [
+  { value: "", label: "All" },
+  { value: "pending", label: "Pending" },
+  { value: "confirmed", label: "Confirmed" },
+  { value: "cancelled", label: "Cancelled" },
+  { value: "completed", label: "Completed" },
+];
+
+function AdminPagination({ currentPage, totalPages, onPageChange }) {
+  return (
+    <div className="admin-pagination" role="navigation" aria-label="Pagination">
+      <button
+        type="button"
+        className="admin-page-nav"
+        onClick={() => onPageChange(currentPage - 1)}
+        disabled={currentPage <= 1}
+        aria-label="Previous page"
+      >
+        <ChevronLeft size={18} aria-hidden="true" />
+      </button>
+      {Array.from({ length: totalPages }, (_, index) => index + 1).map(
+        (page) => (
+          <button
+            key={page}
+            type="button"
+            className={
+              page === currentPage
+                ? "admin-page-number is-active"
+                : "admin-page-number"
+            }
+            onClick={() => onPageChange(page)}
+            aria-current={page === currentPage ? "page" : undefined}
+          >
+            {page}
+          </button>
+        )
+      )}
+      <button
+        type="button"
+        className="admin-page-nav"
+        onClick={() => onPageChange(currentPage + 1)}
+        disabled={currentPage >= totalPages}
+        aria-label="Next page"
+      >
+        <ChevronRight size={18} aria-hidden="true" />
+      </button>
+    </div>
+  );
+}
 
 function AdminReservations() {
   const navigate = useNavigate();
@@ -29,6 +80,7 @@ function AdminReservations() {
     limit: DEFAULT_LIMIT,
     totalPages: 1,
   });
+  const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [retryCount, setRetryCount] = useState(0);
@@ -96,46 +148,99 @@ function AdminReservations() {
     };
   }, [currentPage, statusFilter, debouncedQuery, retryCount, navigate, location.pathname]);
 
+  useEffect(() => {
+    let cancelled = false;
+
+    fetchAdminStats()
+      .then((data) => {
+        if (!cancelled) setStats(data);
+      })
+      .catch(() => {
+        // Tab counts are supplementary; filters work without them.
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [retryCount]);
+
   const filtersActive = Boolean(statusFilter || debouncedQuery);
+
+  const tabCount = (tabValue) => {
+    if (!stats) return null;
+    if (tabValue === "") return stats.total;
+    return stats.byStatus?.[tabValue];
+  };
+
+  const startItem =
+    pagination.total === 0 ? 0 : (pagination.page - 1) * pagination.limit + 1;
+  const endItem = Math.min(pagination.page * pagination.limit, pagination.total);
 
   return (
     <div className="admin-reservations">
       <header className="admin-page-header">
-        <h2>Reservations</h2>
-        <p>Browse and search customer reservations.</p>
+        <div className="admin-page-header-text">
+          <div className="admin-eyebrow">
+            <span className="admin-eyebrow-dot" aria-hidden="true" />
+            <span>Reservations Console</span>
+          </div>
+          <h1>Reservations</h1>
+          <p>Browse and search customer reservations.</p>
+        </div>
       </header>
 
-      <section className="admin-section-card">
-        <div className="admin-filters">
-          <div className="admin-filter-field">
-            <label htmlFor="reservation-status-filter">Status</label>
-            <select
-              id="reservation-status-filter"
-              value={statusFilter}
-              onChange={(event) => {
-                setStatusFilter(event.target.value);
-                setCurrentPage(1);
-              }}
-            >
-              <option value="">All statuses</option>
-              {ALL_STATUSES.map((status) => (
-                <option key={status} value={status}>
-                  {status.charAt(0).toUpperCase() + status.slice(1)}
-                </option>
-              ))}
-            </select>
+      <section className="admin-table-card">
+        <div className="admin-table-card-header">
+          <div className="admin-table-card-title">
+            <div className="admin-table-card-title-row">
+              <h2>All Reservations</h2>
+              <span className="admin-count-badge">
+                {pagination.total} items
+              </span>
+            </div>
+            <p>Central register of upcoming guest bookings and ticketing status.</p>
           </div>
+          <div className="admin-reservations-controls">
+            <div
+              className="admin-filter-tabs"
+              role="tablist"
+              aria-label="Filter by status"
+            >
+              {STATUS_TABS.map((tab) => {
+                const count = tabCount(tab.value);
+                const isActive = statusFilter === tab.value;
 
-          <div className="admin-filter-field admin-filter-search">
-            <label htmlFor="reservation-search">Search</label>
-            <div className="admin-search-wrapper">
+                return (
+                  <button
+                    key={tab.value}
+                    type="button"
+                    role="tab"
+                    aria-selected={isActive}
+                    className={
+                      isActive ? "admin-filter-tab is-active" : "admin-filter-tab"
+                    }
+                    onClick={() => {
+                      setStatusFilter(tab.value);
+                      setCurrentPage(1);
+                    }}
+                  >
+                    {tab.label}
+                    {typeof count === "number" && (
+                      <span className="admin-filter-tab-count">{count}</span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+            <div className="admin-search-field">
               <Search className="admin-search-icon" aria-hidden="true" />
               <input
                 id="reservation-search"
                 type="search"
                 value={searchQuery}
                 onChange={(event) => setSearchQuery(event.target.value)}
-                placeholder="Booking reference, customer name, or email"
+                placeholder="Filter reference, client..."
+                aria-label="Search reservations"
               />
             </div>
           </div>
@@ -168,12 +273,6 @@ function AdminReservations() {
 
         {!loading && !error && (
           <>
-            <p className="admin-results-count">
-              {pagination.total}{" "}
-              {pagination.total === 1 ? "reservation" : "reservations"}
-              {filtersActive ? " matching your filters" : ""}
-            </p>
-
             {reservations.length === 0 ? (
               <div className="admin-empty-state">
                 <CalendarX size={32} />
@@ -187,15 +286,21 @@ function AdminReservations() {
             ) : (
               <>
                 <ReservationTable reservations={reservations} />
-                {pagination.totalPages > 1 && (
-                  <div className="admin-pagination">
-                    <Pagination
+                <div className="admin-table-footer">
+                  <span className="admin-table-footer-text">
+                    Showing <strong>{startItem}</strong> to{" "}
+                    <strong>{endItem}</strong> of{" "}
+                    <strong>{pagination.total.toLocaleString()}</strong>{" "}
+                    reservations
+                  </span>
+                  {pagination.totalPages > 1 && (
+                    <AdminPagination
                       currentPage={pagination.page}
                       totalPages={pagination.totalPages}
                       onPageChange={setCurrentPage}
                     />
-                  </div>
-                )}
+                  )}
+                </div>
               </>
             )}
           </>

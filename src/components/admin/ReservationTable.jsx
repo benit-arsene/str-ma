@@ -1,3 +1,8 @@
+import { useState } from "react";
+import { Copy, Route } from "lucide-react";
+
+import "./ReservationTable.css";
+
 function formatDate(value) {
   if (!value) return "—";
 
@@ -19,59 +24,129 @@ function formatDate(value) {
   });
 }
 
+function guestInitials(name) {
+  if (!name) return "—";
+  return name
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part.charAt(0).toUpperCase())
+    .join("");
+}
+
+function CopyReferenceButton({ value }) {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(value);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1500);
+    } catch {
+      // Clipboard unavailable (e.g. insecure context); nothing to do.
+    }
+  };
+
+  return (
+    <button
+      type="button"
+      className={copied ? "admin-ref-copy is-copied" : "admin-ref-copy"}
+      onClick={handleCopy}
+      title={copied ? "Copied" : "Copy reference"}
+      aria-label={
+        copied ? "Booking reference copied" : "Copy booking reference"
+      }
+    >
+      <Copy size={14} aria-hidden="true" />
+    </button>
+  );
+}
+
 function StatusBadge({ status }) {
   return (
-    <span className={`admin-status-badge admin-status-${status}`}>{status}</span>
+    <span className={`status-badge status-badge-${status}`}>
+      <span className="status-badge-dot" aria-hidden="true" />
+      {status}
+    </span>
   );
 }
 
 function ReservationTable({ reservations }) {
   return (
     <div className="admin-table-wrapper">
-      <table className="admin-table">
+      <table className="recent-reservations-table">
         <thead>
           <tr>
-            <th scope="col">Booking reference</th>
-            <th scope="col">Customer</th>
-            <th scope="col">Tour</th>
-            <th scope="col">Travel date</th>
-            <th scope="col" className="admin-table-th-number">Travelers</th>
+            <th scope="col" className="col-ref">
+              Ref Code
+            </th>
+            <th scope="col">Guest / Client</th>
+            <th scope="col">Tour Program</th>
+            <th scope="col" className="col-date">
+              Travel Date
+            </th>
+            <th scope="col" className="col-pax">
+              Pax
+            </th>
             <th scope="col">Status</th>
-            <th scope="col">Created</th>
+            <th scope="col" className="col-date">
+              Logged
+            </th>
           </tr>
         </thead>
         <tbody>
           {reservations.map((reservation) => (
             <tr key={reservation.id}>
-              <td>
-                <span className="admin-reference-badge">
-                  {reservation.bookingReference}
-                </span>
-              </td>
-              <td>
-                <div className="admin-table-customer">
-                  <span className="admin-table-name">
-                    {reservation.fullName}
+              <td className="col-ref">
+                <div className="admin-ref-cell">
+                  <span className="admin-reference-badge">
+                    {reservation.bookingReference}
                   </span>
-                  <span className="admin-table-email">{reservation.email}</span>
+                  <CopyReferenceButton value={reservation.bookingReference} />
                 </div>
               </td>
               <td>
-                <div className="admin-table-tour">
-                  <span>{reservation.tour ? reservation.tour.name : "—"}</span>
-                  {reservation.tour && reservation.tour.destinationName && (
-                    <span className="admin-table-destination">
-                      {reservation.tour.destinationName}
+                <div className="admin-guest-cell">
+                  <span className="admin-guest-avatar" aria-hidden="true">
+                    {guestInitials(reservation.fullName)}
+                  </span>
+                  <div className="admin-guest-text">
+                    <span className="admin-guest-name">
+                      {reservation.fullName}
                     </span>
-                  )}
+                    <span className="admin-guest-email">
+                      {reservation.email}
+                    </span>
+                  </div>
                 </div>
               </td>
-              <td>{formatDate(reservation.travelDate)}</td>
-              <td className="admin-table-number">{reservation.travelers}</td>
+              <td>
+                <div className="admin-tour-cell">
+                  <Route
+                    size={16}
+                    className="admin-tour-icon"
+                    aria-hidden="true"
+                  />
+                  <div className="admin-tour-text">
+                    <span className="admin-tour-name">
+                      {reservation.tour ? reservation.tour.name : "—"}
+                    </span>
+                    {reservation.tour && reservation.tour.destinationName && (
+                      <span className="admin-tour-destination">
+                        {reservation.tour.destinationName}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </td>
+              <td className="col-date">{formatDate(reservation.travelDate)}</td>
+              <td className="col-pax">
+                <span className="admin-pax-badge">{reservation.travelers}</span>
+              </td>
               <td>
                 <StatusBadge status={reservation.status} />
               </td>
-              <td>{formatDate(reservation.createdAt)}</td>
+              <td className="col-date">{formatDate(reservation.createdAt)}</td>
             </tr>
           ))}
         </tbody>

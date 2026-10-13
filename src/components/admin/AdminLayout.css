@@ -1,7 +1,54 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
+
+/* Stitch design tokens (Material Design 3, warm gold theme) */
+.admin-shell,
+.admin-login-page {
+  --adm-primary: #7b5900;
+  --adm-primary-container: #c89b3c;
+  --adm-primary-fixed: #ffdea4;
+  --adm-primary-fixed-dim: #f0bf5c;
+  --adm-on-primary: #ffffff;
+  --adm-on-primary-container: #4b3500;
+  --adm-on-primary-fixed: #261900;
+  --adm-on-primary-fixed-variant: #5d4200;
+  --adm-secondary: #5f5e5e;
+  --adm-secondary-container: #e2dfde;
+  --adm-secondary-fixed: #e5e2e1;
+  --adm-on-secondary-container: #636262;
+  --adm-on-secondary-fixed-variant: #474746;
+  --adm-tertiary: #3755c3;
+  --adm-tertiary-container: #859cff;
+  --adm-tertiary-fixed: #dde1ff;
+  --adm-on-tertiary-container: #002b97;
+  --adm-on-tertiary-fixed-variant: #173bab;
+  --adm-error: #ba1a1a;
+  --adm-error-container: #ffdad6;
+  --adm-on-error-container: #93000a;
+  --adm-surface: #faf9f5;
+  --adm-surface-container-lowest: #ffffff;
+  --adm-surface-container-low: #f4f4f0;
+  --adm-surface-container: #efeeea;
+  --adm-surface-container-high: #e9e8e4;
+  --adm-surface-container-highest: #e3e2df;
+  --adm-on-surface: #1b1c1a;
+  --adm-on-surface-variant: #4e4637;
+  --adm-outline: #807665;
+  --adm-outline-variant: #d2c5b1;
+  --adm-inverse-surface: #2f312e;
+  --adm-inverse-on-surface: #f2f1ed;
+  --adm-inverse-primary: #f0bf5c;
+  --adm-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --adm-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -2px rgba(0, 0, 0, 0.1);
+}
+
 .admin-shell {
   display: flex;
   min-height: 100vh;
-  background: #f1f5f9;
+  background: var(--adm-surface);
+  color: var(--adm-on-surface);
+  font-family: "Plus Jakarta Sans", system-ui, "Segoe UI", Roboto, sans-serif;
+  text-align: left;
 }
 
 .admin-sidebar {
@@ -10,8 +57,8 @@
   left: 0;
   bottom: 0;
   width: 248px;
-  background: #0f172a;
-  color: #94a3b8;
+  background: var(--adm-inverse-surface);
+  color: var(--adm-inverse-on-surface);
   display: flex;
   flex-direction: column;
   z-index: 40;
@@ -24,7 +71,15 @@
   align-items: flex-start;
   gap: 14px;
   padding: 24px 20px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(242, 241, 237, 0.08);
+}
+
+.admin-brand-logo {
+  display: block;
+  height: 40px;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
 }
 
 .admin-brand-mark {
@@ -34,8 +89,8 @@
   width: 40px;
   height: 40px;
   border-radius: 10px;
-  background: #c29d59;
-  color: #0f172a;
+  background: var(--adm-primary-container);
+  color: var(--adm-on-primary-container);
   font-weight: 700;
   font-size: 15px;
   letter-spacing: 0.5px;
@@ -50,7 +105,7 @@
 }
 
 .admin-brand-name {
-  color: #fff;
+  color: var(--adm-inverse-on-surface);
   font-size: 15px;
   font-weight: 600;
   line-height: 1.3;
@@ -61,7 +116,7 @@
 }
 
 .admin-brand-sub {
-  color: #64748b;
+  color: rgba(242, 241, 237, 0.55);
   font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
@@ -83,8 +138,8 @@
   align-items: center;
   gap: 12px;
   padding: 11px 12px;
-  border-radius: 8px;
-  color: #94a3b8;
+  border-radius: 12px;
+  color: rgba(242, 241, 237, 0.65);
   text-decoration: none;
   font-size: 14px;
   font-weight: 500;
@@ -97,20 +152,20 @@
 }
 
 .admin-nav-link:hover {
-  background: rgba(255, 255, 255, 0.06);
-  color: #fff;
+  background: rgba(242, 241, 237, 0.08);
+  color: var(--adm-inverse-on-surface);
 }
 
 .admin-nav-link.is-active {
-  background: rgba(194, 157, 89, 0.15);
-  color: #e7c988;
-  box-shadow: inset 3px 0 0 #c29d59;
+  background: rgba(200, 155, 60, 0.18);
+  color: var(--adm-primary-fixed);
+  box-shadow: inset 3px 0 0 var(--adm-primary-container);
 }
 
 .admin-nav-link:focus-visible,
 .admin-menu-button:focus-visible,
 .admin-logout-button:focus-visible {
-  outline: 2px solid #c29d59;
+  outline: 2px solid var(--adm-primary-container);
   outline-offset: 2px;
 }
 
@@ -135,8 +190,8 @@
   gap: 12px;
   height: 64px;
   padding: 0 28px;
-  background: #fff;
-  border-bottom: 1px solid #e2e8f0;
+  background: var(--adm-surface-container-lowest);
+  border-bottom: 1px solid var(--adm-outline-variant);
   box-sizing: border-box;
 }
 
@@ -146,10 +201,10 @@
   justify-content: center;
   width: 38px;
   height: 38px;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  background: #fff;
-  color: #475569;
+  border: 1px solid var(--adm-outline-variant);
+  border-radius: 10px;
+  background: var(--adm-surface-container-lowest);
+  color: var(--adm-on-surface-variant);
   cursor: pointer;
   transition:
     border-color 0.15s ease,
@@ -157,14 +212,14 @@
 }
 
 .admin-menu-button:hover {
-  border-color: #c29d59;
-  color: #a97f3f;
+  border-color: var(--adm-primary-container);
+  color: var(--adm-primary);
 }
 
 .admin-topbar-title {
   font-size: 15px;
-  font-weight: 600;
-  color: #0f172a;
+  font-weight: 700;
+  color: var(--adm-on-surface);
 }
 
 .admin-topbar-actions {
@@ -187,9 +242,9 @@
   justify-content: center;
   width: 32px;
   height: 32px;
-  border-radius: 999px;
-  background: rgba(194, 157, 89, 0.16);
-  color: #8a6a2f;
+  border-radius: 9999px;
+  background: rgba(200, 155, 60, 0.16);
+  color: var(--adm-on-primary-container);
   font-size: 13px;
   font-weight: 700;
   text-transform: uppercase;
@@ -199,7 +254,7 @@
 .admin-username {
   font-size: 13px;
   font-weight: 600;
-  color: #475569;
+  color: var(--adm-on-surface-variant);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -211,23 +266,24 @@
   align-items: center;
   gap: 7px;
   padding: 8px 14px;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  background: #fff;
-  color: #475569;
+  border: 1px solid var(--adm-outline-variant);
+  border-radius: 10px;
+  background: var(--adm-surface-container-lowest);
+  color: var(--adm-on-surface-variant);
+  font-family: inherit;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
   transition:
     border-color 0.15s ease,
     color 0.15s ease,
-    background 0.15s ease;
+    background-color 0.15s ease;
 }
 
 .admin-logout-button:hover:not(:disabled) {
-  border-color: #c29d59;
-  color: #a97f3f;
-  background: #faf5ea;
+  border-color: var(--adm-primary-container);
+  color: var(--adm-primary);
+  background: var(--adm-primary-fixed);
 }
 
 .admin-logout-button:disabled {
@@ -237,7 +293,7 @@
 
 .admin-content {
   padding: 28px;
-  max-width: 1200px;
+  max-width: 1280px;
   width: 100%;
   margin: 0 auto;
   box-sizing: border-box;
@@ -269,7 +325,7 @@
     display: block;
     position: fixed;
     inset: 0;
-    background: rgba(15, 23, 42, 0.5);
+    background: rgba(47, 49, 46, 0.5);
     z-index: 35;
     opacity: 0;
     pointer-events: none;
