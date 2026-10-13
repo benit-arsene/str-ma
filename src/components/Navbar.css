@@ -1,4 +1,4 @@
-nav {
+.site-navbar {
   position: fixed;
   top: 0;
   left: 0;
@@ -24,7 +24,7 @@ nav {
  
 }
 
-nav.navbar-scrolled .contact-bar {
+.site-navbar.navbar-scrolled .contact-bar {
 
   height: 0;
   
@@ -175,16 +175,16 @@ nav.navbar-scrolled .contact-bar {
   cursor: pointer;
 }
 
-body {
+body.has-navbar {
   padding-top: 120px;
 }
 
-body.navbar-scrolled {
+body.has-navbar.navbar-scrolled {
   padding-top: 80px !important;
 }
 
 @media (max-width: 1024px) {
-  nav {
+  .site-navbar {
     width: 100%;
   }
 
@@ -206,7 +206,7 @@ body.navbar-scrolled {
 }
 
 @media (max-width: 768px) {
-  nav {
+  .site-navbar {
     position: fixed;
     left: 0;
     width: 100%;
@@ -266,17 +266,17 @@ body.navbar-scrolled {
 }
 
 @media (max-width: 480px) {
-  nav {
+  .site-navbar {
     position: fixed;
     left: 0;
     width: 100%;
   }
 
-  body {
+  body.has-navbar {
     padding-top: 0;
   }
 
-  body.navbar-scrolled {
+  body.has-navbar.navbar-scrolled {
     padding-top: 0 !important;
   }
 

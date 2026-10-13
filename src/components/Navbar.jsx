@@ -2,7 +2,7 @@ import { Search, Menu as MenuIcon, Mail, Phone } from "lucide-react";
 import { FaFacebookF, FaInstagram, FaTwitter } from "react-icons/fa";
 import "./Navbar.css";
 import Menu from "./Menu";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { motion } from "motion/react";
 import { useNavigate } from "react-router-dom";
 import SearchPanel from "./SearchPanel";
@@ -51,6 +51,13 @@ function Navbar() {
     handleSearchClose();
   };
 
+  useLayoutEffect(() => {
+    document.body.classList.add("has-navbar");
+    return () => {
+      document.body.classList.remove("has-navbar");
+    };
+  }, []);
+
   useEffect(() => {
     const handleScroll = () => {
       const isMobile = window.innerWidth <= 768;
@@ -92,7 +99,7 @@ function Navbar() {
 
   return (
     <>
-      <nav className={isScrolled ? "navbar-scrolled" : ""}>
+      <nav className={`site-navbar ${isScrolled ? "navbar-scrolled" : ""}`}>
         <motion.div
           className="contact-bar"
           animate={{ height: isScrolled ? 0 : 40, opacity: isScrolled ? 0 : 1 }}

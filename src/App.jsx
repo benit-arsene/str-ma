@@ -9,6 +9,11 @@ import About from "./pages/About";
 import DestinationsPage from "./pages/DestinationsPage";
 import Reservation from "./pages/Reservation";
 import ScrollToTop from "./components/ScrollToTop";
+import { AdminAuthProvider } from "./context/AdminAuthProvider";
+import AdminLayout from "./components/admin/AdminLayout";
+import AdminLogin from "./pages/admin/AdminLogin";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminReservations from "./pages/admin/AdminReservations";
 
 function NotFound() {
   return (
@@ -75,6 +80,11 @@ function AppRoutes() {
       <Route path="/tours" element={<TourPage />} />
       <Route path="/tours/:tourId" element={<TourDetail />} />
       <Route path="/reservation" element={<Reservation />} />
+      <Route path="/admin/login" element={<AdminLogin />} />
+      <Route path="/admin" element={<AdminLayout />}>
+        <Route index element={<AdminDashboard />} />
+        <Route path="reservations" element={<AdminReservations />} />
+      </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
@@ -83,7 +93,9 @@ function AppRoutes() {
 function App() {
   return (
     <BrowserRouter>
-      <AppRoutes />
+      <AdminAuthProvider>
+        <AppRoutes />
+      </AdminAuthProvider>
       <ScrollToTop />
     </BrowserRouter>
   );
