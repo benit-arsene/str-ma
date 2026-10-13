@@ -195,3 +195,39 @@
     transition: none;
   }
 }
+
+/* Status update feedback */
+.admin-reservations-notice {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: var(--adm-secondary-fixed);
+  color: var(--adm-on-secondary-fixed-variant);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.admin-reservations-notice p {
+  margin: 0;
+}
+
+.admin-reservations-update-error {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: var(--adm-error-container);
+  color: var(--adm-on-error-container);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.admin-reservations-update-error p {
+  margin: 0;
+  flex: 1;
+  min-width: 200px;
+}

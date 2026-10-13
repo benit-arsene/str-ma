@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Copy, Route } from "lucide-react";
+import { Copy, Loader2, Route } from "lucide-react";
 
+import { STATUS_ACTIONS } from "./statusActions";
 import "./ReservationTable.css";
 
 function formatDate(value) {
@@ -72,7 +73,7 @@ function StatusBadge({ status }) {
   );
 }
 
-function ReservationTable({ reservations }) {
+function ReservationTable({ reservations, onStatusChange, savingId = null }) {
   return (
     <div className="admin-table-wrapper">
       <table className="recent-reservations-table">
@@ -149,7 +150,42 @@ function ReservationTable({ reservations }) {
                 <span className="admin-pax-badge">{reservation.travelers}</span>
               </td>
               <td>
-                <StatusBadge status={reservation.status} />
+                <div className="admin-status-cell">
+                  <StatusBadge status={reservation.status} />
+                  {onStatusChange &&
+                    STATUS_ACTIONS[reservation.status]?.length > 0 && (
+                      <div className="admin-row-actions">
+                        {savingId === reservation.id && (
+                          <span className="admin-row-saving" role="status">
+                            <Loader2
+                              size={12}
+                              className="spinner"
+                              aria-hidden="true"
+                            />
+                            <span>Saving...</span>
+                          </span>
+                        )}
+                        {STATUS_ACTIONS[reservation.status].map((action) => (
+                          <button
+                            key={action.status}
+                            type="button"
+                            className={
+                              action.tone === "danger"
+                                ? "admin-row-action admin-row-action-danger"
+                                : "admin-row-action"
+                            }
+                            onClick={() =>
+                              onStatusChange(reservation, action.status)
+                            }
+                            disabled={savingId === reservation.id}
+                            title={`${action.label} for ${reservation.bookingReference}`}
+                          >
+                            {action.label}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                </div>
               </td>
               <td className="col-date">{formatDate(reservation.createdAt)}</td>
             </tr>

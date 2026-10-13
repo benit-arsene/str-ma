@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
   AlertCircle,
   CalendarX,
+  CheckCircle2,
   ChevronLeft,
   ChevronRight,
   Loader2,
@@ -13,6 +14,7 @@ import {
   fetchAdminReservations,
   fetchAdminStats,
   isUnauthorizedError,
+  updateReservationStatus,
 } from "../../api/admin";
 import ReservationTable from "../../components/admin/ReservationTable";
 import "./AdminReservations.css";
@@ -88,6 +90,12 @@ function AdminReservations() {
   const [statusFilter, setStatusFilter] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedQuery, setDebouncedQuery] = useState("");
+  const [refreshCount, setRefreshCount] = useState(0);
+  const [savingId, setSavingId] = useState(null);
+  const [updateNotice, setUpdateNotice] = useState(null);
+  const [updateError, setUpdateError] = useState(null);
+  const [failedTransition, setFailedTransition] = useState(null);
+  const activeRef = useRef(true);
 
   useEffect(() => {
     const timer = window.setTimeout(() => {
@@ -98,6 +106,8 @@ function AdminReservations() {
   }, [searchQuery]);
 
   useEffect(() => {
+    activeRef.current = true;
+
     let cancelled = false;
 
     const loadReservations = async () => {
@@ -113,7 +123,15 @@ function AdminReservations() {
         });
 
         if (cancelled) return;
-        setReservations(data.items || []);
+
+        const items = data.items || [];
+
+        if (items.length === 0 && currentPage > 1) {
+          setCurrentPage(currentPage - 1);
+          return;
+        }
+
+        setReservations(items);
         setPagination(
           data.pagination || {
             total: 0,
@@ -145,8 +163,17 @@ function AdminReservations() {
     loadReservations();
     return () => {
       cancelled = true;
+      activeRef.current = false;
     };
-  }, [currentPage, statusFilter, debouncedQuery, retryCount, navigate, location.pathname]);
+  }, [
+    currentPage,
+    statusFilter,
+    debouncedQuery,
+    retryCount,
+    refreshCount,
+    navigate,
+    location.pathname,
+  ]);
 
   useEffect(() => {
     let cancelled = false;
@@ -162,7 +189,67 @@ function AdminReservations() {
     return () => {
       cancelled = true;
     };
-  }, [retryCount]);
+  }, [retryCount, refreshCount]);
+
+  const handleStatusChange = async (reservation, nextStatus) => {
+    if (savingId === reservation.id) return;
+
+    setSavingId(reservation.id);
+    setUpdateError(null);
+    setUpdateNotice(null);
+    setFailedTransition(null);
+
+    try {
+      const result = await updateReservationStatus(
+        reservation.id,
+        nextStatus
+      );
+
+      if (!activeRef.current) return;
+
+      setUpdateNotice(
+        `Reservation ${reservation.bookingReference} updated to ${result.status}.`
+      );
+      setRefreshCount((count) => count + 1);
+    } catch (err) {
+      if (!activeRef.current) return;
+
+      if (isUnauthorizedError(err)) {
+        navigate("/admin/login", {
+          state: {
+            from: location.pathname,
+            reason: "Your session has expired. Please sign in again.",
+          },
+          replace: true,
+        });
+        return;
+      }
+
+      if (err.status === 404) {
+        setUpdateNotice(
+          `Reservation ${reservation.bookingReference} could no longer be found. The list has been refreshed.`
+        );
+        setRefreshCount((count) => count + 1);
+        return;
+      }
+
+      setFailedTransition({ reservation, nextStatus });
+      setUpdateError({
+        message:
+          err.message ||
+          "Failed to update reservation status. Please try again.",
+        status: err.status,
+      });
+    } finally {
+      if (activeRef.current) {
+        setSavingId(null);
+      }
+    }
+  };
+
+  const canRetryUpdate =
+    updateError &&
+    (updateError.status === undefined || updateError.status >= 500);
 
   const filtersActive = Boolean(statusFilter || debouncedQuery);
 
@@ -253,6 +340,34 @@ function AdminReservations() {
           </div>
         )}
 
+        {updateNotice && (
+          <div className="admin-reservations-notice" role="status">
+            <CheckCircle2 size={18} aria-hidden="true" />
+            <p>{updateNotice}</p>
+          </div>
+        )}
+
+        {updateError && (
+          <div className="admin-reservations-update-error" role="alert">
+            <AlertCircle size={18} aria-hidden="true" />
+            <p>{updateError.message}</p>
+            {canRetryUpdate && failedTransition && (
+              <button
+                type="button"
+                className="admin-state-action"
+                onClick={() =>
+                  handleStatusChange(
+                    failedTransition.reservation,
+                    failedTransition.nextStatus
+                  )
+                }
+              >
+                Retry
+              </button>
+            )}
+          </div>
+        )}
+
         {error && (
           <div className="admin-state-block admin-state-error" role="alert">
             <AlertCircle size={32} />
@@ -285,7 +400,11 @@ function AdminReservations() {
               </div>
             ) : (
               <>
-                <ReservationTable reservations={reservations} />
+                <ReservationTable
+                  reservations={reservations}
+                  onStatusChange={handleStatusChange}
+                  savingId={savingId}
+                />
                 <div className="admin-table-footer">
                   <span className="admin-table-footer-text">
                     Showing <strong>{startItem}</strong> to{" "}

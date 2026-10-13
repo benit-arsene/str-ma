@@ -316,3 +316,81 @@ a.admin-reference-badge:focus-visible {
     animation: none;
   }
 }
+
+/* Status cell quick actions (opt-in via onStatusChange) */
+.admin-status-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.admin-row-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.admin-row-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 26px;
+  padding: 0 10px;
+  border: 1px solid var(--adm-outline-variant);
+  border-radius: 8px;
+  background: var(--adm-surface-container-lowest);
+  color: var(--adm-on-surface-variant);
+  font-family: inherit;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    color 0.15s ease,
+    background-color 0.15s ease;
+}
+
+.admin-row-action:hover:not(:disabled) {
+  border-color: var(--adm-primary-container);
+  color: var(--adm-primary);
+  background: var(--adm-primary-fixed);
+}
+
+.admin-row-action-danger:hover:not(:disabled) {
+  border-color: var(--adm-error);
+  color: var(--adm-on-error-container);
+  background: var(--adm-error-container);
+}
+
+.admin-row-action:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.admin-row-action:focus-visible {
+  outline: 2px solid var(--adm-primary-container);
+  outline-offset: 2px;
+}
+
+.admin-row-saving {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--adm-secondary);
+  white-space: nowrap;
+}
+
+.admin-row-saving .spinner {
+  color: var(--adm-primary-container);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .admin-row-action {
+    transition: none;
+  }
+}
