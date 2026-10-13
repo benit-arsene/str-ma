@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import {
   AlertCircle,
   ArrowLeft,
   CalendarRange,
+  CheckCircle2,
   Clock,
   Loader2,
   Mail,
@@ -15,7 +16,11 @@ import {
   Users,
 } from "lucide-react";
 
-import { fetchAdminReservation, isUnauthorizedError } from "../../api/admin";
+import {
+  fetchAdminReservation,
+  isUnauthorizedError,
+  updateReservationStatus,
+} from "../../api/admin";
 import "./AdminReservationDetail.css";
 
 function formatDate(value) {
@@ -76,6 +81,21 @@ function DetailField({ icon: Icon, label, value }) {
   );
 }
 
+const STATUS_ACTIONS = {
+  pending: [
+    { status: "confirmed", label: "Confirm booking", tone: "primary" },
+    { status: "cancelled", label: "Cancel booking", tone: "danger" },
+  ],
+  confirmed: [
+    { status: "completed", label: "Mark completed", tone: "primary" },
+    { status: "cancelled", label: "Cancel booking", tone: "danger" },
+  ],
+  cancelled: [
+    { status: "pending", label: "Reopen as pending", tone: "primary" },
+  ],
+  completed: [],
+};
+
 function AdminReservationDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -86,8 +106,15 @@ function AdminReservationDetail() {
   const [error, setError] = useState(null);
   const [notFound, setNotFound] = useState(false);
   const [retryCount, setRetryCount] = useState(0);
+  const [saving, setSaving] = useState(false);
+  const [updateNotice, setUpdateNotice] = useState(null);
+  const [updateError, setUpdateError] = useState(null);
+  const [failedStatus, setFailedStatus] = useState(null);
+  const activeRef = useRef(true);
 
   useEffect(() => {
+    activeRef.current = true;
+
     let cancelled = false;
 
     const loadReservation = async () => {
@@ -127,8 +154,64 @@ function AdminReservationDetail() {
     loadReservation();
     return () => {
       cancelled = true;
+      activeRef.current = false;
     };
   }, [id, navigate, location.pathname, retryCount]);
+
+  const handleStatusChange = async (nextStatus) => {
+    if (saving) return;
+
+    setSaving(true);
+    setUpdateError(null);
+    setUpdateNotice(null);
+    setFailedStatus(null);
+
+    try {
+      const result = await updateReservationStatus(id, nextStatus);
+
+      if (!activeRef.current) return;
+
+      setUpdateNotice(`Reservation status updated to ${result.status}.`);
+
+      const data = await fetchAdminReservation(id);
+
+      if (!activeRef.current) return;
+      setReservation(data);
+    } catch (err) {
+      if (!activeRef.current) return;
+
+      if (isUnauthorizedError(err)) {
+        navigate("/admin/login", {
+          state: {
+            from: location.pathname,
+            reason: "Your session has expired. Please sign in again.",
+          },
+          replace: true,
+        });
+        return;
+      }
+
+      if (err.status === 404) {
+        setNotFound(true);
+        return;
+      }
+
+      setFailedStatus(nextStatus);
+      setUpdateError({
+        message:
+          err.message || "Failed to update reservation status. Please try again.",
+        status: err.status,
+      });
+    } finally {
+      if (activeRef.current) {
+        setSaving(false);
+      }
+    }
+  };
+
+  const canRetryUpdate =
+    updateError &&
+    (updateError.status === undefined || updateError.status >= 500);
 
   const specialRequests = reservation?.specialRequests?.trim();
   const tour = reservation?.tour;
@@ -192,16 +275,65 @@ function AdminReservationDetail() {
       )}
 
       {!loading && !error && !notFound && reservation && (
-        <section className="admin-table-card">
-          <div className="admin-table-card-header">
-            <div className="admin-table-card-title">
-              <div className="admin-table-card-title-row">
-                <h2>Reservation details</h2>
-                <StatusBadge status={reservation.status} />
-              </div>
-              <p>Guest contact information, tour and booking metadata.</p>
+        <>
+          {updateNotice && (
+            <div className="admin-detail-notice" role="status">
+              <CheckCircle2 size={18} aria-hidden="true" />
+              <p>{updateNotice}</p>
             </div>
-          </div>
+          )}
+
+          {updateError && (
+            <div className="admin-detail-update-error" role="alert">
+              <AlertCircle size={18} aria-hidden="true" />
+              <p>{updateError.message}</p>
+              {canRetryUpdate && failedStatus && (
+                <button
+                  type="button"
+                  className="admin-state-action"
+                  onClick={() => handleStatusChange(failedStatus)}
+                >
+                  Retry
+                </button>
+              )}
+            </div>
+          )}
+
+          <section className="admin-table-card">
+            <div className="admin-table-card-header">
+              <div className="admin-table-card-title">
+                <div className="admin-table-card-title-row">
+                  <h2>Reservation details</h2>
+                  <StatusBadge status={reservation.status} />
+                </div>
+                <p>Guest contact information, tour and booking metadata.</p>
+              </div>
+              {STATUS_ACTIONS[reservation.status]?.length > 0 && (
+                <div className="admin-detail-actions">
+                  {saving && (
+                    <span className="admin-detail-saving" role="status">
+                      <Loader2 size={16} className="spinner" aria-hidden="true" />
+                      <span>Saving...</span>
+                    </span>
+                  )}
+                  {STATUS_ACTIONS[reservation.status].map((action) => (
+                    <button
+                      key={action.status}
+                      type="button"
+                      className={
+                        action.tone === "danger"
+                          ? "admin-detail-action admin-detail-action-danger"
+                          : "admin-detail-action"
+                      }
+                      onClick={() => handleStatusChange(action.status)}
+                      disabled={saving}
+                    >
+                      {action.label}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
 
           <div className="admin-detail-body">
             <div className="admin-detail-group">
@@ -285,6 +417,7 @@ function AdminReservationDetail() {
             </div>
           </div>
         </section>
+        </>
       )}
     </div>
   );

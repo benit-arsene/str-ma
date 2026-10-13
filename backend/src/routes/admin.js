@@ -21,6 +21,12 @@ import {
 const router = express.Router();
 
 const ALLOWED_STATUSES = ["pending", "confirmed", "cancelled", "completed"];
+const STATUS_TRANSITIONS = {
+  pending: ["confirmed", "cancelled"],
+  confirmed: ["completed", "cancelled"],
+  cancelled: ["pending"],
+  completed: [],
+};
 const UUID_REGEX =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const MAX_SEARCH_LENGTH = 200;
@@ -379,26 +385,101 @@ router.patch(
         return res.status(400).json(validationError(details));
       }
 
-      const result = await pool.query(
-        `UPDATE reservations
-            SET status = $1, updated_at = now()
-          WHERE id = $2
-      RETURNING id, status, updated_at`,
-        [requestedStatus, id]
-      );
+      let client;
 
-      if (result.rows.length === 0) {
-        return res.status(404).json({ error: "Reservation not found" });
+      try {
+        client = await pool.connect();
+        await client.query("BEGIN");
+
+        const currentResult = await client.query(
+          `SELECT id, status, updated_at
+             FROM reservations
+            WHERE id = $1
+            FOR UPDATE`,
+          [id]
+        );
+
+        if (currentResult.rows.length === 0) {
+          await client.query("ROLLBACK");
+          return res.status(404).json({ error: "Reservation not found" });
+        }
+
+        const currentRow = currentResult.rows[0];
+
+        if (currentRow.status === requestedStatus) {
+          await client.query("ROLLBACK");
+          return res.json({
+            id: currentRow.id,
+            status: currentRow.status,
+            updatedAt: currentRow.updated_at,
+          });
+        }
+
+        const permitted = STATUS_TRANSITIONS[currentRow.status] || [];
+
+        if (!permitted.includes(requestedStatus)) {
+          await client.query("ROLLBACK");
+          const permittedText =
+            permitted.length > 0 ? permitted.join(", ") : "none";
+          return res.status(400).json({
+            error: `Cannot change reservation status from "${currentRow.status}" to "${requestedStatus}". Permitted next status: ${permittedText}.`,
+          });
+        }
+
+        const updateResult = await client.query(
+          `UPDATE reservations
+              SET status = $1, updated_at = now()
+            WHERE id = $2
+        RETURNING id, status, updated_at`,
+          [requestedStatus, id]
+        );
+
+        await client.query("COMMIT");
+
+        return res.json({
+          id: updateResult.rows[0].id,
+          status: updateResult.rows[0].status,
+          updatedAt: updateResult.rows[0].updated_at,
+        });
+      } catch (err) {
+        if (client) {
+          try {
+            await client.query("ROLLBACK");
+          } catch {
+            // Rollback failure does not change the original error outcome.
+          }
+        }
+
+        if (
+          err.code === "23505" &&
+          err.constraint === "idx_reservations_unique_active"
+        ) {
+          return res.status(409).json({
+            error:
+              "An active reservation already exists for this guest, tour, and travel date.",
+          });
+        }
+
+        console.error(
+          "PATCH /api/admin/reservations/:id/status error:",
+          err.message
+        );
+        return res
+          .status(500)
+          .json({ error: "Failed to update reservation status" });
+      } finally {
+        if (client) {
+          client.release();
+        }
       }
-
-      return res.json({
-        id: result.rows[0].id,
-        status: result.rows[0].status,
-        updatedAt: result.rows[0].updated_at,
-      });
     } catch (err) {
-      console.error("PATCH /api/admin/reservations/:id/status error:", err.message);
-      return res.status(500).json({ error: "Failed to update reservation status" });
+      console.error(
+        "PATCH /api/admin/reservations/:id/status error:",
+        err.message
+      );
+      return res
+        .status(500)
+        .json({ error: "Failed to update reservation status" });
     }
   }
 );

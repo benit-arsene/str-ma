@@ -66,6 +66,13 @@ export function fetchAdminReservation(id) {
   return adminRequest(`/api/admin/reservations/${id}`);
 }
 
+export function updateReservationStatus(id, status) {
+  return adminRequest(`/api/admin/reservations/${id}/status`, {
+    method: "PATCH",
+    body: JSON.stringify({ status }),
+  });
+}
+
 export function isUnauthorizedError(error) {
   return error instanceof AdminApiError && error.status === 401;
 }
