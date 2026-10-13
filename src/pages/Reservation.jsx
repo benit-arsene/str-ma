@@ -3,6 +3,7 @@ import { Loader2, AlertCircle, CheckCircle, Calendar, Users, User, Mail, Phone, 
 import Navbar from "../components/Navbar";
 import Footer from "./footer";
 import { fetchTours } from "../api/tours";
+import { createReservation } from "../api/reservations";
 import "./Reservation.css";
 
 function Reservation() {
@@ -20,6 +21,8 @@ function Reservation() {
   });
   const [submitState, setSubmitState] = useState("idle");
   const [validationErrors, setValidationErrors] = useState({});
+  const [apiError, setApiError] = useState(null);
+  const [reservationData, setReservationData] = useState(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -72,17 +75,34 @@ function Reservation() {
     if (!validateForm()) return;
 
     setSubmitState("submitting");
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    setSubmitState("success");
-    setFormState({
-      tourId: "",
-      travelDate: "",
-      travelers: 1,
-      fullName: "",
-      email: "",
-      phone: "",
-      specialRequests: "",
-    });
+    setApiError(null);
+
+    try {
+      const data = await createReservation({
+        tourId: formState.tourId,
+        travelDate: formState.travelDate,
+        travelers: formState.travelers,
+        fullName: formState.fullName.trim(),
+        email: formState.email.trim(),
+        phone: formState.phone.trim(),
+        specialRequests: formState.specialRequests.trim() || undefined,
+      });
+
+      setReservationData(data);
+      setSubmitState("success");
+      setFormState({
+        tourId: "",
+        travelDate: "",
+        travelers: 1,
+        fullName: "",
+        email: "",
+        phone: "",
+        specialRequests: "",
+      });
+    } catch (err) {
+      setApiError(err.message);
+      setSubmitState("error");
+    }
   };
 
   const getSelectedTour = () => {
@@ -133,13 +153,25 @@ function Reservation() {
             <p>Fill out the form below to submit a reservation request. Our team will contact you shortly to confirm availability and details.</p>
           </header>
 
-          {submitState === "success" && (
+          {submitState === "success" && reservationData && (
             <div className="reservation-success" role="status" aria-live="polite">
               <CheckCircle size={48} />
-              <h3>Request Submitted (Demo)</h3>
-              <p>This is a <strong>demonstration only</strong>. No reservation has been created or saved.</p>
-              <p className="demo-notice">Backend reservation API and database tables do not currently exist. This form submission is simulated.</p>
-              <button type="button" onClick={() => setSubmitState("idle")}>Make Another Request</button>
+              <h3>Reservation Submitted</h3>
+              <p>Your reservation request has been received.</p>
+              <div className="booking-details">
+                <p><strong>Booking Reference:</strong> {reservationData.bookingReference}</p>
+                <p><strong>Status:</strong> {reservationData.status}</p>
+                <p><strong>Submitted:</strong> {new Date(reservationData.createdAt).toLocaleString()}</p>
+              </div>
+              <button type="button" onClick={() => { setSubmitState("idle"); setReservationData(null); }}>Make Another Request</button>
+            </div>
+          )}
+
+          {submitState === "error" && apiError && (
+            <div className="reservation-error-inline" role="alert">
+              <AlertCircle size={20} />
+              <p>{apiError}</p>
+              <button type="button" onClick={() => { setSubmitState("idle"); setApiError(null); }}>Try Again</button>
             </div>
           )}
 
@@ -300,10 +332,6 @@ function Reservation() {
                   "SUBMIT RESERVATION REQUEST"
                 )}
               </button>
-
-              <p className="demo-disclaimer">
-                <strong>Note:</strong> This is a demo form. No reservation API or database exists yet. Submitting will simulate success but no data is saved.
-              </p>
             </form>
           )}
         </div>
