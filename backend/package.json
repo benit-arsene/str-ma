@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node src/server.js",
     "db:seed": "node src/db/seed.js",
+    "admin:create": "node src/db/create-admin.js",
     "migrate:create": "node-pg-migrate create --migrations-dir ./migrations",
     "migrate:up": "node-pg-migrate up --migrations-dir ./migrations",
     "migrate:down": "node-pg-migrate down --migrations-dir ./migrations"
