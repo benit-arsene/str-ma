@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Copy, Route } from "lucide-react";
 
 import "./ReservationTable.css";
@@ -99,9 +100,13 @@ function ReservationTable({ reservations }) {
             <tr key={reservation.id}>
               <td className="col-ref">
                 <div className="admin-ref-cell">
-                  <span className="admin-reference-badge">
+                  <Link
+                    to={`/admin/reservations/${reservation.id}`}
+                    className="admin-reference-badge"
+                    title={`View reservation ${reservation.bookingReference}`}
+                  >
                     {reservation.bookingReference}
-                  </span>
+                  </Link>
                   <CopyReferenceButton value={reservation.bookingReference} />
                 </div>
               </td>

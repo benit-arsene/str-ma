@@ -1,0 +1,98 @@
+.admin-reservation-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Detail body */
+.admin-detail-body {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px 24px;
+  padding: 24px;
+  border-top: 1px solid var(--adm-surface-container);
+}
+
+.admin-detail-group-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--adm-secondary);
+  margin: 0 0 12px;
+}
+
+.admin-detail-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.admin-detail-field {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  min-width: 0;
+}
+
+.admin-detail-field-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: var(--adm-surface-container-high);
+  color: var(--adm-primary);
+  flex-shrink: 0;
+}
+
+.admin-detail-field-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.admin-detail-field-label {
+  font-size: 0.75rem;
+  color: var(--adm-secondary);
+}
+
+.admin-detail-field-value {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--adm-on-surface);
+  overflow-wrap: anywhere;
+}
+
+/* Special requests */
+.admin-detail-requests {
+  grid-column: 1 / -1;
+}
+
+.admin-detail-requests-text {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--adm-on-surface);
+  background: var(--adm-surface-container-low);
+  border-radius: 12px;
+  padding: 14px 16px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.admin-detail-none {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--adm-secondary);
+}
+
+@media (max-width: 768px) {
+  .admin-detail-body {
+    grid-template-columns: 1fr;
+    gap: 24px;
+    padding: 16px;
+  }
+}

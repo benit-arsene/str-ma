@@ -75,6 +75,24 @@
   white-space: nowrap;
 }
 
+a.admin-reference-badge {
+  text-decoration: none;
+  transition:
+    filter 0.15s ease,
+    background-color 0.15s ease;
+}
+
+a.admin-reference-badge:hover {
+  filter: brightness(0.96);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+a.admin-reference-badge:focus-visible {
+  outline: 2px solid var(--adm-primary-container);
+  outline-offset: 2px;
+}
+
 .admin-ref-copy {
   display: inline-flex;
   align-items: center;

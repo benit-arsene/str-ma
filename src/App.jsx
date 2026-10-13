@@ -14,6 +14,7 @@ import AdminLayout from "./components/admin/AdminLayout";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminReservations from "./pages/admin/AdminReservations";
+import AdminReservationDetail from "./pages/admin/AdminReservationDetail";
 
 function NotFound() {
   return (
@@ -84,6 +85,10 @@ function AppRoutes() {
       <Route path="/admin" element={<AdminLayout />}>
         <Route index element={<AdminDashboard />} />
         <Route path="reservations" element={<AdminReservations />} />
+        <Route
+          path="reservations/:id"
+          element={<AdminReservationDetail />}
+        />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>

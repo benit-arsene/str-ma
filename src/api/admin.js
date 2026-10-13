@@ -62,6 +62,10 @@ export function fetchAdminReservations({ page, limit, status, q } = {}) {
   return adminRequest(`/api/admin/reservations${query ? `?${query}` : ""}`);
 }
 
+export function fetchAdminReservation(id) {
+  return adminRequest(`/api/admin/reservations/${id}`);
+}
+
 export function isUnauthorizedError(error) {
   return error instanceof AdminApiError && error.status === 401;
 }
