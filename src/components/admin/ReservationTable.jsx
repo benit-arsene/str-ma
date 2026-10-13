@@ -151,40 +151,50 @@ function ReservationTable({ reservations, onStatusChange, savingId = null }) {
               </td>
               <td>
                 <div className="admin-status-cell">
-                  <StatusBadge status={reservation.status} />
-                  {onStatusChange &&
-                    STATUS_ACTIONS[reservation.status]?.length > 0 && (
-                      <div className="admin-row-actions">
-                        {savingId === reservation.id && (
-                          <span className="admin-row-saving" role="status">
-                            <Loader2
-                              size={12}
-                              className="spinner"
-                              aria-hidden="true"
-                            />
-                            <span>Saving...</span>
-                          </span>
-                        )}
-                        {STATUS_ACTIONS[reservation.status].map((action) => (
-                          <button
-                            key={action.status}
-                            type="button"
-                            className={
-                              action.tone === "danger"
-                                ? "admin-row-action admin-row-action-danger"
-                                : "admin-row-action"
-                            }
-                            onClick={() =>
-                              onStatusChange(reservation, action.status)
-                            }
-                            disabled={savingId === reservation.id}
-                            title={`${action.label} for ${reservation.bookingReference}`}
-                          >
-                            {action.label}
-                          </button>
-                        ))}
-                      </div>
-                    )}
+                  <div className="admin-status-wrapper">
+                    <div className="admin-status-badge-wrapper">
+                      <StatusBadge status={reservation.status} />
+                    </div>
+                    {onStatusChange &&
+                      STATUS_ACTIONS[reservation.status]?.length > 0 && (
+                        <div
+                          className={
+                            savingId === reservation.id
+                              ? "admin-row-actions is-saving"
+                              : "admin-row-actions"
+                          }
+                        >
+                          {savingId === reservation.id && (
+                            <span className="admin-row-saving" role="status">
+                              <Loader2
+                                size={12}
+                                className="spinner"
+                                aria-hidden="true"
+                              />
+                              <span>Saving...</span>
+                            </span>
+                          )}
+                          {STATUS_ACTIONS[reservation.status].map((action) => (
+                            <button
+                              key={action.status}
+                              type="button"
+                              className={
+                                action.tone === "danger"
+                                  ? "admin-row-action admin-row-action-danger"
+                                  : "admin-row-action"
+                              }
+                              onClick={() =>
+                                onStatusChange(reservation, action.status)
+                              }
+                              disabled={savingId === reservation.id}
+                              title={`${action.label} for ${reservation.bookingReference}`}
+                            >
+                              {action.label}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                  </div>
                 </div>
               </td>
               <td className="col-date">{formatDate(reservation.createdAt)}</td>

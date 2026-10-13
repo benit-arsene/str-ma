@@ -320,9 +320,22 @@ a.admin-reference-badge:focus-visible {
 /* Status cell quick actions (opt-in via onStatusChange) */
 .admin-status-cell {
   display: flex;
+  align-items: center;
+  min-height: 32px;
+}
+
+.admin-status-wrapper {
+  display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 6px;
+  width: 100%;
+}
+
+.admin-status-badge-wrapper {
+  display: flex;
+  align-items: center;
+  min-height: 22px;
 }
 
 .admin-row-actions {
@@ -330,6 +343,33 @@ a.admin-reference-badge:focus-visible {
   flex-wrap: wrap;
   align-items: center;
   gap: 6px;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition:
+    max-height 0.2s ease,
+    opacity 0.15s ease,
+    margin-top 0.2s ease;
+  margin-top: 0;
+  pointer-events: none;
+}
+
+.recent-reservations-table tbody tr:hover .admin-row-actions,
+.recent-reservations-table tbody tr:focus-within .admin-row-actions,
+.admin-row-actions.is-saving {
+  max-height: 120px;
+  opacity: 1;
+  margin-top: 2px;
+  pointer-events: auto;
+}
+
+@media (hover: none), (pointer: coarse) {
+  .admin-row-actions {
+    max-height: 120px;
+    opacity: 1;
+    margin-top: 2px;
+    pointer-events: auto;
+  }
 }
 
 .admin-row-action {
@@ -343,7 +383,7 @@ a.admin-reference-badge:focus-visible {
   background: var(--adm-surface-container-lowest);
   color: var(--adm-on-surface-variant);
   font-family: inherit;
-  font-size: 0.6875rem;
+  font-size: 0.75rem;
   font-weight: 600;
   white-space: nowrap;
   cursor: pointer;
@@ -379,7 +419,7 @@ a.admin-reference-badge:focus-visible {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  font-size: 0.6875rem;
+  font-size: 0.75rem;
   font-weight: 600;
   color: var(--adm-secondary);
   white-space: nowrap;
@@ -390,7 +430,8 @@ a.admin-reference-badge:focus-visible {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .admin-row-action {
+  .admin-row-action,
+  .admin-row-actions {
     transition: none;
   }
 }

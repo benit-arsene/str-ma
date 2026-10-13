@@ -15,7 +15,7 @@
 }
 
 .admin-page-header h1 {
-  font-size: 1.75rem;
+  font-size: 1.5rem;
   line-height: 1.2;
   font-weight: 700;
   letter-spacing: -0.02em;
@@ -24,7 +24,7 @@
 }
 
 .admin-page-header p {
-  font-size: 0.9375rem;
+  font-size: 0.875rem;
   color: var(--adm-secondary);
   margin: 0;
   max-width: 60ch;
@@ -167,7 +167,7 @@
 }
 
 .admin-stat-value {
-  font-size: 2rem;
+  font-size: 1.75rem;
   line-height: 1.1;
   font-weight: 700;
   letter-spacing: -0.02em;
@@ -213,7 +213,7 @@
 }
 
 .admin-table-card-title-row h2 {
-  font-size: 1.25rem;
+  font-size: 1.125rem;
   font-weight: 700;
   color: var(--adm-on-surface);
   margin: 0;
@@ -329,7 +329,7 @@
 }
 
 .admin-empty-state p {
-  font-size: 0.9375rem;
+  font-size: 0.875rem;
   font-weight: 600;
   color: var(--adm-on-surface-variant);
   margin: 0;
@@ -362,7 +362,7 @@
   }
 
   .admin-page-header h1 {
-    font-size: 1.5rem;
+    font-size: 1.375rem;
   }
 }
 
