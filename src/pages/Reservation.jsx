@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import { Loader2, AlertCircle, CheckCircle, Calendar, Users, User, Mail, Phone, MessageSquare } from "lucide-react";
 import Navbar from "../components/Navbar";
 import Footer from "./footer";
@@ -23,6 +24,8 @@ function Reservation() {
   const [validationErrors, setValidationErrors] = useState({});
   const [apiError, setApiError] = useState(null);
   const [reservationData, setReservationData] = useState(null);
+  const [searchParams] = useSearchParams();
+  const tourParam = searchParams.get("tour");
 
   useEffect(() => {
     let cancelled = false;
@@ -33,6 +36,17 @@ function Reservation() {
         const data = await fetchTours();
         if (!cancelled) {
           setTours(data);
+
+          const requestedTour = tourParam
+            ? data.find((t) => t.id === tourParam)
+            : null;
+          if (requestedTour) {
+            setFormState((prev) =>
+              prev.tourId === requestedTour.id
+                ? prev
+                : { ...prev, tourId: requestedTour.id }
+            );
+          }
         }
       } catch (err) {
         if (!cancelled) {
@@ -48,7 +62,7 @@ function Reservation() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [tourParam]);
 
   const validateForm = () => {
     const errors = {};

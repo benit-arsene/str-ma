@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import {
   Info,
@@ -27,6 +27,7 @@ function TourDetail() {
   const [itineraryLoading, setItineraryLoading] = useState(false);
   const [itineraryError, setItineraryError] = useState(null);
   const [activeTab, setActiveTab] = useState("information");
+  const [bookButtonHovered, setBookButtonHovered] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -398,7 +399,28 @@ function TourDetail() {
                 <input type="checkbox" />
                 <span>Check Availability</span>
               </label>
-              <button type="submit">BOOK NOW</button>
+              <Link
+                to={`/reservation?tour=${encodeURIComponent(tour.id)}`}
+                style={{
+                  display: "block",
+                  width: "100%",
+                  height: "48px",
+                  border: "none",
+                  background: bookButtonHovered ? "#b08a45" : "#c29d59",
+                  color: "white",
+                  fontSize: "13px",
+                  fontWeight: 700,
+                  cursor: "pointer",
+                  textAlign: "center",
+                  lineHeight: "48px",
+                  textDecoration: "none",
+                  boxSizing: "border-box",
+                }}
+                onMouseEnter={() => setBookButtonHovered(true)}
+                onMouseLeave={() => setBookButtonHovered(false)}
+              >
+                BOOK NOW
+              </Link>
             </form>
           </aside>
         </div>
