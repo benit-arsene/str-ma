@@ -5,10 +5,10 @@ import {
   AlertCircle,
   AlertTriangle,
   CheckCircle,
-  Clock,
   CreditCard,
   Lock,
   RefreshCw,
+  ShieldCheck,
   Calendar,
   Users,
   User,
@@ -191,10 +191,13 @@ function Reservation() {
     return tours.find((t) => t.id === formState.tourId);
   };
 
-  const paymentInFlight = paymentStep === "initiating" || paymentStep === "simulating";
+  const paymentInFlight =
+    paymentStep === "initiating" || paymentStep === "confirming";
   const paymentBusy = paymentInFlight || paymentChecking;
-  // The transaction exists on the server but no provider has settled it yet.
-  const awaitingProvider = paymentStep === "awaiting" || paymentStep === "simulating";
+  // The transaction is registered on the server but is not settled yet, so the
+  // placeholder checkout is waiting for the customer to confirm it.
+  const placeholderCheckout =
+    paymentStep === "placeholder" || paymentStep === "confirming";
 
   const estimatedTotal =
     bookingSummary && bookingSummary.pricePerPerson != null
@@ -219,7 +222,7 @@ function Reservation() {
       setPaymentStep("cancelled");
     } else {
       // "initiated" / "processing": not settled, so never presented as paid.
-      setPaymentStep("awaiting");
+      setPaymentStep("placeholder");
     }
   };
 
@@ -228,8 +231,8 @@ function Reservation() {
     setPaymentError(null);
     try {
       // Initiating only registers the transaction and returns the authoritative
-      // amount. The outcome is decided by the provider (or, in development, by
-      // the simulation endpoint) - never by clicking this button.
+      // amount. Pay Now never settles a payment: the outcome is decided by the
+      // payment service when the customer confirms the placeholder checkout.
       const payment = await initiatePayment(reservationId);
       applyPayment(payment);
     } catch (err) {
@@ -293,11 +296,59 @@ function Reservation() {
     await startPayment(reservationData.id);
   };
 
+  // The placeholder checkout confirmation. This is the only customer action
+  // that can settle the transaction, and it still asks the payment service for
+  // the outcome: the UI never assumes success on its own.
+  const handleConfirmPayment = async () => {
+    if (paymentBusy || paymentStep !== "placeholder") return;
+
+    const transactionReference = paymentData?.transactionReference;
+    if (!transactionReference) {
+      setPaymentStep("error");
+      setPaymentError("Unable to confirm payment: no payment reference. Please try again.");
+      return;
+    }
+
+    setPaymentStep("confirming");
+    setPaymentError(null);
+    try {
+      const payment = await simulatePaymentOutcome(transactionReference, "success");
+      applyPayment(payment);
+    } catch (err) {
+      if (err instanceof ApiError && err.status === 404) {
+        // The placeholder payment service is not enabled on this API. Say so
+        // plainly instead of pretending anything was paid.
+        setPaymentStep("placeholder");
+        setPaymentError(
+          "Placeholder payments are not enabled on this server, so the payment could not be confirmed. No money has been taken."
+        );
+        return;
+      }
+      // Any other definitive 4xx reply, or an ambiguous wire/5xx failure: only
+      // the server knows the true state, so re-read it rather than guessing.
+      try {
+        const payment = await fetchPayment(transactionReference);
+        applyPayment(payment);
+        if (payment.status === "initiated" || payment.status === "processing") {
+          setPaymentError(
+            "The payment could not be confirmed, so it is still pending. No money has been taken - please try again."
+          );
+        }
+      } catch (recoverErr) {
+        setPaymentStep("error");
+        setPaymentError(
+          recoverErr.message || "Unable to verify the payment state. Please try again."
+        );
+      }
+    }
+  };
+
   // Developer-only path for the simulated gateway. Callable only when
   // DEV_PAYMENT_SIMULATION is true and only while a transaction is unsettled.
+  // The customer-facing success path is the Confirm Payment action above.
   const handleSimulateOutcome = async (outcome) => {
-    if (!DEV_PAYMENT_SIMULATION || paymentStep !== "awaiting" || !paymentData) return;
-    setPaymentStep("simulating");
+    if (!DEV_PAYMENT_SIMULATION || paymentStep !== "placeholder" || !paymentData) return;
+    setPaymentStep("confirming");
     setPaymentError(null);
     try {
       const payment = await simulatePaymentOutcome(
@@ -309,7 +360,7 @@ function Reservation() {
       if (err instanceof ApiError && err.status < 500) {
         // Definitive reply (simulation disabled, reservation ineligible, ...):
         // keep the transaction and surface the reason.
-        setPaymentStep("awaiting");
+        setPaymentStep("placeholder");
         setPaymentError(err.message);
         return;
       }
@@ -318,7 +369,8 @@ function Reservation() {
     }
   };
 
-  // The single customer-facing payment action. It never selects an outcome.
+  // Step one of the customer flow: register the transaction only. This never
+  // selects an outcome and never settles the payment.
   const handlePayNow = () => {
     if (paymentBusy || !reservationData?.id) return;
     startPayment(reservationData.id);
@@ -470,14 +522,27 @@ function Reservation() {
                     <CheckCircle size={32} aria-hidden="true" />
                     <h4>Payment Confirmed</h4>
                     <p>
-                      Your payment was confirmed and your reservation is now confirmed. Keep
-                      your booking reference for your records.
+                      The payment service confirmed this placeholder payment and your
+                      reservation is now confirmed. No real money was charged.
                     </p>
-                    {paymentData?.transactionReference && (
-                      <p className="payment-reference">
-                        Transaction Reference: <strong>{paymentData.transactionReference}</strong>
-                      </p>
-                    )}
+                    <div className="payment-breakdown">
+                      <div className="payment-breakdown-row">
+                        <span>Amount</span>
+                        <span>{formatMoney(paymentData?.amount, checkoutCurrency)}</span>
+                      </div>
+                      <div className="payment-breakdown-row">
+                        <span>Booking reference</span>
+                        <span className="payment-breakdown-mono">
+                          {reservationData.bookingReference}
+                        </span>
+                      </div>
+                      <div className="payment-breakdown-row is-total">
+                        <span>Payment reference</span>
+                        <span className="payment-breakdown-mono">
+                          {paymentData?.transactionReference}
+                        </span>
+                      </div>
+                    </div>
                   </div>
                 )}
 
@@ -501,19 +566,34 @@ function Reservation() {
                   </div>
                 )}
 
-                {awaitingProvider && (
+                {placeholderCheckout && (
                   <div className="payment-state payment-state-info">
-                    <Clock size={32} aria-hidden="true" />
-                    <h4>Online Payment Is Not Available Yet</h4>
+                    <ShieldCheck size={32} aria-hidden="true" />
+                    <h4>Placeholder Payment Checkout</h4>
                     <p>
-                      Your payment request has been registered, but online card payment is not
-                      connected in this environment. No money has been taken and your
-                      reservation remains pending.
+                      This is a placeholder payment experience: no card details are collected
+                      and <strong>no real money will be charged</strong>. Confirming records a
+                      simulated payment against this booking so the reservation can be
+                      confirmed.
                     </p>
-                    <p>
-                      Our team will contact you using the details on this booking to complete
-                      the payment.
-                    </p>
+                    <div className="payment-breakdown">
+                      <div className="payment-breakdown-row">
+                        <span>Amount</span>
+                        <span>{formatMoney(paymentData?.amount, checkoutCurrency)}</span>
+                      </div>
+                      <div className="payment-breakdown-row">
+                        <span>Gateway fee (3%)</span>
+                        <span>{formatMoney(paymentData?.gatewayFee, checkoutCurrency)}</span>
+                      </div>
+                      <div className="payment-breakdown-row">
+                        <span>Net after gateway fee</span>
+                        <span>{formatMoney(paymentData?.merchantNet, checkoutCurrency)}</span>
+                      </div>
+                      <div className="payment-breakdown-row is-total">
+                        <span>Total due</span>
+                        <span>{formatMoney(paymentData?.amount, checkoutCurrency)}</span>
+                      </div>
+                    </div>
                     {paymentData?.transactionReference && (
                       <p className="payment-reference">
                         Payment Reference: <strong>{paymentData.transactionReference}</strong>
@@ -554,7 +634,8 @@ function Reservation() {
                     </button>
                     <p className="payment-note">
                       <Lock size={14} aria-hidden="true" />
-                      Secure checkout. You will not be charged without a confirmed payment.
+                      Placeholder checkout - starting it never charges anything. You confirm
+                      the payment in the next step.
                     </p>
                   </div>
                 )}
@@ -589,22 +670,36 @@ function Reservation() {
                   </div>
                 )}
 
-                {awaitingProvider && (
+                {placeholderCheckout && (
                   <div className="checkout-actions">
                     <button
                       type="button"
-                      className="secondary-button"
-                      onClick={handleRetry}
+                      className="pay-button"
+                      onClick={handleConfirmPayment}
                       disabled={paymentBusy}
                       aria-busy={paymentBusy}
                     >
-                      <RefreshCw size={18} aria-hidden="true" />
-                      Check Payment Status
+                      {paymentStep === "confirming" ? (
+                        <>
+                          <Loader2 size={20} className="spinner" aria-hidden="true" />
+                          Confirming Payment...
+                        </>
+                      ) : (
+                        <>
+                          <CreditCard size={20} aria-hidden="true" />
+                          Confirm Payment
+                        </>
+                      )}
                     </button>
+                    <p className="payment-note">
+                      <Lock size={14} aria-hidden="true" />
+                      Confirming asks our payment service for the result. Your reservation is
+                      confirmed only if it reports the payment as successful.
+                    </p>
                   </div>
                 )}
 
-                {DEV_PAYMENT_SIMULATION && awaitingProvider && paymentData && (
+                {DEV_PAYMENT_SIMULATION && placeholderCheckout && paymentData && (
                   <div className="dev-simulation">
                     <p className="dev-simulation-title">
                       <AlertTriangle size={16} aria-hidden="true" />
@@ -612,8 +707,9 @@ function Reservation() {
                     </p>
                     <p className="dev-simulation-note">
                       Development builds only. These controls call POST /api/payments/simulate
-                      to exercise the success, failure, and cancellation paths. They move no
-                      real money and are not part of the customer checkout.
+                      to exercise the failure and cancellation paths (the customer Confirm
+                      Payment action covers success). They move no real money and are not part
+                      of the customer checkout.
                     </p>
                     <div className="dev-simulation-actions">
                       <button
