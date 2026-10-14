@@ -1,11 +1,56 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Loader2, AlertCircle, CheckCircle, Calendar, Users, User, Mail, Phone, MessageSquare } from "lucide-react";
+import {
+  Loader2,
+  AlertCircle,
+  AlertTriangle,
+  CheckCircle,
+  Clock,
+  CreditCard,
+  Lock,
+  RefreshCw,
+  Calendar,
+  Users,
+  User,
+  Mail,
+  Phone,
+  MessageSquare,
+} from "lucide-react";
 import Navbar from "../components/Navbar";
 import Footer from "./footer";
 import { fetchTours } from "../api/tours";
 import { createReservation } from "../api/reservations";
 import "./Reservation.css";
+import {
+  initiatePayment,
+  simulatePaymentOutcome,
+  fetchPayment,
+  ApiError,
+} from "../api/payments";
+
+// Payment simulation is a development/testing capability only. Vite replaces
+// `import.meta.env.DEV` with `false` for `vite build`, so the developer panel
+// below is compiled out of the customer-facing production bundle entirely. The
+// server additionally refuses `/api/payments/simulate` unless
+// PAYMENT_SIMULATION_ENABLED=true (see backend/.env.example).
+const DEV_PAYMENT_SIMULATION = import.meta.env.DEV;
+
+const formatMoney = (value, currency) => {
+  if (value === null || value === undefined || value === "") return "";
+  const numeric = Number(value);
+  if (!Number.isFinite(numeric)) return "";
+  const formatted = numeric.toLocaleString(undefined, {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+  return currency ? `${currency} ${formatted}` : formatted;
+};
+
+const formatTravelDate = (value) => {
+  if (!value) return "";
+  const parsed = new Date(`${value}T00:00:00`);
+  return Number.isNaN(parsed.getTime()) ? String(value) : parsed.toLocaleDateString();
+};
 
 function Reservation() {
   const [tours, setTours] = useState([]);
@@ -23,7 +68,16 @@ function Reservation() {
   const [submitState, setSubmitState] = useState("idle");
   const [validationErrors, setValidationErrors] = useState({});
   const [apiError, setApiError] = useState(null);
+  // Snapshot of what the customer booked. `formState` is cleared once the
+  // reservation is created, and the reservation response only carries the
+  // booking reference, so the checkout summary reads from this instead.
+  const [bookingSummary, setBookingSummary] = useState(null);
   const [reservationData, setReservationData] = useState(null);
+  const [paymentData, setPaymentData] = useState(null);
+  // idle | initiating | awaiting | simulating | succeeded | failed | cancelled | error
+  const [paymentStep, setPaymentStep] = useState("idle");
+  const [paymentError, setPaymentError] = useState(null);
+  const [paymentChecking, setPaymentChecking] = useState(false);
   const [searchParams] = useSearchParams();
   const tourParam = searchParams.get("tour");
 
@@ -92,6 +146,8 @@ function Reservation() {
     setApiError(null);
 
     try {
+      const selected = tours.find((t) => t.id === formState.tourId);
+
       const data = await createReservation({
         tourId: formState.tourId,
         travelDate: formState.travelDate,
@@ -102,7 +158,19 @@ function Reservation() {
         specialRequests: formState.specialRequests.trim() || undefined,
       });
 
+      setBookingSummary({
+        tourName: selected?.name || "Selected tour",
+        destination: selected?.destination_name || "",
+        currency: selected?.currency || "",
+        pricePerPerson: selected?.base_price ?? null,
+        travelers: formState.travelers,
+        travelDate: formState.travelDate,
+        email: formState.email.trim(),
+      });
       setReservationData(data);
+      setPaymentData(null);
+      setPaymentStep("idle");
+      setPaymentError(null);
       setSubmitState("success");
       setFormState({
         tourId: "",
@@ -121,6 +189,160 @@ function Reservation() {
 
   const getSelectedTour = () => {
     return tours.find((t) => t.id === formState.tourId);
+  };
+
+  const paymentInFlight = paymentStep === "initiating" || paymentStep === "simulating";
+  const paymentBusy = paymentInFlight || paymentChecking;
+  // The transaction exists on the server but no provider has settled it yet.
+  const awaitingProvider = paymentStep === "awaiting" || paymentStep === "simulating";
+
+  const estimatedTotal =
+    bookingSummary && bookingSummary.pricePerPerson != null
+      ? Number(bookingSummary.pricePerPerson) * Number(bookingSummary.travelers || 1)
+      : null;
+  // Once a transaction exists the server-computed amount wins: pricing and the
+  // 3% gateway fee are calculated in PostgreSQL, never in the browser.
+  const checkoutAmount = paymentData?.amount ?? estimatedTotal;
+  const checkoutCurrency = paymentData?.currency ?? bookingSummary?.currency ?? "";
+  const checkoutStatus =
+    paymentStep === "succeeded" ? "confirmed" : reservationData?.status;
+
+  // Maps a server-reported transaction status onto a UI step. Only the server
+  // can report "succeeded"; no client action ever sets that state directly.
+  const applyPayment = (payment) => {
+    setPaymentData(payment);
+    if (payment.status === "succeeded") {
+      setPaymentStep("succeeded");
+    } else if (payment.status === "failed") {
+      setPaymentStep("failed");
+    } else if (payment.status === "cancelled") {
+      setPaymentStep("cancelled");
+    } else {
+      // "initiated" / "processing": not settled, so never presented as paid.
+      setPaymentStep("awaiting");
+    }
+  };
+
+  const startPayment = async (reservationId) => {
+    setPaymentStep("initiating");
+    setPaymentError(null);
+    try {
+      // Initiating only registers the transaction and returns the authoritative
+      // amount. The outcome is decided by the provider (or, in development, by
+      // the simulation endpoint) - never by clicking this button.
+      const payment = await initiatePayment(reservationId);
+      applyPayment(payment);
+    } catch (err) {
+      // initiatePayment is idempotent per reservation, so retrying is safe: it
+      // reuses any existing active transaction and never creates a duplicate.
+      setPaymentStep("error");
+      setPaymentError(
+        err.message || "We could not register your payment request. Please try again."
+      );
+    }
+  };
+
+  const recoverPayment = async () => {
+    // Used after an ambiguous wire/5xx failure: ask the server for the true
+    // state instead of guessing an outcome.
+    if (!paymentData?.transactionReference) {
+      setPaymentStep("error");
+      setPaymentError("Unable to recover payment state. Please try again.");
+      return;
+    }
+    try {
+      const payment = await fetchPayment(paymentData.transactionReference);
+      applyPayment(payment);
+    } catch (err) {
+      setPaymentStep("error");
+      setPaymentError(err.message);
+    }
+  };
+
+  const handleRetry = async () => {
+    if (paymentBusy) return;
+    setPaymentError(null);
+
+    if (!reservationData?.id) return;
+
+    // With a known transaction, resolve its real status before anything else.
+    if (paymentData?.transactionReference) {
+      setPaymentChecking(true);
+      try {
+        const existingPayment = await fetchPayment(paymentData.transactionReference);
+
+        if (existingPayment.status === "succeeded") {
+          applyPayment(existingPayment);
+          return;
+        }
+        if (existingPayment.status === "initiated" || existingPayment.status === "processing") {
+          applyPayment(existingPayment);
+          return;
+        }
+        // failed / cancelled: a fresh attempt on the SAME reservation is
+        // allowed and does not create a second reservation.
+      } catch {
+        setPaymentStep("error");
+        setPaymentError("Unable to verify payment status. Please try again.");
+        return;
+      } finally {
+        setPaymentChecking(false);
+      }
+    }
+
+    await startPayment(reservationData.id);
+  };
+
+  // Developer-only path for the simulated gateway. Callable only when
+  // DEV_PAYMENT_SIMULATION is true and only while a transaction is unsettled.
+  const handleSimulateOutcome = async (outcome) => {
+    if (!DEV_PAYMENT_SIMULATION || paymentStep !== "awaiting" || !paymentData) return;
+    setPaymentStep("simulating");
+    setPaymentError(null);
+    try {
+      const payment = await simulatePaymentOutcome(
+        paymentData.transactionReference,
+        outcome,
+      );
+      applyPayment(payment);
+    } catch (err) {
+      if (err instanceof ApiError && err.status < 500) {
+        // Definitive reply (simulation disabled, reservation ineligible, ...):
+        // keep the transaction and surface the reason.
+        setPaymentStep("awaiting");
+        setPaymentError(err.message);
+        return;
+      }
+      // Ambiguous failure - recover the true state rather than assuming one.
+      await recoverPayment();
+    }
+  };
+
+  // The single customer-facing payment action. It never selects an outcome.
+  const handlePayNow = () => {
+    if (paymentBusy || !reservationData?.id) return;
+    startPayment(reservationData.id);
+  };
+
+  const resetAll = () => {
+    setBookingSummary(null);
+    setReservationData(null);
+    setPaymentData(null);
+    setPaymentStep("idle");
+    setPaymentError(null);
+    setPaymentChecking(false);
+    setApiError(null);
+    setSubmitState("idle");
+    setValidationErrors({});
+    setFormState({
+      tourId: "",
+      travelDate: "",
+      travelers: 1,
+      fullName: "",
+      email: "",
+      phone: "",
+      specialRequests: "",
+    });
   };
 
   const selectedTour = getSelectedTour();
@@ -168,16 +390,263 @@ function Reservation() {
           </header>
 
           {submitState === "success" && reservationData && (
-            <div className="reservation-success" role="status" aria-live="polite">
-              <CheckCircle size={48} />
-              <h3>Reservation Submitted</h3>
-              <p>Your reservation request has been received.</p>
+            <div className="checkout-card">
+              <div className="checkout-intro">
+                <span className="checkout-intro-icon">
+                  <CheckCircle size={40} aria-hidden="true" />
+                </span>
+                <h3>Reservation Created</h3>
+                <p>
+                  Your booking request has been received. Review your order and continue
+                  below - your booking reference stays the same throughout.
+                </p>
+              </div>
+
               <div className="booking-details">
                 <p><strong>Booking Reference:</strong> {reservationData.bookingReference}</p>
-                <p><strong>Status:</strong> {reservationData.status}</p>
+                <p><strong>Status:</strong> {checkoutStatus}</p>
                 <p><strong>Submitted:</strong> {new Date(reservationData.createdAt).toLocaleString()}</p>
+                {bookingSummary?.email && (
+                  <p><strong>Confirmation Email:</strong> {bookingSummary.email}</p>
+                )}
               </div>
-              <button type="button" onClick={() => { setSubmitState("idle"); setReservationData(null); }}>Make Another Request</button>
+
+              <div className="payment-summary">
+                <h3>Order Summary</h3>
+                {bookingSummary && (
+                  <>
+                    <div className="summary-row">
+                      <span>Tour</span>
+                      <span>{bookingSummary.tourName}</span>
+                    </div>
+                    {bookingSummary.destination && (
+                      <div className="summary-row">
+                        <span>Destination</span>
+                        <span>{bookingSummary.destination}</span>
+                      </div>
+                    )}
+                    <div className="summary-row">
+                      <span>Travel Date</span>
+                      <span>{formatTravelDate(bookingSummary.travelDate)}</span>
+                    </div>
+                    <div className="summary-row">
+                      <span>Travelers</span>
+                      <span>{bookingSummary.travelers}</span>
+                    </div>
+                    {bookingSummary.pricePerPerson != null && (
+                      <div className="summary-row">
+                        <span>Price Per Person</span>
+                        <span>
+                          {formatMoney(
+                            bookingSummary.pricePerPerson,
+                            bookingSummary.currency
+                          )}
+                        </span>
+                      </div>
+                    )}
+                  </>
+                )}
+                <div className="summary-row summary-row-total">
+                  <span>Total Due</span>
+                  <span>{formatMoney(checkoutAmount, checkoutCurrency)}</span>
+                </div>
+                {paymentData?.gatewayFee != null && (
+                  <p className="summary-note">
+                    Includes a {formatMoney(paymentData.gatewayFee, checkoutCurrency)} payment
+                    processing fee.
+                  </p>
+                )}
+                {!paymentData && (
+                  <p className="summary-note">
+                    The final amount is confirmed by our secure payment service before any
+                    charge is made.
+                  </p>
+                )}
+              </div>
+
+              <div className="checkout-payment" aria-live="polite">
+                {paymentStep === "succeeded" && (
+                  <div className="payment-state payment-state-success">
+                    <CheckCircle size={32} aria-hidden="true" />
+                    <h4>Payment Confirmed</h4>
+                    <p>
+                      Your payment was confirmed and your reservation is now confirmed. Keep
+                      your booking reference for your records.
+                    </p>
+                    {paymentData?.transactionReference && (
+                      <p className="payment-reference">
+                        Transaction Reference: <strong>{paymentData.transactionReference}</strong>
+                      </p>
+                    )}
+                  </div>
+                )}
+
+                {(paymentStep === "failed" || paymentStep === "cancelled") && (
+                  <div className="payment-state payment-state-warning">
+                    <AlertCircle size={32} aria-hidden="true" />
+                    <h4>
+                      {paymentStep === "failed"
+                        ? "Payment Could Not Be Completed"
+                        : "Payment Was Cancelled"}
+                    </h4>
+                    <p>
+                      No money has been taken and your reservation is still pending. You can
+                      try again whenever you are ready.
+                    </p>
+                    {paymentData?.transactionReference && (
+                      <p className="payment-reference">
+                        Transaction Reference: <strong>{paymentData.transactionReference}</strong>
+                      </p>
+                    )}
+                  </div>
+                )}
+
+                {awaitingProvider && (
+                  <div className="payment-state payment-state-info">
+                    <Clock size={32} aria-hidden="true" />
+                    <h4>Online Payment Is Not Available Yet</h4>
+                    <p>
+                      Your payment request has been registered, but online card payment is not
+                      connected in this environment. No money has been taken and your
+                      reservation remains pending.
+                    </p>
+                    <p>
+                      Our team will contact you using the details on this booking to complete
+                      the payment.
+                    </p>
+                    {paymentData?.transactionReference && (
+                      <p className="payment-reference">
+                        Payment Reference: <strong>{paymentData.transactionReference}</strong>
+                      </p>
+                    )}
+                    {paymentError && <p className="payment-state-detail">{paymentError}</p>}
+                  </div>
+                )}
+
+                {paymentStep === "error" && paymentError && (
+                  <div className="payment-state payment-state-error" role="alert">
+                    <AlertCircle size={32} aria-hidden="true" />
+                    <h4>Something Went Wrong</h4>
+                    <p>{paymentError}</p>
+                  </div>
+                )}
+
+                {(paymentStep === "idle" || paymentStep === "initiating") && (
+                  <div className="checkout-actions">
+                    <button
+                      type="button"
+                      className="pay-button"
+                      onClick={handlePayNow}
+                      disabled={paymentBusy}
+                      aria-busy={paymentInFlight}
+                    >
+                      {paymentInFlight ? (
+                        <>
+                          <Loader2 size={20} className="spinner" aria-hidden="true" />
+                          Registering Payment...
+                        </>
+                      ) : (
+                        <>
+                          <CreditCard size={20} aria-hidden="true" />
+                          Pay Now
+                        </>
+                      )}
+                    </button>
+                    <p className="payment-note">
+                      <Lock size={14} aria-hidden="true" />
+                      Secure checkout. You will not be charged without a confirmed payment.
+                    </p>
+                  </div>
+                )}
+
+                {(paymentStep === "failed" ||
+                  paymentStep === "cancelled" ||
+                  paymentStep === "error") && (
+                  <div className="checkout-actions">
+                    <button
+                      type="button"
+                      className="pay-button"
+                      onClick={handleRetry}
+                      disabled={paymentBusy}
+                      aria-busy={paymentBusy}
+                    >
+                      {paymentBusy ? (
+                        <>
+                          <Loader2 size={20} className="spinner" aria-hidden="true" />
+                          Checking...
+                        </>
+                      ) : (
+                        <>
+                          <RefreshCw size={20} aria-hidden="true" />
+                          Try Again
+                        </>
+                      )}
+                    </button>
+                    <p className="payment-note">
+                      Your booking reference is unchanged and a new attempt never creates a
+                      second reservation.
+                    </p>
+                  </div>
+                )}
+
+                {awaitingProvider && (
+                  <div className="checkout-actions">
+                    <button
+                      type="button"
+                      className="secondary-button"
+                      onClick={handleRetry}
+                      disabled={paymentBusy}
+                      aria-busy={paymentBusy}
+                    >
+                      <RefreshCw size={18} aria-hidden="true" />
+                      Check Payment Status
+                    </button>
+                  </div>
+                )}
+
+                {DEV_PAYMENT_SIMULATION && awaitingProvider && paymentData && (
+                  <div className="dev-simulation">
+                    <p className="dev-simulation-title">
+                      <AlertTriangle size={16} aria-hidden="true" />
+                      Developer tools: simulated payment gateway
+                    </p>
+                    <p className="dev-simulation-note">
+                      Development builds only. These controls call POST /api/payments/simulate
+                      to exercise the success, failure, and cancellation paths. They move no
+                      real money and are not part of the customer checkout.
+                    </p>
+                    <div className="dev-simulation-actions">
+                      <button
+                        type="button"
+                        onClick={() => handleSimulateOutcome("success")}
+                        disabled={paymentBusy}
+                      >
+                        Simulate Success
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleSimulateOutcome("failure")}
+                        disabled={paymentBusy}
+                      >
+                        Simulate Failure
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleSimulateOutcome("cancellation")}
+                        disabled={paymentBusy}
+                      >
+                        Simulate Cancellation
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div className="checkout-footer">
+                <button type="button" className="link-button" onClick={resetAll}>
+                  Make another reservation request
+                </button>
+              </div>
             </div>
           )}
 
@@ -206,7 +675,7 @@ function Reservation() {
                       <option value="">Select a tour</option>
                       {tours.map((tour) => (
                         <option key={tour.id} value={tour.id}>
-                          {tour.name} — {tour.destination_name} ({tour.currency} {tour.base_price})
+                          {tour.name} - {tour.destination_name} ({tour.currency} {tour.base_price})
                         </option>
                       ))}
                     </select>

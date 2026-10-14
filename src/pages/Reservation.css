@@ -311,60 +311,6 @@
   background: #c82333;
 }
 
-.reservation-success {
-  background: white;
-  padding: 60px 40px;
-  border-radius: 8px;
-  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.05);
-  text-align: center;
-}
-
-.reservation-success .spinner {
-  color: #28a745;
-  margin-bottom: 20px;
-}
-
-.reservation-success CheckCircle {
-  color: #28a745;
-  margin-bottom: 20px;
-}
-
-.reservation-success h3 {
-  margin: 0 0 12px;
-  font-family: Georgia, serif;
-  font-size: 28px;
-  color: #222;
-}
-
-.reservation-success p {
-  color: #777;
-  font-size: 15px;
-  line-height: 1.7;
-  margin-bottom: 12px;
-}
-
-.reservation-success .demo-notice {
-  font-size: 13px;
-  color: #dc3545;
-  font-weight: 600;
-  margin-bottom: 24px;
-}
-
-.reservation-success button {
-  padding: 14px 32px;
-  border: none;
-  background: #c29d59;
-  color: white;
-  font-weight: 700;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.reservation-success button:hover {
-  background: #b08a45;
-}
-
 .reservation-loading,
 .reservation-error {
   display: flex;
@@ -400,77 +346,479 @@
   color: #999;
   font-size: 14px;
 }
+/* ==========================================================================
+   Checkout: reservation -> payment
+   Matches the site palette (#c29d59 gold, #f8f7f3 cream, #e8e0d0 borders)
+   and typography (Georgia headings, #222/#555/#777 text).
+   ========================================================================== */
+
+.checkout-card {
+  background: white;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 5px 25px rgba(0, 0, 0, 0.05);
+  text-align: left;
+}
+
+.checkout-intro {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.checkout-intro-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: rgba(194, 157, 89, 0.12);
+  color: #c29d59;
+  margin-bottom: 16px;
+}
+
+.checkout-intro h3 {
+  margin: 0 0 12px;
+  font-family: Georgia, serif;
+  font-size: 28px;
+  color: #222;
+}
+
+.checkout-intro p {
+  margin: 0 auto;
+  max-width: 520px;
+  color: #777;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+/* Order summary ---------------------------------------------------------- */
+
+.payment-summary {
+  background: #f8f7f3;
+  border: 1px solid #e8e0d0;
+  border-radius: 8px;
+  padding: 24px;
+  margin: 24px 0;
+}
+
+.payment-summary h3 {
+  margin: 0 0 16px;
+  font-family: Georgia, serif;
+  font-size: 20px;
+  color: #222;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  padding: 10px 0;
+  font-size: 15px;
+  border-bottom: 1px solid #ece5d6;
+}
+
+.summary-row span:first-child {
+  font-weight: 600;
+  color: #222;
+}
+
+.summary-row span:last-child {
+  text-align: right;
+  color: #555;
+}
+
+.summary-row-total {
+  margin-top: 8px;
+  padding-top: 16px;
+  border-bottom: none;
+  border-top: 2px solid #e8e0d0;
+}
+
+.summary-row-total span:first-child,
+.summary-row-total span:last-child {
+  font-family: Georgia, serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #222;
+}
+
+.summary-note {
+  margin: 14px 0 0;
+  font-size: 13px;
+  font-style: italic;
+  line-height: 1.6;
+  color: #777;
+}
+
+/* Payment state ---------------------------------------------------------- */
+
+.checkout-payment {
+  margin-bottom: 8px;
+}
+
+.payment-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 24px;
+  margin-bottom: 24px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.payment-state h4 {
+  margin: 0;
+  font-family: Georgia, serif;
+  font-size: 20px;
+  color: #222;
+}
+
+.payment-state p {
+  margin: 0;
+  max-width: 560px;
+  font-size: 14px;
+  line-height: 1.7;
+  color: #555;
+}
+
+.payment-state-success {
+  background: #f1f8f2;
+  border-color: #d6ebd9;
+  color: #28a745;
+}
+
+.payment-state-warning {
+  background: #fff8e1;
+  border-color: #ffecb3;
+  color: #c29d59;
+}
+
+.payment-state-info {
+  background: #fff8e1;
+  border-color: #ffecb3;
+  color: #c29d59;
+}
+
+.payment-state-error {
+  background: #fff0f0;
+  border-color: #f5c6cb;
+  color: #dc3545;
+}
+
+.payment-reference {
+  font-size: 13px;
+  color: #555;
+}
+
+.payment-reference strong {
+  color: #222;
+  word-break: break-all;
+}
+
+.payment-state-detail {
+  font-size: 13px;
+  font-weight: 600;
+  color: #8a6d3b;
+}
+
+/* Actions ---------------------------------------------------------------- */
+
+.checkout-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pay-button {
+  width: 100%;
+  height: 52px;
+  border: none;
+  background: #c29d59;
+  color: white;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: background 0.2s;
+}
+
+.pay-button:hover:not(:disabled) {
+  background: #b08a45;
+}
+
+.pay-button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.pay-button .spinner {
+  animation: spin 1s linear infinite;
+}
+
+.secondary-button {
+  width: 100%;
+  height: 48px;
+  border: 1px solid #c29d59;
+  background: transparent;
+  color: #c29d59;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.secondary-button:hover:not(:disabled) {
+  background: #c29d59;
+  color: white;
+}
+
+.secondary-button:disabled {
+  border-color: #ccc;
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+.payment-note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #777;
+  text-align: center;
+}
+
+.payment-note svg {
+  flex-shrink: 0;
+}
+
+.pay-button:focus-visible,
+.secondary-button:focus-visible,
+.link-button:focus-visible,
+.dev-simulation-actions button:focus-visible {
+  outline: 2px solid #c29d59;
+  outline-offset: 2px;
+}
+
+/* Developer-only simulation panel (never rendered in production builds) --- */
+
+.dev-simulation {
+  margin-top: 24px;
+  padding: 18px;
+  border: 1px dashed #c29d59;
+  border-radius: 8px;
+  background: #fffdf7;
+  text-align: left;
+}
+
+.dev-simulation-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 8px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #b08a45;
+}
+
+.dev-simulation-note {
+  margin: 0 0 14px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: #777;
+}
+
+.dev-simulation-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.dev-simulation-actions button {
+  flex: 1 1 160px;
+  padding: 10px 14px;
+  border: 1px solid #e8e0d0;
+  border-radius: 4px;
+  background: white;
+  color: #333;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.dev-simulation-actions button:hover:not(:disabled) {
+  border-color: #c29d59;
+  color: #b08a45;
+}
+
+.dev-simulation-actions button:disabled {
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Footer ----------------------------------------------------------------- */
+
+.checkout-footer {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+  text-align: center;
+}
+
+.link-button {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #c29d59;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.link-button:hover {
+  color: #b08a45;
+}
+
+/* Responsive ------------------------------------------------------------- */
 
 @media (max-width: 1024px) {
-  .reservation-page {
-    padding: 120px 5% 60px;
+  .checkout-card {
+    padding: 32px;
   }
-
-  .reservation-form {
-    padding: 30px 24px;
+  .checkout-intro h3 {
+    font-size: 26px;
   }
-
-  .reservation-header h2 {
-    font-size: 36px;
+  .payment-summary {
+    padding: 20px;
+  }
+  .summary-row {
+    font-size: 14px;
+  }
+  .summary-row-total span:first-child,
+  .summary-row-total span:last-child {
+    font-size: 18px;
+  }
+  .payment-state h4 {
+    font-size: 19px;
+  }
+  .pay-button {
+    height: 48px;
+    font-size: 13px;
+  }
+  .secondary-button {
+    height: 46px;
+    font-size: 13px;
   }
 }
 
 @media (max-width: 768px) {
-  .reservation-page {
-    padding: 110px 4% 50px;
+  .checkout-card {
+    padding: 24px;
   }
-
-  .form-grid {
-    grid-template-columns: 1fr;
-    gap: 20px;
+  .checkout-intro h3 {
+    font-size: 24px;
   }
-
-  .reservation-header h2 {
-    font-size: 30px;
+  .checkout-intro p {
+    font-size: 14px;
   }
-
-  .reservation-header p {
-    font-size: 15px;
+  .payment-summary {
+    padding: 18px;
   }
-
-  .tour-summary-content {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
+  .payment-summary h3 {
+    font-size: 18px;
   }
-
-  .tour-summary-image {
-    width: 120px;
-    height: 120px;
+  .summary-row {
+    padding: 8px 0;
+    font-size: 14px;
   }
-
-  .tour-meta {
-    align-items: center;
+  .summary-row-total span:first-child,
+  .summary-row-total span:last-child {
+    font-size: 17px;
   }
-
-  .reservation-form {
-    padding: 24px 18px;
+  .payment-state {
+    padding: 20px;
   }
-
-  .reservation-success {
-    padding: 40px 24px;
+  .payment-state h4 {
+    font-size: 18px;
+  }
+  .pay-button {
+    height: 46px;
+    font-size: 13px;
+  }
+  .secondary-button {
+    height: 44px;
+    font-size: 13px;
+  }
+  .dev-simulation-actions button {
+    flex: 1 1 100%;
   }
 }
 
 @media (max-width: 480px) {
-  .reservation-header h2 {
-    font-size: 24px;
+  .checkout-card {
+    padding: 20px 16px;
   }
-
-  .form-field input,
-  .form-field select,
-  .form-field textarea {
-    height: 44px;
+  .checkout-intro-icon {
+    width: 60px;
+    height: 60px;
+  }
+  .checkout-intro h3 {
+    font-size: 22px;
+  }
+  .payment-summary h3 {
+    font-size: 17px;
+  }
+  .summary-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    font-size: 13px;
+  }
+  .summary-row span:last-child {
+    text-align: left;
+  }
+  .summary-row-total span:first-child,
+  .summary-row-total span:last-child {
     font-size: 16px;
   }
+  .summary-note,
+  .payment-note {
+    font-size: 12px;
+  }
+  .pay-button {
+    height: 44px;
+    font-size: 12px;
+  }
+  .secondary-button {
+    height: 42px;
+    font-size: 12px;
+  }
+}
 
-  .submit-button {
-    height: 48px;
-    font-size: 13px;
+@media (prefers-reduced-motion: reduce) {
+  .pay-button .spinner {
+    animation: none;
   }
 }

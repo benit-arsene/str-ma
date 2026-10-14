@@ -270,14 +270,14 @@ router.post(
       // Lock order: payment row first, then reservation. initiation only locks
       // the reservation, so this ordering introduces no cross-lock cycle and
       // reduces deadlock risk across the two routes.
-      const paymentResult = await client.query(
-        `SELECT id, reservation_id, status, amount, currency,
-                gateway_fee, merchant_net
-         FROM payment_transactions
-         WHERE transaction_reference = $1
-         FOR UPDATE`,
-        [transactionReference]
-      );
+       const paymentResult = await client.query(
+         `SELECT id, reservation_id, status, amount, currency,
+                 gateway_fee, merchant_net, transaction_reference
+          FROM payment_transactions
+          WHERE transaction_reference = $1
+          FOR UPDATE`,
+         [transactionReference]
+       );
 
       if (paymentResult.rows.length === 0) {
         await client.query("ROLLBACK");

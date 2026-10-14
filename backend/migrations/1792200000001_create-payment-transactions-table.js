@@ -32,11 +32,10 @@ export const up = (pgm) => {
       notNull: true,
       check: "currency ~ '^[A-Z]{3}$'",
     },
-    gateway_fee: {
-      type: 'numeric(12,2)',
-      notNull: true,
-      check: 'gateway_fee >= 0',
-    },
+     gateway_fee: {
+       type: 'numeric(12,2)',
+       notNull: true,
+     },
     merchant_net: {
       type: 'numeric(12,2)',
       notNull: true,
@@ -95,10 +94,14 @@ export const up = (pgm) => {
     check: 'merchant_net = amount - gateway_fee',
   });
 
-  // Enforce 3% gateway fee with PostgreSQL ROUND (half away from zero for numeric type)
-  pgm.addConstraint('payment_transactions', 'payment_transactions_gateway_fee_check', {
-    check: "gateway_fee = ROUND(amount * 0.03, 2)",
-  });
+   // Ensure gateway_fee is non-negative
+   pgm.addConstraint('payment_transactions', 'payment_transactions_gateway_fee_nonnegative_check', {
+     check: 'gateway_fee >= 0',
+   });
+   // Enforce 3% gateway fee with PostgreSQL ROUND (half away from zero for numeric type)
+   pgm.addConstraint('payment_transactions', 'payment_transactions_gateway_fee_rate_check', {
+     check: "gateway_fee = ROUND(amount * 0.03, 2)",
+   });
 };
 
 /**

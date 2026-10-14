@@ -6,7 +6,7 @@
   width: 100%;
   border-collapse: collapse;
   text-align: left;
-  min-width: 760px;
+  min-width: 860px;
 }
 
 .recent-reservations-table thead tr {
@@ -54,6 +54,10 @@
 
 .col-pax {
   text-align: center;
+}
+
+.col-payment {
+  white-space: nowrap;
 }
 
 /* Booking reference */
@@ -282,6 +286,49 @@ a.admin-reference-badge:focus-visible {
   background: var(--adm-secondary);
 }
 
+/* Payment status badges (server-computed, text-labelled so color is not the
+   only signal) */
+.payment-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border: 1px solid transparent;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.payment-badge-icon {
+  flex-shrink: 0;
+}
+
+.payment-badge-paid {
+  color: #1f6b39;
+  background: #e3f4e8;
+  border-color: #bde3c8;
+}
+
+.payment-badge-pending {
+  color: var(--adm-on-primary-fixed-variant);
+  background: var(--adm-primary-fixed);
+  border-color: var(--adm-primary-fixed-dim);
+}
+
+.payment-badge-not_paid {
+  color: var(--adm-on-surface-variant);
+  background: var(--adm-surface-container);
+  border-color: var(--adm-outline-variant);
+}
+
+.payment-badge-unknown {
+  color: var(--adm-secondary);
+  background: transparent;
+  border-color: var(--adm-outline-variant);
+  border-style: dashed;
+}
+
 @keyframes admin-status-ping {
   0% {
     transform: scale(1);
@@ -297,7 +344,7 @@ a.admin-reference-badge:focus-visible {
 
 @media (max-width: 600px) {
   .recent-reservations-table {
-    min-width: 680px;
+    min-width: 780px;
   }
 
   .recent-reservations-table th,

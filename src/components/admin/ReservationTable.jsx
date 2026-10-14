@@ -1,6 +1,14 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Copy, Loader2, Route } from "lucide-react";
+import {
+  CircleCheck,
+  CircleSlash,
+  CircleX,
+  Clock,
+  Copy,
+  Loader2,
+  Route,
+} from "lucide-react";
 
 import { STATUS_ACTIONS } from "./statusActions";
 import "./ReservationTable.css";
@@ -73,6 +81,32 @@ function StatusBadge({ status }) {
   );
 }
 
+// Payment status arrives as a server-computed value ("paid", "pending", or
+// "not_paid"). Each state keeps a distinct icon and a written label, so the
+// meaning never depends on color alone. Anything unrecognised is shown as
+// "Unknown" rather than being guessed.
+const PAYMENT_STATUS_META = {
+  paid: { label: "Paid", Icon: CircleCheck },
+  pending: { label: "Pending", Icon: Clock },
+  not_paid: { label: "Not Paid", Icon: CircleX },
+  unknown: { label: "Unknown", Icon: CircleSlash },
+};
+
+function PaymentStatusBadge({ status }) {
+  const variant = PAYMENT_STATUS_META[status] ? status : "unknown";
+  const { label, Icon } = PAYMENT_STATUS_META[variant];
+
+  return (
+    <span
+      className={`payment-badge payment-badge-${variant}`}
+      title={`Payment status: ${label}`}
+    >
+      <Icon size={14} className="payment-badge-icon" aria-hidden="true" />
+      <span className="payment-badge-label">{label}</span>
+    </span>
+  );
+}
+
 function ReservationTable({ reservations, onStatusChange, savingId = null }) {
   return (
     <div className="admin-table-wrapper">
@@ -91,6 +125,9 @@ function ReservationTable({ reservations, onStatusChange, savingId = null }) {
               Pax
             </th>
             <th scope="col">Status</th>
+            <th scope="col" className="col-payment">
+              Payment Status
+            </th>
             <th scope="col" className="col-date">
               Logged
             </th>
@@ -196,6 +233,9 @@ function ReservationTable({ reservations, onStatusChange, savingId = null }) {
                       )}
                   </div>
                 </div>
+              </td>
+              <td className="col-payment">
+                <PaymentStatusBadge status={reservation.paymentStatus} />
               </td>
               <td className="col-date">{formatDate(reservation.createdAt)}</td>
             </tr>

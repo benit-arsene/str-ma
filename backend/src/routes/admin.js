@@ -37,6 +37,36 @@ const MIN_LIMIT = 1;
 const MAX_LIMIT = 100;
 const DEFAULT_LIMIT = 20;
 
+// Payment status is derived only from the server-side payment_transactions
+// table (never from a client-supplied value). The aggregate runs as a LATERAL
+// subquery over the reservation_id index, so every reservation on the page is
+// resolved inside the single listing query (no N+1) and any number of payment
+// attempts can never duplicate a reservation row.
+//
+// Precedence matches the payment rules: a successful payment always wins, even
+// over a later failed or cancelled attempt.
+//   paid     -> at least one transaction succeeded
+//   pending  -> no success, and a transaction is initiated or processing
+//   not_paid -> no transactions at all, or only failed/cancelled attempts
+const PAYMENT_STATUS_JOIN = `
+  LEFT JOIN LATERAL (
+    SELECT
+      COALESCE(bool_or(p.status = 'succeeded'), false) AS has_success,
+      COALESCE(bool_or(p.status IN ('initiated', 'processing')), false) AS has_pending
+      FROM payment_transactions p
+     WHERE p.reservation_id = r.id
+  ) pay ON true
+`;
+
+// Requires PAYMENT_STATUS_JOIN to be present in the query.
+const PAYMENT_STATUS_COLUMN = `
+  CASE
+    WHEN pay.has_success THEN 'paid'
+    WHEN pay.has_pending THEN 'pending'
+    ELSE 'not_paid'
+  END AS payment_status
+`;
+
 const RESERVATION_COLUMNS = `
   r.id,
   r.tour_id,
@@ -48,6 +78,7 @@ const RESERVATION_COLUMNS = `
   r.phone,
   r.special_requests,
   r.status,
+  ${PAYMENT_STATUS_COLUMN},
   r.created_at,
   r.updated_at,
   t.name AS tour_name,
@@ -68,6 +99,8 @@ function mapReservationRow(row) {
     id: row.id,
     bookingReference: row.booking_reference,
     status: row.status,
+    // "paid" | "pending" | "not_paid", computed by the database above.
+    paymentStatus: row.payment_status,
     travelDate: row.travel_date,
     travelers: row.travelers,
     fullName: row.full_name,
@@ -300,6 +333,7 @@ router.get("/reservations", requireAdmin, async (req, res) => {
          FROM reservations r
          LEFT JOIN tours t ON r.tour_id = t.id
          LEFT JOIN destinations d ON t.destination_id = d.id
+       ${PAYMENT_STATUS_JOIN}
        ${whereClause}
        ORDER BY r.created_at DESC
        LIMIT $${params.length + 1} OFFSET $${params.length + 2}`,
@@ -338,6 +372,7 @@ router.get("/reservations/:id", requireAdmin, async (req, res) => {
          FROM reservations r
          LEFT JOIN tours t ON r.tour_id = t.id
          LEFT JOIN destinations d ON t.destination_id = d.id
+       ${PAYMENT_STATUS_JOIN}
         WHERE r.id = $1`,
       [id]
     );
