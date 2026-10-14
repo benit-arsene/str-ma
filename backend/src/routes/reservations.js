@@ -60,9 +60,13 @@ function validateReservationInput(body) {
 }
 
 router.post("/", async (req, res) => {
+  const client = await pool.connect();
   try {
+    await client.query("BEGIN");
+
     const validationErrors = validateReservationInput(req.body);
     if (validationErrors.length > 0) {
+      await client.query("ROLLBACK");
       return res.status(400).json({ error: "Validation failed", details: validationErrors });
     }
 
@@ -76,13 +80,18 @@ router.post("/", async (req, res) => {
       specialRequests,
     } = req.body;
 
-    const tourResult = await pool.query(
-      `SELECT id FROM tours WHERE id = $1`,
+    const tourResult = await client.query(
+      `SELECT id, base_price, currency FROM tours WHERE id = $1`,
       [tourId]
     );
     if (tourResult.rows.length === 0) {
+      await client.query("ROLLBACK");
       return res.status(404).json({ error: "Tour not found" });
     }
+
+    const tour = tourResult.rows[0];
+    const pricePerPerson = tour.base_price;
+    const currency = tour.currency;
 
     let bookingReference;
     let insertResult;
@@ -92,10 +101,11 @@ router.post("/", async (req, res) => {
     while (attempts < maxAttempts) {
       bookingReference = generateBookingReference();
       try {
-        insertResult = await pool.query(
+        insertResult = await client.query(
           `INSERT INTO reservations (
-              tour_id, travel_date, travelers, full_name, email, phone, special_requests, status, booking_reference
-            ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+              tour_id, travel_date, travelers, full_name, email, phone, special_requests, status, booking_reference,
+              price_per_person, currency
+            ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
             RETURNING id, booking_reference, status, created_at`,
           [
             tourId,
@@ -107,6 +117,8 @@ router.post("/", async (req, res) => {
             specialRequests?.trim() || null,
             "pending",
             bookingReference,
+            pricePerPerson,
+            currency,
           ]
         );
         break;
@@ -123,8 +135,11 @@ router.post("/", async (req, res) => {
     }
 
     if (!insertResult) {
+      await client.query("ROLLBACK");
       return res.status(500).json({ error: "Failed to generate unique booking reference" });
     }
+
+    await client.query("COMMIT");
 
     const reservation = insertResult.rows[0];
     return res.status(201).json({
@@ -134,6 +149,7 @@ router.post("/", async (req, res) => {
       createdAt: reservation.created_at,
     });
   } catch (err) {
+    await client.query("ROLLBACK").catch(() => {});
     console.error("POST /api/reservations error:", err.message);
     if (err.code === "23505") {
       if (err.constraint === "idx_reservations_unique_active") {
@@ -156,6 +172,8 @@ router.post("/", async (req, res) => {
       return res.status(404).json({ error: "Tour not found" });
     }
     return res.status(500).json({ error: "Failed to create reservation" });
+  } finally {
+    client.release();
   }
 });
 

@@ -3,6 +3,7 @@ import toursRouter from "./routes/tours.js";
 import destinationsRouter from "./routes/destinations.js";
 import categoriesRouter from "./routes/categories.js";
 import reservationsRouter from "./routes/reservations.js";
+import paymentsRouter from "./routes/payments.js";
 import adminRouter from "./routes/admin.js";
 
 const app = express();
@@ -12,6 +13,7 @@ app.use("/api/tours", toursRouter);
 app.use("/api/destinations", destinationsRouter);
 app.use("/api/categories", categoriesRouter);
 app.use("/api/reservations", reservationsRouter);
+app.use("/api/payments", paymentsRouter);
 app.use("/api/admin", adminRouter);
 
 app.use((err, req, res, next) => {
