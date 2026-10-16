@@ -60,10 +60,11 @@ export function parseCookieHeader(header) {
 }
 
 export function cookieOptions() {
+  const isProduction = process.env.NODE_ENV === "production";
   return {
     httpOnly: true,
-    sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
+    sameSite: isProduction ? "none" : "lax",
+    secure: isProduction,
     path: "/",
     maxAge: SESSION_TTL_MS,
   };
@@ -155,6 +156,15 @@ async function handleRequireAdmin(req, res, next) {
 export function requireSameOrigin(req, res, next) {
   const origin = req.get("Origin");
   if (!origin) {
+    // A missing Origin header is not proof of trust for authenticated,
+    // state-changing requests. Reject when a session cookie is present;
+    // unauthenticated requests without Origin (non-browser clients, direct
+    // access) are still allowed. Browsers always send Origin on POST/PATCH,
+    // so legitimate browser flows are unaffected.
+    const cookies = parseCookieHeader(req.get("Cookie"));
+    if (cookies[SESSION_COOKIE_NAME]) {
+      return res.status(403).json({ error: "Cross-site request rejected" });
+    }
     return next();
   }
 
@@ -165,6 +175,9 @@ export function requireSameOrigin(req, res, next) {
     return res.status(403).json({ error: "Invalid request origin" });
   }
 
+  const allowedOrigin = process.env.FRONTEND_ORIGIN;
+  const isAllowedFrontend = allowedOrigin && origin === allowedOrigin;
+
   const forwardedHost = req.get("X-Forwarded-Host");
   const hostHeader = (forwardedHost || req.get("Host") || "").split(",")[0].trim();
   if (!hostHeader) {
@@ -173,14 +186,14 @@ export function requireSameOrigin(req, res, next) {
 
   const [hostName] = hostHeader.split(":");
 
-  // Compare hostnames only: in development the Vite proxy rewrites the Host
-  // header to the API origin (e.g. localhost:5000) while the browser sends
-  // the frontend origin (e.g. http://localhost:5173). A cross-site attacker
-  // always has a different hostname, so hostname equality is the CSRF signal
-  // here; SameSite=Lax cookies provide the primary browser-side protection.
-  const matches = originUrl.hostname.toLowerCase() === hostName.toLowerCase();
+  // Same-origin requests are allowed (e.g. direct backend access or dev
+  // behind the Vite proxy). Requests from the configured frontend origin are
+  // also allowed for the cross-origin deployment. Every other origin is
+  // rejected. A missing Origin header is not treated as proof of trust:
+  // authentication via the session cookie is still required by requireAdmin.
+  const isSameOrigin = originUrl.hostname.toLowerCase() === hostName.toLowerCase();
 
-  if (!matches) {
+  if (!isAllowedFrontend && !isSameOrigin) {
     return res.status(403).json({ error: "Cross-site request rejected" });
   }
 
