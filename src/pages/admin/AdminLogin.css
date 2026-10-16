@@ -32,7 +32,7 @@
 }
 
 .admin-login-brand .admin-brand-name {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 700;
   color: var(--adm-on-surface);
 }
@@ -56,7 +56,7 @@
 }
 
 .admin-login-header h2 {
-  font-size: 1.125rem;
+  font-size: 1.0625rem;
   font-weight: 700;
   color: var(--adm-on-surface);
   margin: 0 0 8px;
@@ -64,7 +64,7 @@
 
 .admin-login-header p {
   color: var(--adm-secondary);
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   margin: 0;
 }
 
@@ -75,7 +75,7 @@
   gap: 10px;
   padding: 12px 14px;
   border-radius: 12px;
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   margin-bottom: 18px;
   text-align: left;
 }
@@ -112,7 +112,7 @@
 }
 
 .admin-login-field label {
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   font-weight: 600;
   color: var(--adm-on-surface);
 }
@@ -144,7 +144,7 @@
   color: var(--adm-on-surface);
   padding: 0 14px 0 42px;
   font-family: inherit;
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   border-radius: 12px;
   box-sizing: border-box;
   outline: none;
@@ -166,7 +166,7 @@
 }
 
 .field-error {
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   color: var(--adm-error);
 }
 
@@ -182,7 +182,7 @@
   background: var(--adm-primary-container);
   color: var(--adm-on-primary-container);
   font-family: inherit;
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   font-weight: 700;
   letter-spacing: 0.02em;
   cursor: pointer;
@@ -205,7 +205,7 @@
 
 .admin-login-back {
   text-align: center;
-  font-size: 0.8125rem;
+  font-size: 0.75rem;
   color: var(--adm-secondary);
   text-decoration: none;
   transition: color 0.15s ease;

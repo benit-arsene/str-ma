@@ -25,7 +25,7 @@
   background: transparent;
   color: var(--adm-secondary);
   font-family: inherit;
-  font-size: 0.8125rem;
+  font-size: 0.75rem;
   font-weight: 500;
   cursor: pointer;
   transition:
@@ -53,7 +53,7 @@
   padding: 0 5px;
   border-radius: 9999px;
   background: var(--adm-surface-container-high);
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 600;
   color: var(--adm-on-surface-variant);
   font-variant-numeric: tabular-nums;
@@ -88,7 +88,7 @@
   background: var(--adm-surface-container-low);
   color: var(--adm-on-surface);
   font-family: inherit;
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   width: 220px;
   box-sizing: border-box;
   outline: none;
@@ -127,7 +127,7 @@
   background: transparent;
   color: var(--adm-outline);
   font-family: inherit;
-  font-size: 0.8125rem;
+  font-size: 0.75rem;
   font-weight: 500;
   cursor: pointer;
   transition:

@@ -14,7 +14,7 @@
 }
 
 .admin-detail-group-title {
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.06em;
@@ -55,12 +55,12 @@
 }
 
 .admin-detail-field-label {
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   color: var(--adm-secondary);
 }
 
 .admin-detail-field-value {
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   font-weight: 500;
   color: var(--adm-on-surface);
   overflow-wrap: anywhere;
@@ -73,7 +73,7 @@
 
 .admin-detail-requests-text {
   margin: 0;
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   line-height: 1.6;
   color: var(--adm-on-surface);
   background: var(--adm-surface-container-low);
@@ -85,7 +85,7 @@
 
 .admin-detail-none {
   margin: 0;
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   color: var(--adm-secondary);
 }
 
@@ -101,7 +101,7 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 0.8125rem;
+  font-size: 0.75rem;
   font-weight: 600;
   color: var(--adm-secondary);
   white-space: nowrap;
@@ -122,7 +122,7 @@
   background: var(--adm-surface-container-lowest);
   color: var(--adm-on-surface-variant);
   font-family: inherit;
-  font-size: 0.8125rem;
+  font-size: 0.75rem;
   font-weight: 600;
   cursor: pointer;
   transition:
@@ -162,7 +162,7 @@
   border-radius: 12px;
   background: var(--adm-secondary-fixed);
   color: var(--adm-on-secondary-fixed-variant);
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   font-weight: 500;
 }
 
@@ -179,7 +179,7 @@
   border-radius: 12px;
   background: var(--adm-error-container);
   color: var(--adm-on-error-container);
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   font-weight: 500;
 }
 

@@ -92,7 +92,7 @@
   background: var(--adm-primary-container);
   color: var(--adm-on-primary-container);
   font-weight: 700;
-  font-size: 15px;
+  font-size: 14px;
   letter-spacing: 0.5px;
   flex-shrink: 0;
 }
@@ -106,7 +106,7 @@
 
 .admin-brand-name {
   color: var(--adm-inverse-on-surface);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   line-height: 1.3;
   overflow: hidden;
@@ -141,7 +141,7 @@
   border-radius: 12px;
   color: rgba(242, 241, 237, 0.65);
   text-decoration: none;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
   white-space: nowrap;
   overflow: hidden;
@@ -217,7 +217,7 @@
 }
 
 .admin-topbar-title {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
   color: var(--adm-on-surface);
 }
@@ -245,14 +245,14 @@
   border-radius: 9999px;
   background: rgba(200, 155, 60, 0.16);
   color: var(--adm-on-primary-container);
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
   text-transform: uppercase;
   flex-shrink: 0;
 }
 
 .admin-username {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
   color: var(--adm-on-surface-variant);
   overflow: hidden;
@@ -271,7 +271,7 @@
   background: var(--adm-surface-container-lowest);
   color: var(--adm-on-surface-variant);
   font-family: inherit;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
   cursor: pointer;
   transition:

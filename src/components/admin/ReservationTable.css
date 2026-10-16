@@ -15,7 +15,7 @@
 
 .recent-reservations-table th {
   padding: 12px 16px;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -26,7 +26,7 @@
 
 .recent-reservations-table td {
   padding: 14px 16px;
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   color: var(--adm-on-surface);
   border-bottom: 1px solid var(--adm-surface-container);
   vertical-align: middle;
@@ -70,7 +70,7 @@
 .admin-reference-badge {
   display: inline-block;
   font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 600;
   color: var(--adm-primary);
   background: rgba(255, 222, 164, 0.45);
@@ -148,7 +148,7 @@ a.admin-reference-badge:focus-visible {
   border-radius: 9999px;
   background: var(--adm-surface-container-highest);
   color: var(--adm-on-surface-variant);
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 600;
   flex-shrink: 0;
 }
@@ -160,7 +160,7 @@ a.admin-reference-badge:focus-visible {
 }
 
 .admin-guest-name {
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   font-weight: 500;
   color: var(--adm-on-surface);
   overflow: hidden;
@@ -169,7 +169,7 @@ a.admin-reference-badge:focus-visible {
 }
 
 .admin-guest-email {
-  font-size: 0.8125rem;
+  font-size: 0.75rem;
   color: var(--adm-secondary);
   overflow: hidden;
   text-overflow: ellipsis;
@@ -197,7 +197,7 @@ a.admin-reference-badge:focus-visible {
 }
 
 .admin-tour-name {
-  font-size: 0.875rem;
+  font-size: 0.8125rem;
   font-weight: 500;
   color: var(--adm-on-surface);
   overflow: hidden;
@@ -206,7 +206,7 @@ a.admin-reference-badge:focus-visible {
 }
 
 .admin-tour-destination {
-  font-size: 0.8125rem;
+  font-size: 0.75rem;
   color: var(--adm-secondary);
   overflow: hidden;
   text-overflow: ellipsis;
@@ -223,7 +223,7 @@ a.admin-reference-badge:focus-visible {
   border-radius: 9999px;
   background: var(--adm-surface-container);
   color: var(--adm-on-surface);
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 500;
   font-variant-numeric: tabular-nums;
 }
@@ -234,7 +234,7 @@ a.admin-reference-badge:focus-visible {
   align-items: center;
   gap: 6px;
   padding: 4px 10px;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 600;
   border-radius: 9999px;
   text-transform: capitalize;
@@ -295,7 +295,7 @@ a.admin-reference-badge:focus-visible {
   padding: 4px 10px;
   border: 1px solid transparent;
   border-radius: 9999px;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 600;
   white-space: nowrap;
 }
@@ -430,7 +430,7 @@ a.admin-reference-badge:focus-visible {
   background: var(--adm-surface-container-lowest);
   color: var(--adm-on-surface-variant);
   font-family: inherit;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 600;
   white-space: nowrap;
   cursor: pointer;
@@ -466,7 +466,7 @@ a.admin-reference-badge:focus-visible {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 600;
   color: var(--adm-secondary);
   white-space: nowrap;
