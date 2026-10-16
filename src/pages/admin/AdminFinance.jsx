@@ -11,7 +11,6 @@ import {
   isUnauthorizedError,
 } from "../../api/admin";
 import { useAdminAuth } from "../../context/useAdminAuth";
-import FinanceSummary from "../../components/admin/FinanceSummary";
 import PaymentTable from "../../components/admin/PaymentTable";
 import "./AdminFinance.css";
 
@@ -102,8 +101,6 @@ function AdminFinance() {
     setRefreshCount((count) => count + 1);
   };
 
-  const summary = finance?.summary;
-  const reservations = finance?.reservations;
   const transactions = finance?.transactions;
   const pagination = transactions?.pagination;
 
@@ -117,8 +114,7 @@ function AdminFinance() {
           </div>
           <h1>Finance</h1>
           <p>
-            Simulated payment and transaction overview. All figures are
-            calculated server-side from persisted data.
+            View and filter recorded payment transactions.
           </p>
         </div>
         <div className="admin-page-header-actions">
@@ -134,13 +130,6 @@ function AdminFinance() {
         </div>
       </header>
 
-      <FinanceSummary
-        summary={summary}
-        reservations={reservations}
-        loading={loading && !finance}
-        error={error && !finance ? error : null}
-      />
-
       <section className="admin-table-card">
         <div className="admin-table-card-header">
           <div className="admin-table-card-title">
@@ -150,7 +139,7 @@ function AdminFinance() {
                 {pagination?.total ?? 0} items
               </span>
             </div>
-            <p>Stored payment attempts, grouped by currency and reference.</p>
+            <p>Recorded payment attempts with reference, amount, and status.</p>
           </div>
           <div className="admin-finance-controls">
             <div className="admin-filter-tabs" role="tablist" aria-label="Filter by status">

@@ -11,19 +11,29 @@ const STATUS_META = {
 };
 
 function formatCurrency(amount, currency) {
-  if (amount === null || amount === undefined || Number.isNaN(Number(amount))) {
+  if (amount === null || amount === undefined) {
     return "—";
   }
   const value = Number(amount);
+  if (Number.isNaN(value)) {
+    return "—";
+  }
+  const validCurrency =
+    currency && typeof currency === "string" && /^[A-Z]{3}$/.test(currency)
+      ? currency
+      : undefined;
   try {
     return new Intl.NumberFormat(undefined, {
-      style: "currency",
-      currency,
+      style: validCurrency ? "currency" : "decimal",
+      currency: validCurrency,
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     }).format(value);
   } catch {
-    return `${value} ${currency}`;
+    return new Intl.NumberFormat(undefined, {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(value);
   }
 }
 
@@ -113,7 +123,6 @@ function PaymentTable({ transactions = [], pagination, onPageChange, loading }) 
             <th scope="col">Gateway fee</th>
             <th scope="col">Merchant net</th>
             <th scope="col">Status</th>
-            <th scope="col">Provider</th>
             <th scope="col" className="col-date">Created</th>
           </tr>
         </thead>
@@ -142,9 +151,6 @@ function PaymentTable({ transactions = [], pagination, onPageChange, loading }) 
               <td>{formatCurrency(tx.merchantNet, tx.currency)}</td>
               <td>
                 <StatusBadge status={tx.status} />
-              </td>
-              <td>
-                <span className="payment-provider-badge">{tx.provider}</span>
               </td>
               <td className="col-date">{formatDate(tx.created_at)}</td>
             </tr>
