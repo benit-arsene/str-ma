@@ -27,6 +27,15 @@ const STATUS_TRANSITIONS = {
   cancelled: ["pending"],
   completed: [],
 };
+// Payment transaction statuses accepted by the finance endpoint. Kept in sync
+// with the CHECK constraint on payment_transactions.status.
+const PAYMENT_STATUSES = [
+  "initiated",
+  "processing",
+  "succeeded",
+  "failed",
+  "cancelled",
+];
 const UUID_REGEX =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const MAX_SEARCH_LENGTH = 200;
@@ -208,6 +217,204 @@ router.post("/logout", requireSameOrigin, async (req, res) => {
   } catch (err) {
     console.error("POST /api/admin/logout error:", err.message);
     return res.status(500).json({ error: "Failed to log out" });
+  }
+});
+
+router.get("/finance", requireAdmin, async (req, res) => {
+  try {
+    const details = [];
+
+    let page = DEFAULT_PAGE;
+    if (req.query.page !== undefined) {
+      page = Number(req.query.page);
+      if (
+        !Number.isInteger(page) ||
+        page < MIN_PAGE ||
+        page > MAX_PAGE
+      ) {
+        details.push({
+          field: "page",
+          message: `Page must be an integer between ${MIN_PAGE} and ${MAX_PAGE}`,
+        });
+      }
+    }
+
+    let limit = DEFAULT_LIMIT;
+    if (req.query.limit !== undefined) {
+      limit = Number(req.query.limit);
+      if (
+        !Number.isInteger(limit) ||
+        limit < MIN_LIMIT ||
+        limit > MAX_LIMIT
+      ) {
+        details.push({
+          field: "limit",
+          message: `Limit must be an integer between ${MIN_LIMIT} and ${MAX_LIMIT}`,
+        });
+      }
+    }
+
+    let status = null;
+    if (req.query.status !== undefined && req.query.status !== "") {
+      status = String(req.query.status).toLowerCase();
+      if (!PAYMENT_STATUSES.includes(status)) {
+        details.push({
+          field: "status",
+          message:
+            "Status must be one of: initiated, processing, succeeded, failed, cancelled",
+        });
+      }
+    }
+
+    let searchPattern = null;
+    if (req.query.q !== undefined && String(req.query.q).trim() !== "") {
+      const search = String(req.query.q).trim();
+      if (search.length > MAX_SEARCH_LENGTH) {
+        details.push({
+          field: "q",
+          message: `Search query must be at most ${MAX_SEARCH_LENGTH} characters`,
+        });
+      } else {
+        searchPattern = `%${escapeLike(search)}%`;
+      }
+    }
+
+    if (details.length > 0) {
+      return res.status(400).json(validationError(details));
+    }
+
+    // Aggregates are computed entirely in SQL from persisted rows. Currency is
+    // never combined: every metric is grouped by currency. "Collected" counts
+    // succeeded transactions only; "pending" sums in-flight attempts (which is
+    // NOT the same as unique amounts owed, since one reservation may have more
+    // than one initiated/processing attempt). Gateway fees and merchant net are
+    // read from the stored columns, which the schema enforces as
+    // gateway_fee = ROUND(amount * 0.03, 2) and merchant_net = amount - gateway_fee.
+    const summaryResult = await pool.query(
+      `SELECT currency,
+              COUNT(*)::int AS total,
+              COUNT(*) FILTER (WHERE status = 'initiated')::int AS initiated,
+              COUNT(*) FILTER (WHERE status = 'processing')::int AS processing,
+              COUNT(*) FILTER (WHERE status = 'succeeded')::int AS succeeded,
+              COUNT(*) FILTER (WHERE status = 'failed')::int AS failed,
+              COUNT(*) FILTER (WHERE status = 'cancelled')::int AS cancelled,
+              COALESCE(SUM(amount) FILTER (WHERE status = 'succeeded'), 0)::numeric AS collected,
+              COALESCE(SUM(amount) FILTER (WHERE status IN ('initiated', 'processing')), 0)::numeric AS pending,
+              COALESCE(SUM(gateway_fee) FILTER (WHERE status = 'succeeded'), 0)::numeric AS gatewayFees,
+              COALESCE(SUM(merchant_net) FILTER (WHERE status = 'succeeded'), 0)::numeric AS merchantNet,
+              COUNT(*) FILTER (WHERE status IN ('initiated', 'processing'))::int AS pendingCount
+         FROM payment_transactions
+        GROUP BY currency
+        ORDER BY currency`
+    );
+
+    const summary = {};
+    for (const row of summaryResult.rows) {
+      summary[row.currency] = {
+        collected: row.collected,
+        pending: row.pending,
+        gatewayFees: row.gatewayFees,
+        merchantNet: row.merchantNet,
+        counts: {
+          total: row.total,
+          initiated: row.initiated,
+          processing: row.processing,
+          succeeded: row.succeeded,
+          failed: row.failed,
+          cancelled: row.cancelled,
+        },
+        pendingCount: row.pendingCount,
+      };
+    }
+
+    // Reservations are "paid" when they have at least one succeeded transaction.
+    // A reservation with only failed/cancelled attempts, or no attempts at all,
+    // is unpaid. This is resolved in a single LATERAL subquery per reservation,
+    // so multiple attempts can never duplicate the reservation row.
+    const reservationResult = await pool.query(
+      `SELECT COUNT(*)::int AS total,
+              COUNT(*) FILTER (WHERE pay.has_success) AS paid
+         FROM reservations r
+         LEFT JOIN LATERAL (
+           SELECT COALESCE(bool_or(p.status = 'succeeded'), false) AS has_success
+             FROM payment_transactions p
+            WHERE p.reservation_id = r.id
+         ) pay ON true`
+    );
+    const reservationRow = reservationResult.rows[0];
+    const totalReservations = reservationRow.total;
+    const paidReservations = Number(reservationRow.paid);
+
+    const conditions = [];
+    const params = [];
+
+    if (status) {
+      params.push(status);
+      conditions.push(`p.status = $${params.length}`);
+    }
+
+    if (searchPattern) {
+      params.push(searchPattern);
+      conditions.push(
+        `(p.transaction_reference ILIKE $${params.length}
+            OR r.booking_reference ILIKE $${params.length})`
+      );
+    }
+
+    const whereClause = conditions.length
+      ? `WHERE ${conditions.join(" AND ")}`
+      : "";
+
+    const countResult = await pool.query(
+      `SELECT COUNT(*)::int AS total
+         FROM payment_transactions p
+         JOIN reservations r ON r.id = p.reservation_id
+        ${whereClause}`,
+      params
+    );
+    const totalTransactions = countResult.rows[0].total;
+
+    const offset = (page - 1) * limit;
+    const listResult = await pool.query(
+      `SELECT p.transaction_reference,
+              r.booking_reference,
+              p.amount,
+              p.currency,
+              p.gateway_fee AS gatewayFees,
+              p.merchant_net AS merchantNet,
+              p.status,
+              p.provider,
+              p.created_at
+         FROM payment_transactions p
+         JOIN reservations r ON r.id = p.reservation_id
+        ${whereClause}
+        ORDER BY p.created_at DESC
+        LIMIT $${params.length + 1} OFFSET $${params.length + 2}`,
+      [...params, limit, offset]
+    );
+
+    return res.json({
+      simulated: true,
+      generatedAt: new Date().toISOString(),
+      summary,
+      reservations: {
+        total: totalReservations,
+        paid: paidReservations,
+        unpaid: totalReservations - paidReservations,
+      },
+      transactions: {
+        items: listResult.rows,
+        pagination: {
+          total: totalTransactions,
+          page,
+          limit,
+          totalPages: Math.max(1, Math.ceil(totalTransactions / limit)),
+        },
+      },
+    });
+  } catch (err) {
+    console.error("GET /api/admin/finance error:", err.message);
+    return res.status(500).json({ error: "Failed to fetch finance data" });
   }
 });
 

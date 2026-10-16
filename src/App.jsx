@@ -13,6 +13,7 @@ import { AdminAuthProvider } from "./context/AdminAuthProvider";
 import AdminLayout from "./components/admin/AdminLayout";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminFinance from "./pages/admin/AdminFinance";
 import AdminReservations from "./pages/admin/AdminReservations";
 import AdminReservationDetail from "./pages/admin/AdminReservationDetail";
 
@@ -89,6 +90,7 @@ function AppRoutes() {
           path="reservations/:id"
           element={<AdminReservationDetail />}
         />
+        <Route path="finance" element={<AdminFinance />} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>

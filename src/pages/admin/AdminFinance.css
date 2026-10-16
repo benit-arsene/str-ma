@@ -1,0 +1,12 @@
+.admin-finance {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.admin-finance-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}

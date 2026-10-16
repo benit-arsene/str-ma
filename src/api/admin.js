@@ -52,6 +52,16 @@ export function fetchAdminStats() {
   return adminRequest("/api/admin/stats");
 }
 
+export function fetchAdminFinance({ page, limit, status, q } = {}) {
+  const params = new URLSearchParams();
+  if (page) params.set("page", String(page));
+  if (limit) params.set("limit", String(limit));
+  if (status) params.set("status", status);
+  if (q) params.set("q", q);
+  const query = params.toString();
+  return adminRequest(`/api/admin/finance${query ? `?${query}` : ""}`);
+}
+
 export function fetchAdminReservations({ page, limit, status, q } = {}) {
   const params = new URLSearchParams();
   if (page) params.set("page", String(page));

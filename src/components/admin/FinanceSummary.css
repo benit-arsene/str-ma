@@ -1,0 +1,289 @@
+.finance-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.finance-banner {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px 20px;
+  border-radius: 12px;
+  background: var(--adm-primary-fixed);
+  color: var(--adm-on-primary-fixed);
+}
+
+.finance-banner-text {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.finance-banner-primary {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.finance-banner-secondary {
+  margin: 0;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  opacity: 0.95;
+  line-height: 1.4;
+}
+
+.finance-banner-note {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 500;
+  opacity: 0.9;
+  line-height: 1.45;
+}
+
+.finance-summary-loading,
+.finance-summary-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 48px 20px;
+  color: var(--adm-secondary);
+  font-size: 0.875rem;
+}
+
+.finance-summary-error {
+  color: var(--adm-error);
+  border: 1px solid var(--adm-error-container);
+  background: var(--adm-error-container);
+  border-radius: 12px;
+}
+
+.finance-summary-loading .spinner {
+  color: var(--adm-primary-container);
+}
+
+.finance-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 48px 20px;
+  color: var(--adm-secondary);
+  font-size: 0.875rem;
+}
+
+.finance-currency-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.finance-currency-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 20px;
+  border-radius: 12px;
+  background: var(--adm-surface-container-lowest);
+  border: 1px solid var(--adm-outline-variant);
+}
+
+.finance-currency-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--adm-on-surface);
+}
+
+.finance-currency-code {
+  color: var(--adm-primary);
+}
+
+.finance-currency-note {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: var(--adm-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.finance-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.finance-metric {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.finance-metric dt {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--adm-secondary);
+  min-width: 96px;
+}
+
+.finance-metric dd {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--adm-on-surface);
+  font-variant-numeric: tabular-nums;
+}
+
+.finance-metric-icon {
+  flex-shrink: 0;
+  color: var(--adm-outline-variant);
+}
+
+.finance-metric-note {
+  margin-left: auto;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: var(--adm-secondary);
+  white-space: nowrap;
+}
+
+.finance-counts {
+  margin-top: 6px;
+}
+
+.finance-counts-title {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--adm-secondary);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.finance-counts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.finance-count-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 4px 0;
+  font-size: 0.8125rem;
+}
+
+.finance-count-label {
+  color: var(--adm-secondary);
+  font-weight: 500;
+}
+
+.finance-count-value {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  color: var(--adm-on-surface);
+}
+
+.finance-count-value.total { color: var(--adm-secondary); }
+.finance-count-value.initiated { color: var(--adm-primary); }
+.finance-count-value.processing { color: var(--adm-primary); }
+.finance-count-value.succeeded { color: var(--adm-tertiary); }
+.finance-count-value.failed { color: var(--adm-error); }
+.finance-count-value.cancelled { color: var(--adm-error); }
+
+.finance-reservations {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.finance-reservations h2 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--adm-on-surface);
+}
+
+.finance-reservation-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+}
+
+.finance-reservation-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px;
+  border-radius: 10px;
+  background: var(--adm-surface-container-lowest);
+  border: 1px solid var(--adm-outline-variant);
+}
+
+.finance-reservation-card-paid {
+  background: rgba(55, 85, 195, 0.06);
+  border-color: var(--adm-tertiary-fixed);
+}
+
+.finance-reservation-card-unpaid {
+  background: rgba(186, 26, 26, 0.06);
+  border-color: var(--adm-error-container);
+}
+
+.finance-reservation-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--adm-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.finance-reservation-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--adm-on-surface);
+}
+
+.finance-reservation-card-paid .finance-reservation-value {
+  color: var(--adm-tertiary);
+}
+
+.finance-reservation-card-unpaid .finance-reservation-value {
+  color: var(--adm-error);
+}
+
+.finance-reservation-note {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--adm-secondary);
+  line-height: 1.5;
+}
+
+@media (max-width: 640px) {
+  .finance-currency-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .finance-reservation-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .finance-reservation-card {
+    transition: none;
+  }
+}

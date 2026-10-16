@@ -2,6 +2,7 @@ import { useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import {
   CalendarRange,
+  DollarSign,
   LayoutDashboard,
   Loader2,
   LogOut,
@@ -70,6 +71,16 @@ function AdminLayout() {
           >
             <CalendarRange size={18} />
             Reservations
+          </NavLink>
+          <NavLink
+            to="/admin/finance"
+            className={({ isActive }) =>
+              `admin-nav-link ${isActive ? "is-active" : ""}`
+            }
+            onClick={() => setNavOpen(false)}
+          >
+            <DollarSign size={18} />
+            Finance
           </NavLink>
         </nav>
       </aside>
