@@ -300,8 +300,8 @@ router.get("/finance", requireAdmin, async (req, res) => {
               COUNT(*) FILTER (WHERE status = 'cancelled')::int AS cancelled,
               COALESCE(SUM(amount) FILTER (WHERE status = 'succeeded'), 0)::numeric AS collected,
               COALESCE(SUM(amount) FILTER (WHERE status IN ('initiated', 'processing')), 0)::numeric AS pending,
-              COALESCE(SUM(gateway_fee) FILTER (WHERE status = 'succeeded'), 0)::numeric AS gatewayFees,
-              COALESCE(SUM(merchant_net) FILTER (WHERE status = 'succeeded'), 0)::numeric AS merchantNet,
+              COALESCE(SUM(gateway_fee) FILTER (WHERE status = 'succeeded'), 0)::numeric AS "gatewayFees",
+              COALESCE(SUM(merchant_net) FILTER (WHERE status = 'succeeded'), 0)::numeric AS "merchantNet",
               COUNT(*) FILTER (WHERE status IN ('initiated', 'processing'))::int AS pendingCount
          FROM payment_transactions
         GROUP BY currency
@@ -380,8 +380,8 @@ router.get("/finance", requireAdmin, async (req, res) => {
               r.booking_reference,
               p.amount,
               p.currency,
-              p.gateway_fee AS gatewayFees,
-              p.merchant_net AS merchantNet,
+              p.gateway_fee AS "gatewayFees",
+              p.merchant_net AS "merchantNet",
               p.status,
               p.provider,
               p.created_at
