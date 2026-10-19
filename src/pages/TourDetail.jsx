@@ -171,13 +171,13 @@ function TourDetail() {
           {/* LEFT SIDE */}
           <div className="tour-detail-main">
             {/* Tabs */}
-            <div className="tour-tabs">
+            <div className="tour-tabs-nav">
               {tabs.map((tab) => {
                 const Icon = tab.icon;
                 return (
                   <button
                     key={tab.id}
-                    className={activeTab === tab.id ? "active" : ""}
+                    className={`tour-tab-btn ${activeTab === tab.id ? "active" : ""}`}
                     onClick={() => setActiveTab(tab.id)}
                   >
                     <Icon />

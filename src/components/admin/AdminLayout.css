@@ -159,7 +159,6 @@
 .admin-nav-link.is-active {
   background: rgba(200, 155, 60, 0.18);
   color: var(--adm-primary-fixed);
-  box-shadow: inset 3px 0 0 var(--adm-primary-container);
 }
 
 .admin-nav-link:focus-visible,

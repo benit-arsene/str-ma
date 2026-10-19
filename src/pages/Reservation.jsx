@@ -868,7 +868,7 @@ function Reservation() {
                       id="special-requests"
                       value={formState.specialRequests}
                       onChange={(e) => handleChange("specialRequests", e.target.value)}
-                      placeholder="Dietary requirements, accessibility needs, special occasions, etc."
+                      placeholder="Special Occasions, Special Needs, etc."
                       rows={4}
                     />
                   </div>

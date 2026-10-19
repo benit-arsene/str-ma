@@ -41,45 +41,51 @@
   min-width: 0;
 }
 
-.tour-tabs {
+.tour-tabs-nav {
   display: flex;
-  flex-wrap: nowrap;
-  gap: 0;
-  overflow-x: auto;
-  border: 1px solid #222;
-  border-radius: 8px;
-  margin-bottom: 25px;
-}
-
-.tour-tabs button {
-  display: inline-flex;
   align-items: center;
   gap: 8px;
-  min-height: 44px;
-  padding: 10px 16px;
-  border: 1px solid #222;
-  background: white;
-  color: #222;
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.tour-tab-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 16px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #000000;
+  background-color: #ffffff;
+  border: 1px solid #000000;
+  border-radius: 8px;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.tour-tabs button.active {
-  background: #c29d59;
-  color: white;
-}
-.tour-tabs button:last-child {
-  border-right: none;
+.tour-tab-btn:hover {
+  background-color: #f5f5f5;
+  color: #000000;
 }
 
-.tour-tabs button svg {
+.tour-tab-btn.active {
+  background-color: #c29d59;
+  color: #ffffff;
+  border-color: #c29d59;
+}
+
+.tour-tab-btn svg {
   width: 17px;
   height: 17px;
   flex-shrink: 0;
-  color: #c29d59;
+  color: #000000;
 }
 
-.tour-tabs button.active svg {
-  color: #000;
+.tour-tab-btn.active svg {
+  color: #ffffff;
 }
 
 .tour-tab-content {
@@ -232,8 +238,8 @@
     font-size: 42px;
   }
 
-  .tour-tabs {
-    gap: 0;
+  .tour-tabs-nav {
+    gap: 8px;
   }
 
   .tour-tab-content {
@@ -300,7 +306,7 @@
     font-size: 30px;
   }
 
-  .tour-tabs button {
+  .tour-tab-btn {
     min-width: 150px;
     padding: 10px 12px;
     font-size: 12px;
