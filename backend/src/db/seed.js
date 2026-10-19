@@ -99,6 +99,136 @@ const tours = [
     groupSizeIsMinimum: true,
     isFeatured: false,
   },
+  {
+    slug: "thailand-paradise-beaches-culture",
+    destinationSlug: "thailand",
+    name: "Thailand Paradise: Beaches & Culture",
+    shortDescription: "Discover Thailand's vibrant culture, stunning beaches, and ancient temples.",
+    fullDescription: "Immerse yourself in Thailand's timeless charm. Begin in Bangkok with its golden temples and bustling markets, then fly to the island of Phuket for pristine beaches and turquoise waters. Explore ancient Ayutthaya's temple ruins and unwind on Koh Phi Phi's dramatic limestone cliffs. A perfect blend of spiritual heritage and tropical relaxation.",
+    durationDays: 7,
+    basePrice: 1450.00,
+    currency: "USD",
+    groupSize: 20,
+    groupSizeIsMinimum: true,
+    isFeatured: true,
+  },
+  {
+    slug: "athens-delphi-olympic-heritage",
+    destinationSlug: "greece",
+    name: "Athens, Delphi & Olympic Heritage",
+    shortDescription: "Walk among ancient ruins, sacred sanctuaries, and the birthplace of the Olympic Games.",
+    fullDescription: "Journey through the cradle of Western civilization. Explore Athens' Acropolis, Parthenon, and the National Archaeological Museum. Travel to Delphi, where the Oracle once spoke, nestled on Mount Pausanias. Continue to ancient Olympia, birthplace of the Olympic Games, and the nearby hill of Kronos. Conclude with a visit to the Corinth Canal and the Temple of Poseidon at Cape Sounion.",
+    durationDays: 6,
+    basePrice: 1850.00,
+    currency: "USD",
+    groupSize: 18,
+    groupSizeIsMinimum: true,
+    isFeatured: false,
+  },
+  {
+    slug: "zermatt-matterhorn-glacier-paradise",
+    destinationSlug: "switzerland",
+    name: "Zermatt & the Matterhorn Glacier Paradise",
+    shortDescription: "Car-free alpine village, iconic peak views, and Europe's highest glacier station.",
+    fullDescription: "Stay in the car-free village of Zermatt for unobstructed views of the iconic Matterhorn. Ride the Gornergrat Railway for sweeping alpine panoramas, then ascend to Klein Matterhorn and the Matterhorn Glacier Paradise cable car, Europe's highest station at 3,883 meters. Explore the ice palace, enjoy glacier views across the Alps, and return to Zermatt's cozy chalets for authentic Swiss dining.",
+    durationDays: 5,
+    basePrice: 2100.00,
+    currency: "USD",
+    groupSize: 12,
+    groupSizeIsMinimum: true,
+    isFeatured: true,
+  },
+  {
+    slug: "varanasi-ganges-spiritual-journey",
+    destinationSlug: "india",
+    name: "Varanasi & the Sacred Ganges",
+    shortDescription: "Witness sunrise prayers on India's holiest river and the timeless ghats of Varanasi.",
+    fullDescription: "Step into one of the world's oldest living cities. Explore Varanasi's labyrinthine alleys leading to the ghats along the Ganges, where daily Aarti ceremonies draw crowds at dawn and dusk. Take a sunrise boat ride to witness the spiritual heartbeat of Hinduism. Visit Kashi Vishwanath Temple, Sarnath where Buddha first taught, and the Banaras Hindu University. Evening prayers on the river create an unforgettable, moving spectacle.",
+    durationDays: 4,
+    basePrice: 950.00,
+    currency: "USD",
+    groupSize: 25,
+    groupSizeIsMinimum: true,
+    isFeatured: false,
+  },
+  {
+    slug: "bangkok-chiang-mai-temple-tour",
+    destinationSlug: "thailand",
+    name: "Bangkok to Chiang Mai: Temples & Mountains",
+    shortDescription: "From glittering city temples to misty northern highlands and elephant sanctuaries.",
+    fullDescription: "Begin in Bangkok, exploring the Grand Palace, Wat Pho, and the golden Wat Arun. Take an overnight train north to Chiang Mai, a city surrounded by ancient moats and hundreds of ornate temples. Spend days visiting Doi Suthep, taking a cooking class in the countryside, and volunteering at an ethical elephant sanctuary. End with a visit to a hill-tribe village to learn traditional weaving and meet the region's diverse communities.",
+    durationDays: 7,
+    basePrice: 1350.00,
+    currency: "USD",
+    groupSize: 16,
+    groupSizeIsMinimum: true,
+    isFeatured: false,
+  },
+  {
+    slug: "rome-vatican-colosseum-ancient-rome",
+    destinationSlug: "italy",
+    name: "Rome: Vatican & Ancient Rome",
+    shortDescription: "Step inside the Vatican, the Colosseum, and the Roman Forum in one immersive day.",
+    fullDescription: "Dive deep into the heart of ancient and religious Rome. Start early at the Vatican Museums and the Sistine Chapel before the crowds arrive, then walk through St. Peter's Basilica. After lunch, explore the Colosseum, Palatine Hill, and Roman Forum, where the Roman Empire was governed. End the day with a stroll through Trastevere's lantern-lit streets and a plate of traditional Roman pasta.",
+    durationDays: 3,
+    basePrice: 1100.00,
+    currency: "USD",
+    groupSize: 15,
+    groupSizeIsMinimum: true,
+    isFeatured: false,
+  },
+  {
+    slug: "florence-renaissance-art-tuscany",
+    destinationSlug: "italy",
+    name: "Florence & the Renaissance Art Trail",
+    shortDescription: "Discover Michelangelo's masterpieces and the rolling hills of Tuscany.",
+    fullDescription: "Spend your days in Florence, the birthplace of the Renaissance. Stand beneath Michelangelo's David in the Accademia, visit the Duomo's magnificent dome, and cross the Ponte Vecchio. Take day trips into the Tuscan countryside to the medieval town of Siena and the walled city of Lucca. Sip Chianti in a family-run vineyard and taste authentic Florentine steak before returning to your boutique hotel.",
+    durationDays: 5,
+    basePrice: 1650.00,
+    currency: "USD",
+    groupSize: 14,
+    groupSizeIsMinimum: true,
+    isFeatured: true,
+  },
+  {
+    slug: "amalfi-coast-positano-sorrento",
+    destinationSlug: "italy",
+    name: "Amalfi Coast: Positano & Sorrento",
+    shortDescription: "Cliffside villages, lemon groves, and Mediterranean views along Italy's most dramatic coast.",
+    fullDescription: "Travel the winding roads of the Amalfi Coast, stopping at the pastel-colored village of Positano cascading down the cliffs. Wander the lemon-scented streets of Sorrento and take a boat to the emerald grottoes of Capri. Hike the Path of the Gods for breathtaking sea views, sample limoncello made from local Sorrento lemons, and dine on fresh seafood at family-run trattorias perched above the water.",
+    durationDays: 5,
+    basePrice: 1750.00,
+    currency: "USD",
+    groupSize: 12,
+    groupSizeIsMinimum: true,
+    isFeatured: false,
+  },
+  {
+    slug: "jaipur-amber-fort-taj-mahal",
+    destinationSlug: "india",
+    name: "Jaipur, Amber Fort & the Taj Mahal",
+    shortDescription: "Pink palaces, marble marvels, and the timeless romance of the Taj Mahal.",
+    fullDescription: "Explore India's Golden Triangle in style. Begin in Jaipur, the Pink City, visiting the City Palace, Hawa Mahal, and Jantar Mantar observatory. Climb to the hilltop Amber Fort on elephant-back or by jeep through the Maota Lake. Travel to Agra to witness the Taj Mahal at sunrise, its white marble shifting with the light. Tour the imposing Agra Fort and return to Jaipur for a traditional Rajasthani dinner with folk music.",
+    durationDays: 5,
+    basePrice: 1300.00,
+    currency: "USD",
+    groupSize: 20,
+    groupSizeIsMinimum: true,
+    isFeatured: false,
+  },
+  {
+    slug: "goa-beaches-watersports-india",
+    destinationSlug: "india",
+    name: "Goa: Beaches, Watersports & Sunsets",
+    shortDescription: "Golden sands, palm-fringed shores, and lively beach shacks on India's coast.",
+    fullDescription: "Unwind on Goa's sun-kissed beaches, from the quiet sands of Palolem to the bustling shacks of Baga. Spend your mornings kayaking through the mangroves of the Mandovi River or scuba diving off Grand Island to explore coral reefs and tropical fish. Take a sunset dolphin-watching cruise, sample fresh Goan seafood curry at a beachfront shack, and visit the historic churches and forts of Old Goa. End each day with a vibrant sunset and a cold Kingfisher beer.",
+    durationDays: 5,
+    basePrice: 900.00,
+    currency: "USD",
+    groupSize: 24,
+    groupSizeIsMinimum: true,
+    isFeatured: false,
+  },
 ];
 
 const tourCategories = {
@@ -106,6 +236,16 @@ const tourCategories = {
   "golden-sands-rajasthan-desert-safari": ["adventure", "cultural", "discovery"],
   "alpine-majesty-peaks-glaciers": ["adventure", "discovery"],
   "italian-splendor-rome-florence-venice": ["cultural", "historical", "discovery"],
+  "thailand-paradise-beaches-culture": ["seaside", "cultural", "historical", "discovery"],
+  "athens-delphi-olympic-heritage": ["historical", "cultural", "discovery"],
+  "zermatt-matterhorn-glacier-paradise": ["adventure", "discovery"],
+  "varanasi-ganges-spiritual-journey": ["cultural", "historical", "discovery"],
+  "bangkok-chiang-mai-temple-tour": ["cultural", "adventure", "discovery"],
+  "rome-vatican-colosseum-ancient-rome": ["historical", "cultural", "discovery"],
+  "florence-renaissance-art-tuscany": ["cultural", "historical", "discovery"],
+  "amalfi-coast-positano-sorrento": ["seaside", "discovery", "cultural"],
+  "jaipur-amber-fort-taj-mahal": ["historical", "cultural", "adventure"],
+  "goa-beaches-watersports-india": ["seaside", "adventure", "discovery"],
 };
 
 const tourImages = {
@@ -140,6 +280,161 @@ const tourImages = {
       displayOrder: 0,
       isPrimary: true,
     },
+  ],
+  "thailand-paradise-beaches-culture": [
+    {
+      imageUrl: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800",
+      altText: "Thailand Paradise: Beaches & Culture tour",
+      displayOrder: 0,
+      isPrimary: true,
+    },
+  ],
+  "athens-delphi-olympic-heritage": [
+    {
+      imageUrl: "https://images.unsplash.com/photo-1534177616072-8e8b0e4d0d4e?w=800",
+      altText: "Athens, Delphi & Olympic Heritage tour",
+      displayOrder: 0,
+      isPrimary: true,
+    },
+  ],
+  "zermatt-matterhorn-glacier-paradise": [
+    {
+      imageUrl: "https://images.unsplash.com/photo-1531366936330-7bf9be0c092b?w=800",
+      altText: "Zermatt & the Matterhorn Glacier Paradise tour",
+      displayOrder: 0,
+      isPrimary: true,
+    },
+  ],
+  "varanasi-ganges-spiritual-journey": [
+    {
+      imageUrl: "https://images.unsplash.com/photo-1571819342408-a32b2a4ad8d6?w=800",
+      altText: "Varanasi & the Sacred Ganges tour",
+      displayOrder: 0,
+      isPrimary: true,
+    },
+  ],
+  "bangkok-chiang-mai-temple-tour": [
+    {
+      imageUrl: "https://images.unsplash.com/photo-1508004466971-d5334db9d8e3?w=800",
+      altText: "Bangkok to Chiang Mai: Temples & Mountains tour",
+      displayOrder: 0,
+      isPrimary: true,
+    },
+  ],
+  "rome-vatican-colosseum-ancient-rome": [
+    {
+      imageUrl: "https://images.unsplash.com/photo-1552833479-84e28648bba1?w=800",
+      altText: "Rome: Vatican & Ancient Rome tour",
+      displayOrder: 0,
+      isPrimary: true,
+    },
+  ],
+  "florence-renaissance-art-tuscany": [
+    {
+      imageUrl: "https://images.unsplash.com/photo-1549339909-699d5b2c797f?w=800",
+      altText: "Florence & the Renaissance Art Trail tour",
+      displayOrder: 0,
+      isPrimary: true,
+    },
+  ],
+  "amalfi-coast-positano-sorrento": [
+    {
+      imageUrl: "https://images.unsplash.com/photo-1539068716602-7ef67d639090?w=800",
+      altText: "Amalfi Coast: Positano & Sorrento tour",
+      displayOrder: 0,
+      isPrimary: true,
+    },
+  ],
+  "jaipur-amber-fort-taj-mahal": [
+    {
+      imageUrl: "https://images.unsplash.com/photo-1599661082133-103776e5b1ff?w=800",
+      altText: "Jaipur, Amber Fort & the Taj Mahal tour",
+      displayOrder: 0,
+      isPrimary: true,
+    },
+  ],
+  "goa-beaches-watersports-india": [
+    {
+      imageUrl: "https://images.unsplash.com/photo-1519046904884-53103b34b1ae?w=800",
+      altText: "Goa: Beaches, Watersports & Sunsets tour",
+      displayOrder: 0,
+      isPrimary: true,
+    },
+  ],
+};
+
+const tourItinerary = {
+  "thailand-paradise-beaches-culture": [
+    { dayNumber: 1, dayLabel: "Day 1", title: "Arrival in Bangkok", description: "Arrive at Suvarnabhumi Airport, transfer to your hotel in the city centre, and enjoy an evening stroll along the Chao Phraya River." },
+    { dayNumber: 2, dayLabel: "Day 2", title: "Bangkok Temples & Grand Palace", description: "Explore the Grand Palace, Wat Pho, and Wat Arun. Return to the hotel in the afternoon and explore the city's markets at your own pace." },
+    { dayNumber: 3, dayLabel: "Day 3", title: "Fly to Phuket", description: "Morning flight to Phuket. Check into your beachfront resort and spend the afternoon relaxing on Patong Beach or exploring the island's old town." },
+    { dayNumber: 4, dayLabel: "Day 4", title: "Phi Phi Islands Day Trip", description: "Take a speedboat to Koh Phi Phi. Snorkel in vibrant coral reefs, visit Maya Bay, and enjoy a beach barbecue lunch on the island." },
+    { dayNumber: 5, dayLabel: "Day 5", title: "Ayutthaya Historical Park", description: "Travel by train to Ayutthaya, a UNESCO World Heritage Site. Visit the ancient temple ruins and return to Bangkok in the evening." },
+    { dayNumber: 6, dayLabel: "Day 6", title: "Bangkok Markets & Street Food", description: "Explore the Chatuchak Weekend Market and take a boat ride through the city's khlongs. Enjoy a street food tour in the Chinatown district in the evening." },
+    { dayNumber: 7, dayLabel: "Day 7", title: "Departure", description: "Final breakfast at your hotel, last-minute shopping at a local market, and transfer to the airport for your departure flight." },
+  ],
+  "athens-delphi-olympic-heritage": [
+    { dayNumber: 1, dayLabel: "Day 1", title: "Arrival in Athens", description: "Arrive in Athens, check into your hotel in Plaka, and take an evening walk around the historic neighbourhood. Enjoy dinner with a view of the Acropolis." },
+    { dayNumber: 2, dayLabel: "Day 2", title: "Acropolis & Acropolis Museum", description: "Visit the Acropolis at sunrise, exploring the Parthenon, Erechtheion, and Propylaea. Spend the afternoon at the state-of-the-art Acropolis Museum." },
+    { dayNumber: 3, dayLabel: "Day 3", title: "Delphi Day Trip", description: "Drive through the mountains to Delphi. Visit the Temple of Apollo, the Athenian Treasury, and the Delphi Archaeological Museum with its famous Charioteer statue." },
+    { dayNumber: 4, dayLabel: "Day 4", title: "Ancient Olympia", description: "Travel to Olympia, birthplace of the Olympic Games. Tour the ancient stadium, the Temple of Zeus, and the archaeological museum." },
+    { dayNumber: 5, dayLabel: "Day 5", title: "Corinth Canal & Cape Sounion", description: "Stop at the dramatic Corinth Canal en route back to Athens. Continue to Cape Sounion to watch the sunset over the Temple of Poseidon." },
+    { dayNumber: 6, dayLabel: "Day 6", title: "National Archaeological Museum & Departure", description: "Visit Athens' National Archaeological Museum, one of the world's greatest collections of ancient art, before transferring to the airport." },
+  ],
+  "zermatt-matterhorn-glacier-paradise": [
+    { dayNumber: 1, dayLabel: "Day 1", title: "Arrival in Zermatt", description: "Arrive in Zermatt by train or cable car. Check into your mountain chalet and take an evening stroll through the car-free village with views of the Matterhorn." },
+    { dayNumber: 2, dayLabel: "Day 2", title: "Gornergrat Railway", description: "Ride the open-air Gornergrat Railway for a 360-degree panorama of 29 peaks over 4,000 meters. Hike or take the cog railway back down to Zermatt in the afternoon." },
+    { dayNumber: 3, dayLabel: "Day 3", title: "Matterhorn Glacier Paradise", description: "Ascend by cable car to Klein Matterhorn at 3,883 meters, Europe's highest station. Visit the ice palace and enjoy views of the Alps from the panoramic terrace." },
+    { dayNumber: 4, dayLabel: "Day 4", title: "Five Lakes Walk (5 Seenweg)", description: "Take a scenic hike along the Five Lakes trail, offering the best unobstructed views of the Matterhorn. Return to Zermatt for a traditional Swiss dinner." },
+    { dayNumber: 5, dayLabel: "Day 5", title: "Departure", description: "Final breakfast with a view of the Matterhorn, then take the train back to the airport for your departure." },
+  ],
+  "varanasi-ganges-spiritual-journey": [
+    { dayNumber: 1, dayLabel: "Day 1", title: "Arrival in Varanasi", description: "Arrive in Varanasi and check into your hotel in the old city. Walk through the labyrinthine alleys to reach the ghats for the evening Ganga Aarti ceremony." },
+    { dayNumber: 2, dayLabel: "Day 2", title: "Sunrise Boat Ride & Ghats", description: "Take a sunrise boat ride on the Ganges to witness the morning rituals along the ghats. Explore the Kashi Vishwanath Temple and the Manikarnika Ghat in the afternoon." },
+    { dayNumber: 3, dayLabel: "Day 3", title: "Sarnath & Banaras Hindu University", description: "Visit Sarnath, where Gautama Buddha first taught the Dharma. Tour the archaeological site and museum, then explore the BHU campus and its museum in the late afternoon." },
+    { dayNumber: 4, dayLabel: "Day 4", title: "Departure", description: "Final walk along the ghats at dawn before transferring to the airport for your departure." },
+  ],
+  "bangkok-chiang-mai-temple-tour": [
+    { dayNumber: 1, dayLabel: "Day 1", title: "Arrival in Bangkok", description: "Arrive in Bangkok and check into your hotel. Explore the city's vibrant night markets and take a boat ride on the Chao Phraya River in the evening." },
+    { dayNumber: 2, dayLabel: "Day 2", title: "Grand Palace & Temples", description: "Visit the Grand Palace, Wat Pho, and Wat Arun. In the afternoon, explore the bustling Khao San Road area for street food and local culture." },
+    { dayNumber: 3, dayLabel: "Day 3", title: "Overnight Train to Chiang Mai", description: "Board an overnight sleeper train from Bangkok to Chiang Mai. Enjoy the changing scenery as the train climbs into the northern highlands." },
+    { dayNumber: 4, dayLabel: "Day 4", title: "Chiang Mai Old City Temples", description: "Arrive in Chiang Mai and explore the old walled city. Visit Wat Chedi Luang, Wat Phra Singh, and the historic temples within the moats." },
+    { dayNumber: 5, dayLabel: "Day 5", title: "Doi Suthep Temple & Elephant Sanctuary", description: "Climb to Wat Doi Suthep for panoramic views of the city. Spend the afternoon at an ethical elephant sanctuary, learning about conservation and caring for these gentle giants." },
+    { dayNumber: 6, dayLabel: "Day 6", title: "Hill Tribe Village Visit", description: "Travel to a nearby hill tribe village to learn about traditional weaving, meet the local communities, and experience the region's cultural diversity." },
+    { dayNumber: 7, dayLabel: "Day 7", title: "Departure", description: "Final breakfast in Chiang Mai, last-minute exploration of the local markets, and transfer to the airport for your departure." },
+  ],
+  "rome-vatican-colosseum-ancient-rome": [
+    { dayNumber: 1, dayLabel: "Day 1", title: "Arrival in Rome", description: "Arrive in Rome and check into your hotel. Take an evening stroll through the historic centre, visiting the Pantheon and Piazza Navona." },
+    { dayNumber: 2, dayLabel: "Day 2", title: "Vatican Museums & St. Peter's", description: "Explore the Vatican Museums, Sistine Chapel, and St. Peter's Basilica. Book your tickets in advance to avoid the crowds and enjoy an early morning visit." },
+    { dayNumber: 3, dayLabel: "Day 3", title: "Colosseum & Roman Forum", description: "Tour the Colosseum, Palatine Hill, and Roman Forum with a guided archaeologist. Walk along the Via Sacra and imagine the ancient city at its peak." },
+  ],
+  "florence-renaissance-art-tuscany": [
+    { dayNumber: 1, dayLabel: "Day 1", title: "Arrival in Florence", description: "Arrive in Florence and check into your hotel. Take an evening walk along the Arno River and enjoy a traditional Florentine dinner in the historic centre." },
+    { dayNumber: 2, dayLabel: "Day 2", title: "Accademia & Duomo", description: "Visit the Accademia Gallery to see Michelangelo's David, then explore the Duomo, Baptistery, and Giotto's Campanile. Climb the dome for panoramic views of the city." },
+    { dayNumber: 3, dayLabel: "Day 3", title: "Uffizi Gallery & Ponte Vecchio", description: "Explore the Uffizi Gallery's Renaissance masterpieces by Botticelli, Leonardo, and Raphael. Stroll across the Ponte Vecchio and explore the Oltrarno artisan quarter in the afternoon." },
+    { dayNumber: 4, dayLabel: "Day 4", title: "Siena Day Trip", description: "Take a day trip to the medieval hill town of Siena. Visit the Piazza del Campo, the Duomo, and the Palazzo Pubblico, then enjoy a Chianti wine lunch in the Tuscan countryside." },
+    { dayNumber: 5, dayLabel: "Day 5", title: "Departure", description: "Final breakfast in Florence, last-minute exploration of the local markets, and transfer to the airport for your departure." },
+  ],
+  "amalfi-coast-positano-sorrento": [
+    { dayNumber: 1, dayLabel: "Day 1", title: "Arrival in Sorrento", description: "Arrive in Sorrento and check into your hotel. Take an evening stroll through the town's narrow streets and enjoy fresh seafood at a cliffside restaurant." },
+    { dayNumber: 2, dayLabel: "Day 2", title: "Positano & Amalfi", description: "Take a scenic bus ride along the Amalfi Drive to the pastel-colored village of Positano. Continue to Amalfi, visit the cathedral, and relax on the pebble beaches." },
+    { dayNumber: 3, dayLabel: "Day 3", title: "Path of the Gods Hike", description: "Hike the famous Sentiero degli Dei (Path of the Gods) from Bomerano to Nocella, with breathtaking views of the coastline and dramatic cliffs." },
+    { dayNumber: 4, dayLabel: "Day 4", title: "Capri Island Day Trip", description: "Take a ferry to Capri. Visit the Blue Grotto, explore the island's gardens, and enjoy a leisurely lunch with views of the Mediterranean." },
+    { dayNumber: 5, dayLabel: "Day 5", title: "Departure", description: "Final breakfast in Sorrento, explore the local lemon groves for limoncello tasting, and transfer to the airport for your departure." },
+  ],
+  "jaipur-amber-fort-taj-mahal": [
+    { dayNumber: 1, dayLabel: "Day 1", title: "Arrival in Jaipur", description: "Arrive in Jaipur, the Pink City, and check into your hotel. Explore the City Palace and Jantar Mantar observatory in the afternoon, then enjoy a traditional Rajasthani dinner with folk music." },
+    { dayNumber: 2, dayLabel: "Day 2", title: "Amber Fort", description: "Visit the magnificent Amber Fort, riding an elephant or jeep up the hillside. Explore the fort's palaces, gardens, and the Sheesh Mahal (Mirror Palace) before returning to the city." },
+    { dayNumber: 3, dayLabel: "Day 3", title: "Travel to Agra", description: "Travel by car or train to Agra. Visit the imposing Agra Fort, a UNESCO World Heritage Site, and explore the historic gardens and pavilions of the Mughal era." },
+    { dayNumber: 4, dayLabel: "Day 4", title: "Taj Mahal at Sunrise", description: "Visit the Taj Mahal at sunrise to witness its marble glow in the soft morning light. Explore the surrounding gardens and the nearby tomb of Itmad-ud-Daulah, then return to Jaipur in the afternoon." },
+    { dayNumber: 5, dayLabel: "Day 5", title: "Departure", description: "Final breakfast in Jaipur, last-minute shopping for handicrafts and textiles, and transfer to the airport for your departure." },
+  ],
+  "goa-beaches-watersports-india": [
+    { dayNumber: 1, dayLabel: "Day 1", title: "Arrival in Goa", description: "Arrive at Dabolim Airport and transfer to your beachfront hotel in North Goa. Spend the afternoon relaxing on Calangute Beach and enjoy a sunset dinner at a beach shack." },
+    { dayNumber: 2, dayLabel: "Day 2", title: "Watersports & Baga Beach", description: "Enjoy a morning of watersports including parasailing, jet skiing, and banana boat rides off Baga Beach. Explore the lively beach shacks and shops in the afternoon." },
+    { dayNumber: 3, dayLabel: "Day 3", title: "Old Goa & Fort Aguada", description: "Visit the historic churches of Old Goa, a UNESCO World Heritage Site, including the Basilica of Bom Jesus. Tour Fort Aguada and its lighthouse for panoramic views of the Arabian Sea." },
+    { dayNumber: 4, dayLabel: "Day 4", title: "Mangrove Kayaking & Dolphin Cruise", description: "Kayak through the peaceful mangroves of the Mandovi River in the morning. Take a sunset dolphin-watching cruise and enjoy fresh Goan seafood at a beachfront restaurant." },
+    { dayNumber: 5, dayLabel: "Day 5", title: "Departure", description: "Final breakfast by the sea, last-minute swimming or shopping for Goan handicrafts, and transfer to the airport for your departure." },
   ],
 };
 
@@ -273,6 +568,33 @@ async function seedTourImages(client) {
   }
 }
 
+async function seedTourItinerary(client) {
+  for (const [tourSlug, days] of Object.entries(tourItinerary)) {
+    const tourResult = await client.query(
+      `SELECT id FROM tours WHERE slug = $1`,
+      [tourSlug]
+    );
+    if (tourResult.rows.length === 0) {
+      throw new Error(`Tour not found for slug: ${tourSlug}`);
+    }
+    const tourId = tourResult.rows[0].id;
+
+    // Delete existing itinerary rows for this tour to ensure idempotency
+    await client.query(
+      `DELETE FROM tour_itinerary WHERE tour_id = $1`,
+      [tourId]
+    );
+
+    for (const day of days) {
+      await client.query(
+        `INSERT INTO tour_itinerary (tour_id, day_number, day_label, title, description, display_order)
+         VALUES ($1, $2, $3, $4, $5, $6)`,
+        [tourId, day.dayNumber, day.dayLabel, day.title, day.description, day.dayNumber]
+      );
+    }
+  }
+}
+
 async function main() {
   const client = await pool.connect();
   try {
@@ -282,8 +604,9 @@ async function main() {
     await seedTours(client);
     await seedTourCategories(client);
     await seedTourImages(client);
+    await seedTourItinerary(client);
     await client.query("COMMIT");
-    console.log("Destinations, categories, tours, tour-category associations, and tour images seeded successfully");
+    console.log("Destinations, categories, tours, tour-category associations, tour images, and tour itineraries seeded successfully");
   } catch (err) {
     await client.query("ROLLBACK");
     console.error("Seed failed:", err.message);
