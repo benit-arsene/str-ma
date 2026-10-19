@@ -128,6 +128,110 @@
   padding-right: 40px;
 }
 
+/* Custom tour dropdown (replaces native select for scrollable, styled options) */
+.custom-select-trigger {
+  width: 100%;
+  height: 48px;
+  border: 1px solid #ddd;
+  background: white;
+  color: #222;
+  padding: 0 14px 0 44px;
+  font-size: 14px;
+  border-radius: 4px;
+  box-sizing: border-box;
+  outline: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.custom-select-trigger:focus {
+  border-color: #c29d59;
+  box-shadow: 0 0 0 3px rgba(194, 157, 89, 0.15);
+}
+
+.custom-select-trigger.has-value {
+  color: #222;
+}
+
+.custom-select-placeholder {
+  color: #999;
+}
+
+.custom-select-arrow {
+  flex-shrink: 0;
+  margin-left: auto;
+  transition: transform 0.2s;
+}
+
+.custom-select-wrapper.open .custom-select-arrow {
+  transform: rotate(180deg);
+}
+
+.custom-dropdown-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  max-height: 320px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: white;
+  border: 1px solid #ddd;
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  margin-top: 4px;
+}
+
+.custom-dropdown-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-dropdown-list::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+.custom-dropdown-list::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.custom-dropdown-list::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.custom-dropdown-item {
+  padding: 10px 14px;
+  font-size: 0.9rem;
+  color: #1e293b;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.custom-dropdown-item:hover {
+  background-color: #f8fafc;
+  color: #c29d59;
+}
+
+.custom-dropdown-item.selected {
+  background-color: #fef3c7;
+  color: #b45309;
+  font-weight: 500;
+}
+
+.custom-dropdown-item[aria-selected="true"] {
+  background-color: #fef3c7;
+  color: #b45309;
+  font-weight: 500;
+}
+
 .textarea-wrapper {
   position: relative;
 }

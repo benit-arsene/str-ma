@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
 import {
   Loader2,
@@ -80,6 +80,8 @@ function Reservation() {
   const [paymentChecking, setPaymentChecking] = useState(false);
   const [searchParams] = useSearchParams();
   const tourParam = searchParams.get("tour");
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const selectRef = useRef(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -137,6 +139,23 @@ function Reservation() {
       setValidationErrors((prev) => ({ ...prev, [field]: null }));
     }
   };
+
+  const toggleDropdown = () => {
+    if (tours.length === 0) return;
+    setDropdownOpen((prev) => !prev);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (selectRef.current && !selectRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -759,22 +778,76 @@ function Reservation() {
               <div className="form-grid">
                 <div className="form-field">
                   <label htmlFor="tour-select">Tour <span className="required">*</span></label>
-                  <div className="select-wrapper">
+                  <div
+                    ref={selectRef}
+                    className={`select-wrapper custom-select-wrapper ${dropdownOpen ? "open" : ""}`}
+                  >
                     <Calendar className="input-icon" aria-hidden="true" />
-                    <select
+                    <div
                       id="tour-select"
-                      value={formState.tourId}
-                      onChange={(e) => handleChange("tourId", e.target.value)}
-                      required
-                      disabled={tours.length === 0}
+                      role="button"
+                      tabIndex={0}
+                      aria-expanded={dropdownOpen}
+                      aria-label="Select a tour"
+                      className={`custom-select-trigger ${formState.tourId ? "has-value" : ""}`}
+                      onClick={toggleDropdown}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          toggleDropdown();
+                        }
+                        if (e.key === "Escape") {
+                          setDropdownOpen(false);
+                        }
+                      }}
                     >
-                      <option value="">Select a tour</option>
-                      {tours.map((tour) => (
-                        <option key={tour.id} value={tour.id}>
-                          {tour.name} - {tour.destination_name} ({tour.currency} {tour.base_price})
-                        </option>
-                      ))}
-                    </select>
+                      {formState.tourId ? (
+                        <span className="custom-select-value">
+                          {tours.find((t) => t.id === formState.tourId)?.name}
+                        </span>
+                      ) : (
+                        <span className="custom-select-placeholder">Select a tour</span>
+                      )}
+                      <svg
+                        className="custom-select-arrow"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="#999"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <polyline points="6 9 12 15 18 9" />
+                      </svg>
+                    </div>
+                    {dropdownOpen && (
+                      <div className="custom-dropdown-list" role="listbox">
+                        <div
+                          role="option"
+                          aria-selected={!formState.tourId}
+                          className={`custom-dropdown-item ${!formState.tourId ? "selected" : ""}`}
+                          onClick={() => handleChange("tourId", "")}
+                        >
+                          Select a tour
+                        </div>
+                        {tours.map((tour) => (
+                          <div
+                            key={tour.id}
+                            role="option"
+                            aria-selected={formState.tourId === tour.id}
+                            className={`custom-dropdown-item ${formState.tourId === tour.id ? "selected" : ""}`}
+                            onClick={() => {
+                              handleChange("tourId", tour.id);
+                              setDropdownOpen(false);
+                            }}
+                          >
+                            {tour.name} - {tour.destination_name} ({tour.currency} {tour.base_price})
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                   {validationErrors.tourId && <span className="field-error">{validationErrors.tourId}</span>}
                 </div>
