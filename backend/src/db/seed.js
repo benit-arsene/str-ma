@@ -36,6 +36,13 @@ const destinations = [
     description: "Art, history, and cuisine across Italy's most iconic cities.",
     imageUrl: "https://images.goway.com/production/styles/article_featured_image_3xl/s3/featured_images/Gornergrat-tourist-train-with-waterfall%2C-bridge-and-Matterhorn%2C-Zermatt%2C-Switzerland_AdobeStock_357392613.jpeg.webp?VersionId=9mo5ly3faIhUY3lxrPODTVvbzc801sS6&h=0875ea28&itok=M1d-5FQZ",
   },
+  {
+    name: "Rwanda",
+    slug: "rwanda",
+    country: "Rwanda",
+    description: "The Land of a Thousand Hills, home to mountain gorillas, volcanoes, and vibrant culture.",
+    imageUrl: "https://images.unsplash.com/photo-1595682788376-288b5374cb14?w=800",
+  },
 ];
 
 const categories = [
@@ -229,6 +236,71 @@ const tours = [
     groupSizeIsMinimum: true,
     isFeatured: false,
   },
+  {
+    slug: "rwanda-gorilla-trekking-volcanoes-adventure",
+    destinationSlug: "rwanda",
+    name: "Rwanda Gorilla Trekking & Volcanoes Adventure",
+    shortDescription: "Trek through Volcanoes National Park to encounter mountain gorillas in their natural habitat.",
+    fullDescription: "Journey to the Virunga Mountains for an unforgettable mountain gorilla trekking experience in Volcanoes National Park. Hike through bamboo forests and alpine meadows with expert guides, spend an hour observing a habituated gorilla family, and learn about conservation efforts protecting these endangered primates. Based in Musanze, this adventure combines wildlife encounters with the dramatic scenery of Rwanda's northern volcanoes.",
+    durationDays: 3,
+    basePrice: 1850.00,
+    currency: "USD",
+    groupSize: 8,
+    groupSizeIsMinimum: false,
+    isFeatured: true,
+  },
+  {
+    slug: "rwanda-akagera-wildlife-safari-escape",
+    destinationSlug: "rwanda",
+    name: "Akagera Wildlife Safari Escape",
+    shortDescription: "Safari through Akagera National Park to spot lions, elephants, giraffes, and zebras.",
+    fullDescription: "Explore Akagera National Park's savannah, wetlands, and lakes on a classic Big Five safari. Game drives offer chances to see lions, elephants, buffalo, leopards, and rhinos, along with giraffes, zebras, hippos, and prolific birdlife. Stay in comfortable lodge accommodation and experience the remarkable wildlife restoration story of Rwanda's only savannah park.",
+    durationDays: 2,
+    basePrice: 950.00,
+    currency: "USD",
+    groupSize: 6,
+    groupSizeIsMinimum: false,
+    isFeatured: false,
+  },
+  {
+    slug: "rwanda-nyungwe-rainforest-canopy-walk",
+    destinationSlug: "rwanda",
+    name: "Nyungwe Rainforest & Canopy Walk",
+    shortDescription: "Explore Nyungwe's ancient rainforest and walk above the treetops on the canopy walkway.",
+    fullDescription: "Discover one of Africa's oldest rainforests in Nyungwe National Park. Walk the suspended canopy walkway high above the forest floor, track chimpanzees through the jungle, and spot colobus monkeys and hundreds of bird species. This three-day retreat blends adventure hiking with peaceful eco-lodge stays in Rwanda's southwest.",
+    durationDays: 3,
+    basePrice: 750.00,
+    currency: "USD",
+    groupSize: 10,
+    groupSizeIsMinimum: true,
+    isFeatured: false,
+  },
+  {
+    slug: "rwanda-lake-kivu-islands-lakeside-retreat",
+    destinationSlug: "rwanda",
+    name: "Lake Kivu Islands & Lakeside Retreat",
+    shortDescription: "Relax on the shores of Lake Kivu and explore its islands with a lakeside retreat.",
+    fullDescription: "Unwind along the shores of Lake Kivu, one of Africa's Great Lakes, with its sparkling waters, islands, and lakeside towns. Take a boat trip to explore the islands, kayak along the shoreline, and enjoy sunset views from Rubavu. A relaxing three-day escape combining water activities with lakeside relaxation.",
+    durationDays: 3,
+    basePrice: 1100.00,
+    currency: "USD",
+    groupSize: 12,
+    groupSizeIsMinimum: true,
+    isFeatured: false,
+  },
+  {
+    slug: "rwanda-kigali-culture-heritage-city-discovery",
+    destinationSlug: "rwanda",
+    name: "Kigali Culture, Heritage & City Discovery",
+    shortDescription: "Discover Kigali's culture, history, and heritage on a guided city tour.",
+    fullDescription: "Explore Rwanda's vibrant capital on a two-day cultural discovery tour. Visit the Kigali Genocide Memorial, local markets, artisan cooperatives, and heritage sites that tell the story of Rwanda's history and renewal. Experience the city's food scene, contemporary art galleries, and the warm hospitality that makes Kigali one of Africa's cleanest and safest capitals.",
+    durationDays: 2,
+    basePrice: 650.00,
+    currency: "USD",
+    groupSize: 15,
+    groupSizeIsMinimum: true,
+    isFeatured: false,
+  },
 ];
 
 const tourCategories = {
@@ -246,6 +318,11 @@ const tourCategories = {
   "amalfi-coast-positano-sorrento": ["seaside", "discovery", "cultural"],
   "jaipur-amber-fort-taj-mahal": ["historical", "cultural", "adventure"],
   "goa-beaches-watersports-india": ["seaside", "adventure", "discovery"],
+  "rwanda-gorilla-trekking-volcanoes-adventure": ["adventure", "discovery", "cultural"],
+  "rwanda-akagera-wildlife-safari-escape": ["adventure", "cultural", "discovery"],
+  "rwanda-nyungwe-rainforest-canopy-walk": ["adventure", "discovery"],
+  "rwanda-lake-kivu-islands-lakeside-retreat": ["seaside", "discovery", "cultural"],
+  "rwanda-kigali-culture-heritage-city-discovery": ["cultural", "historical", "discovery"],
 };
 
 const tourImages = {
@@ -361,6 +438,46 @@ const tourImages = {
       isPrimary: true,
     },
   ],
+  "rwanda-gorilla-trekking-volcanoes-adventure": [
+    {
+      imageUrl: "https://images.unsplash.com/photo-1537926604183-4407e7488e26?w=800",
+      altText: "Rwanda Gorilla Trekking & Volcanoes Adventure tour",
+      displayOrder: 0,
+      isPrimary: true,
+    },
+  ],
+  "rwanda-akagera-wildlife-safari-escape": [
+    {
+      imageUrl: "https://images.unsplash.com/photo-1542204166-48670b99362b?w=800",
+      altText: "Akagera Wildlife Safari Escape tour",
+      displayOrder: 0,
+      isPrimary: true,
+    },
+  ],
+  "rwanda-nyungwe-rainforest-canopy-walk": [
+    {
+      imageUrl: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800",
+      altText: "Nyungwe Rainforest & Canopy Walk tour",
+      displayOrder: 0,
+      isPrimary: true,
+    },
+  ],
+  "rwanda-lake-kivu-islands-lakeside-retreat": [
+    {
+      imageUrl: "https://images.unsplash.com/photo-1542291226-7ee4a47d4589?w=800",
+      altText: "Lake Kivu Islands & Lakeside Retreat tour",
+      displayOrder: 0,
+      isPrimary: true,
+    },
+  ],
+  "rwanda-kigali-culture-heritage-city-discovery": [
+    {
+      imageUrl: "https://images.unsplash.com/photo-1519046904884-53103b34b1ae?w=800",
+      altText: "Kigali Culture, Heritage & City Discovery tour",
+      displayOrder: 0,
+      isPrimary: true,
+    },
+  ],
 };
 
 const tourItinerary = {
@@ -435,6 +552,29 @@ const tourItinerary = {
     { dayNumber: 3, dayLabel: "Day 3", title: "Old Goa & Fort Aguada", description: "Visit the historic churches of Old Goa, a UNESCO World Heritage Site, including the Basilica of Bom Jesus. Tour Fort Aguada and its lighthouse for panoramic views of the Arabian Sea." },
     { dayNumber: 4, dayLabel: "Day 4", title: "Mangrove Kayaking & Dolphin Cruise", description: "Kayak through the peaceful mangroves of the Mandovi River in the morning. Take a sunset dolphin-watching cruise and enjoy fresh Goan seafood at a beachfront restaurant." },
     { dayNumber: 5, dayLabel: "Day 5", title: "Departure", description: "Final breakfast by the sea, last-minute swimming or shopping for Goan handicrafts, and transfer to the airport for your departure." },
+  ],
+  "rwanda-gorilla-trekking-volcanoes-adventure": [
+    { dayNumber: 1, dayLabel: "Day 1", title: "Arrival in Musanze", description: "Arrive in Musanze, check into your lodge, and take an evening walk through the town with views of the Virunga volcanoes." },
+    { dayNumber: 2, dayLabel: "Day 2", title: "Gorilla Trekking", description: "Hike into Volcanoes National Park with expert guides to track and observe a habituated mountain gorilla family for one hour. Return to the lodge in the afternoon." },
+    { dayNumber: 3, dayLabel: "Day 3", title: "Departure", description: "Final breakfast with mountain views, then transfer to Kigali for your departure flight." },
+  ],
+  "rwanda-akagera-wildlife-safari-escape": [
+    { dayNumber: 1, dayLabel: "Day 1", title: "Arrival & Game Drive", description: "Transfer to Akagera National Park, check into your lodge, and head out on an afternoon game drive to spot elephants, buffalo, and antelope." },
+    { dayNumber: 2, dayLabel: "Day 2", title: "Morning Safari & Departure", description: "Take an early morning safari to see lions, giraffes, and zebras, then return to Kigali for your departure." },
+  ],
+  "rwanda-nyungwe-rainforest-canopy-walk": [
+    { dayNumber: 1, dayLabel: "Day 1", title: "Arrival in Nyungwe", description: "Transfer to Nyungwe National Park, check into your eco-lodge, and take an evening nature walk at the forest edge." },
+    { dayNumber: 2, dayLabel: "Day 2", title: "Canopy Walk & Primate Tracking", description: "Walk the suspended canopy walkway above the rainforest, then track chimpanzees or colobus monkeys with a guide." },
+    { dayNumber: 3, dayLabel: "Day 3", title: "Departure", description: "Morning birdwatching walk, then transfer back to Kigali for your departure." },
+  ],
+  "rwanda-lake-kivu-islands-lakeside-retreat": [
+    { dayNumber: 1, dayLabel: "Day 1", title: "Arrival at Lake Kivu", description: "Transfer to Rubavu on the shores of Lake Kivu, check into your lakeside hotel, and enjoy an evening sunset stroll." },
+    { dayNumber: 2, dayLabel: "Day 2", title: "Island Boat Trip", description: "Take a boat tour to explore Lake Kivu's islands, swim in the clear waters, and enjoy a lakeside lunch." },
+    { dayNumber: 3, dayLabel: "Day 3", title: "Departure", description: "Kayak along the shoreline in the morning, then transfer to Kigali for your departure." },
+  ],
+  "rwanda-kigali-culture-heritage-city-discovery": [
+    { dayNumber: 1, dayLabel: "Day 1", title: "Arrival in Kigali", description: "Arrive in Kigali, check into your hotel, and visit the Kigali Genocide Memorial to learn about Rwanda's history." },
+    { dayNumber: 2, dayLabel: "Day 2", title: "City Heritage Tour", description: "Explore local markets, artisan cooperatives, and heritage sites. Experience Kigali's food scene and contemporary art before transferring to the airport for departure." },
   ],
 };
 

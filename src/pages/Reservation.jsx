@@ -887,6 +887,9 @@ function Reservation() {
                     <div className="tour-summary-details">
                       <h4>{selectedTour.name}</h4>
                       <p className="destination">{selectedTour.destination_name}</p>
+                      {selectedTour.short_description && (
+                        <p className="tour-description">{selectedTour.short_description}</p>
+                      )}
                       <div className="tour-meta">
                         <span><strong>Duration:</strong> {selectedTour.duration_days} days</span>
                         <span><strong>Group Size:</strong> {selectedTour.group_size}{selectedTour.group_size_is_minimum ? "+" : ""} People</span>
