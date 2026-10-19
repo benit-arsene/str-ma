@@ -197,9 +197,11 @@ function TourDetail() {
                       <h1>{tour.name}</h1>
                     </div>
 
-                    <div className="tour-price">
-                      <strong>{price}</strong>
-                      <span>Per Person</span>
+                    <div className="tour-price-container">
+                      <div className="tour-price">
+                        <strong>{price}</strong>
+                      </div>
+                      <span className="tour-price-unit">Per Person</span>
                     </div>
                   </div>
 

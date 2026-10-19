@@ -117,6 +117,7 @@
 
   font-size: 19px;
   font-weight: 700;
+  color: #1e293b;
 }
 
 .book-tour-card h2 span {
@@ -258,6 +259,17 @@
   .tour-price {
     position: static;
     margin-top: 12px;
+  }
+
+  .tour-price-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .tour-price-unit {
+    font-size: 0.875rem;
+    color: #64748b;
   }
 
   .tour-highlights {
@@ -467,6 +479,23 @@
   object-fit: cover;
   display: block;
 }
+.tour-price-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.tour-price {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.tour-price-unit {
+  font-size: 0.875rem;
+  color: #64748b;
+}
+
 .tour-specifications {
   margin-top: 35px;
 }

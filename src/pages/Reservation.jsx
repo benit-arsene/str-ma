@@ -853,7 +853,7 @@ function Reservation() {
                       id="phone"
                       value={formState.phone}
                       onChange={(e) => handleChange("phone", e.target.value)}
-                      placeholder="+1 234 567 890"
+                      placeholder="+250 799 347 619"
                       required
                     />
                   </div>
