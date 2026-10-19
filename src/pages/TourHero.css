@@ -25,3 +25,23 @@
   font-size: 64px;
   font-weight: normal;
 }
+
+@media (max-width: 768px) {
+  .tour-hero {
+    height: 320px;
+  }
+
+  .tour-hero h1 {
+    font-size: 36px;
+  }
+}
+
+@media (max-width: 480px) {
+  .tour-hero {
+    height: 240px;
+  }
+
+  .tour-hero h1 {
+    font-size: 28px;
+  }
+}
