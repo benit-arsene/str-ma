@@ -368,7 +368,7 @@ const tourImages = {
   ],
   "athens-delphi-olympic-heritage": [
     {
-      imageUrl: "https://images.unsplash.com/photo-1534177616072-8e8b0e4d0d4e?w=800",
+      imageUrl: "/images/tours/athens-olympic.jpg",
       altText: "Athens, Delphi & Olympic Heritage tour",
       displayOrder: 0,
       isPrimary: true,
@@ -376,7 +376,7 @@ const tourImages = {
   ],
   "zermatt-matterhorn-glacier-paradise": [
     {
-      imageUrl: "https://images.unsplash.com/photo-1531366936330-7bf9be0c092b?w=800",
+      imageUrl: "/images/tours/zermatt-matterhorn.jpg",
       altText: "Zermatt & the Matterhorn Glacier Paradise tour",
       displayOrder: 0,
       isPrimary: true,
@@ -384,7 +384,7 @@ const tourImages = {
   ],
   "varanasi-ganges-spiritual-journey": [
     {
-      imageUrl: "https://images.unsplash.com/photo-1571819342408-a32b2a4ad8d6?w=800",
+      imageUrl: "/images/tours/varanasi-ganges.jpg",
       altText: "Varanasi & the Sacred Ganges tour",
       displayOrder: 0,
       isPrimary: true,
@@ -392,7 +392,7 @@ const tourImages = {
   ],
   "bangkok-chiang-mai-temple-tour": [
     {
-      imageUrl: "https://images.unsplash.com/photo-1508004466971-d5334db9d8e3?w=800",
+      imageUrl: "/images/tours/bangkok-chiang-mai.jpg",
       altText: "Bangkok to Chiang Mai: Temples & Mountains tour",
       displayOrder: 0,
       isPrimary: true,
@@ -400,7 +400,7 @@ const tourImages = {
   ],
   "rome-vatican-colosseum-ancient-rome": [
     {
-      imageUrl: "https://images.unsplash.com/photo-1552833479-84e28648bba1?w=800",
+      imageUrl: "/images/tours/rome-vatican.jpg",
       altText: "Rome: Vatican & Ancient Rome tour",
       displayOrder: 0,
       isPrimary: true,
@@ -408,7 +408,7 @@ const tourImages = {
   ],
   "florence-renaissance-art-tuscany": [
     {
-      imageUrl: "https://images.unsplash.com/photo-1549339909-699d5b2c797f?w=800",
+      imageUrl: "/images/tours/florence-tuscany.jpg",
       altText: "Florence & the Renaissance Art Trail tour",
       displayOrder: 0,
       isPrimary: true,
@@ -416,7 +416,7 @@ const tourImages = {
   ],
   "amalfi-coast-positano-sorrento": [
     {
-      imageUrl: "https://images.unsplash.com/photo-1539068716602-7ef67d639090?w=800",
+      imageUrl: "/images/tours/amalfi-coast.jpg",
       altText: "Amalfi Coast: Positano & Sorrento tour",
       displayOrder: 0,
       isPrimary: true,
@@ -424,7 +424,7 @@ const tourImages = {
   ],
   "jaipur-amber-fort-taj-mahal": [
     {
-      imageUrl: "https://images.unsplash.com/photo-1599661082133-103776e5b1ff?w=800",
+      imageUrl: "/images/tours/jaipur-taj-mahal.jpg",
       altText: "Jaipur, Amber Fort & the Taj Mahal tour",
       displayOrder: 0,
       isPrimary: true,
@@ -432,7 +432,7 @@ const tourImages = {
   ],
   "goa-beaches-watersports-india": [
     {
-      imageUrl: "https://images.unsplash.com/photo-1519046904884-53103b34b1ae?w=800",
+      imageUrl: "/images/tours/goa-beaches.jpg",
       altText: "Goa: Beaches, Watersports & Sunsets tour",
       displayOrder: 0,
       isPrimary: true,
@@ -440,7 +440,7 @@ const tourImages = {
   ],
   "rwanda-gorilla-trekking-volcanoes-adventure": [
     {
-      imageUrl: "https://images.unsplash.com/photo-1537926604183-4407e7488e26?w=800",
+      imageUrl: "/images/tours/rwanda-gorilla.jpg",
       altText: "Rwanda Gorilla Trekking & Volcanoes Adventure tour",
       displayOrder: 0,
       isPrimary: true,
@@ -448,7 +448,7 @@ const tourImages = {
   ],
   "rwanda-akagera-wildlife-safari-escape": [
     {
-      imageUrl: "https://images.unsplash.com/photo-1542204166-48670b99362b?w=800",
+      imageUrl: "/images/tours/rwanda-akagera.jpg",
       altText: "Akagera Wildlife Safari Escape tour",
       displayOrder: 0,
       isPrimary: true,
@@ -464,7 +464,7 @@ const tourImages = {
   ],
   "rwanda-lake-kivu-islands-lakeside-retreat": [
     {
-      imageUrl: "https://images.unsplash.com/photo-1542291226-7ee4a47d4589?w=800",
+      imageUrl: "/images/tours/rwanda-lake-kivu.jpg",
       altText: "Lake Kivu Islands & Lakeside Retreat tour",
       displayOrder: 0,
       isPrimary: true,
@@ -472,7 +472,7 @@ const tourImages = {
   ],
   "rwanda-kigali-culture-heritage-city-discovery": [
     {
-      imageUrl: "https://images.unsplash.com/photo-1519046904884-53103b34b1ae?w=800",
+      imageUrl: "/images/tours/rwanda-kigali.jpg",
       altText: "Kigali Culture, Heritage & City Discovery tour",
       displayOrder: 0,
       isPrimary: true,
