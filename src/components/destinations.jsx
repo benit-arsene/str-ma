@@ -16,6 +16,7 @@ function Destinations() {
     india: "https://www.agoda.com/wp-content/uploads/2024/04/Agra-cover-1244x700.jpg",
     thailand: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQSujSPrAkTmeam-MrAedSwZeDQuWZyX-He0bE7Ye04A&s=10",
     italy: "https://images.goway.com/production/styles/article_featured_image_3xl/s3/featured_images/Gornergrat-tourist-train-with-waterfall%2C-bridge-and-Matterhorn%2C-Zermatt%2C-Switzerland_AdobeStock_357392613.jpeg.webp?VersionId=9mo5ly3faIhUY3lxrPODTVvbzc801sS6&h=0875ea28&itok=M1d-5FQZ",
+    rwanda: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=800",
   };
 
   useEffect(() => {
