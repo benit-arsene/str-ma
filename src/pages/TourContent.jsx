@@ -27,6 +27,12 @@ function TourContent() {
   const [searchParams, setSearchParams] = useSearchParams();
   const searchQuery = searchParams.get("search") ?? "";
   const itemsPerPage = 4;
+  const [destinationFilter, setDestinationFilter] = useState("");
+  const [monthFilter, setMonthFilter] = useState("");
+  const [durationFilter, setDurationFilter] = useState("");
+  const [minPriceFilter, setMinPriceFilter] = useState("");
+  const [maxPriceFilter, setMaxPriceFilter] = useState("");
+  const [selectedCategories, setSelectedCategories] = useState([]);
 
   useEffect(() => {
     let cancelled = false;
@@ -98,16 +104,46 @@ function TourContent() {
 
   const mappedTours = tours.map(mapApiTour);
 
-  // Filter tours based on search query
+  // Filter tours based on search query and all sidebar filters
   const filteredTours = mappedTours.filter((tour) => {
-    if (!searchQuery.trim()) return true;
-    const query = searchQuery.trim().toLowerCase();
-    const titleMatch = tour.title.toLowerCase().includes(query);
-    const locationMatch = tour.location.toLowerCase().includes(query);
-    const categoryMatch = tour.categories.some((cat) =>
-      cat.name.toLowerCase().includes(query)
-    );
-    return titleMatch || locationMatch || categoryMatch;
+    if (searchQuery.trim()) {
+      const query = searchQuery.trim().toLowerCase();
+      const titleMatch = tour.title.toLowerCase().includes(query);
+      const locationMatch = tour.location.toLowerCase().includes(query);
+      const categoryMatch = tour.categories.some((cat) =>
+        cat.name.toLowerCase().includes(query)
+      );
+      if (!titleMatch && !locationMatch && !categoryMatch) return false;
+    }
+
+    if (destinationFilter.trim()) {
+      const destQuery = destinationFilter.trim().toLowerCase();
+      if (!tour.location.toLowerCase().includes(destQuery)) return false;
+    }
+
+    if (durationFilter && durationFilter !== "Any") {
+      const days = tour.duration_days ?? 0;
+      if (durationFilter === "1 - 3 Days" && (days < 1 || days > 3)) return false;
+      if (durationFilter === "4 - 7 Days" && (days < 4 || days > 7)) return false;
+      if (durationFilter === "7+ Days" && days < 7) return false;
+    }
+
+    if (minPriceFilter.trim() !== "") {
+      const minVal = parseFloat(minPriceFilter);
+      if (!isNaN(minVal) && (tour.base_price ?? 0) < minVal) return false;
+    }
+
+    if (maxPriceFilter.trim() !== "") {
+      const maxVal = parseFloat(maxPriceFilter);
+      if (!isNaN(maxVal) && (tour.base_price ?? 0) > maxVal) return false;
+    }
+
+    if (selectedCategories.length > 0) {
+      const tourSlugs = tour.categories.map((c) => c.slug);
+      if (!selectedCategories.some((s) => tourSlugs.includes(s))) return false;
+    }
+
+    return true;
   });
 
   const totalPages = Math.ceil(filteredTours.length / itemsPerPage) || 1;
@@ -256,12 +292,20 @@ function TourContent() {
             </div>
             <div className="search-input">
               <MapPin size={18} />
-              <input placeholder="Where To?" />
+              <input
+                placeholder="Where To?"
+                value={destinationFilter}
+                onChange={(e) => setDestinationFilter(e.target.value)}
+              />
             </div>
             <div className="select-input">
               <CalendarDays size={18} />
 
-              <select defaultValue="">
+              <select
+                defaultValue=""
+                value={monthFilter}
+                onChange={(e) => setMonthFilter(e.target.value)}
+              >
                 <option value="" disabled>
                   Month
                 </option>
@@ -280,15 +324,27 @@ function TourContent() {
               </select>
             </div>
             <label className="filter-label">Duration</label>
-            <select className="duration-select">
+            <select className="duration-select" value={durationFilter} onChange={(e) => setDurationFilter(e.target.value)}>
               <option>Any</option>
               <option>1 - 3 Days</option>
               <option>4 - 7 Days</option>
               <option>7+ Days</option>
             </select>
             <div className="price-inputs">
-              <input type="number" placeholder="Min Price" defaultValue="1" />
-              <input type="number" placeholder="Max Price" defaultValue="100" />
+              <input
+                type="number"
+                placeholder="Min Price"
+                defaultValue="1"
+                value={minPriceFilter}
+                onChange={(e) => setMinPriceFilter(e.target.value)}
+              />
+              <input
+                type="number"
+                placeholder="Max Price"
+                defaultValue="100"
+                value={maxPriceFilter}
+                onChange={(e) => setMaxPriceFilter(e.target.value)}
+              />
             </div>
             <div className="categories">
               {categoriesLoading ? (
@@ -298,13 +354,28 @@ function TourContent() {
               ) : (
                 categories.map((cat) => (
                   <label key={cat.id}>
-                    <input type="checkbox" value={cat.slug} />
+                    <input
+                      type="checkbox"
+                      value={cat.slug}
+                      checked={selectedCategories.includes(cat.slug)}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setSelectedCategories([...selectedCategories, cat.slug]);
+                        } else {
+                          setSelectedCategories(
+                            selectedCategories.filter((s) => s !== cat.slug)
+                          );
+                        }
+                      }}
+                    />
                     {cat.name}
                   </label>
                 ))
               )}
             </div>
-            <button className="find-button">FIND NOW</button>
+            <button className="find-button" onClick={() => setCurrentPage(1)}>
+              FIND NOW
+            </button>
           </div>
 
           <div className="why-book">
