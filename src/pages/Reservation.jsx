@@ -94,7 +94,7 @@ function Reservation() {
           setTours(data);
 
           const requestedTour = tourParam
-            ? data.find((t) => t.id === tourParam)
+            ? data.find((t) => t.slug === tourParam)
             : null;
           if (requestedTour) {
             setFormState((prev) =>

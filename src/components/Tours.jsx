@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
 import { Clock, Users } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import "./Tours.css";
 
 const tours = [
   {
     image:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSKnf2s2cwypBVZhtw3Zx8lfJNKvTrRrUV4aBc2Ksn5OA&s=10",
+    slug: "aegean-dreams-santorini-mykonos",
     discount: "15% off",
     location: "GREECE",
     title: "Aegean Dreams: Santorini & Mykonos",
@@ -20,6 +22,7 @@ const tours = [
   {
     image:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmyrUYgA10vOt3udjR7BrdzcmJIVyw1FHk_BYWmRfZRyatwyLckV25b5Y&s=10",
+    slug: "golden-sands-rajasthan-desert-safari",
     discount: "38% off",
     location: "JAISALMER",
     title: "Golden Sands of Rajasthan and Desert Safari",
@@ -32,6 +35,7 @@ const tours = [
   {
     image:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPQWAyDiiNAY0kGKh0NuG8ecd_h2eCBwfTbylS5sXs2UJAr4N0Mg5MgXY&s=10",
+    slug: "alpine-majesty-peaks-glaciers",
     discount: null,
     location: "SWITZERLAND",
     title: "Alpine Majesty: Peaks & Glaciers",
@@ -44,6 +48,7 @@ const tours = [
   {
     image:
       "https://images.goway.com/production/styles/article_featured_image_3xl/s3/featured_images/Gornergrat-tourist-train-with-waterfall%2C-bridge-and-Matterhorn%2C-Zermatt%2C-Switzerland_AdobeStock_357392613.jpeg.webp?VersionId=9mo5ly3faIhUY3lxrPODTVvbzc801sS6&h=0875ea28&itok=M1d-5FQZ",
+    slug: "italian-splendor-rome-florence-venice",
     discount: null,
     location: "ITALY",
     title: "Italian Splendor: Rome, Florence & Venice",
@@ -55,6 +60,7 @@ const tours = [
 ];
 
 function Tours() {
+  const navigate = useNavigate();
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [emblaRef, emblaApi] = useEmblaCarousel(
     { loop: true, align: "start" },
@@ -134,9 +140,9 @@ function Tours() {
 
                     <div className="tour-footer">
                       <strong>{tour.price}</strong>
-                      <button type="button" className="booknowbutton">
-                        BOOK NOW
-                      </button>
+                    <button type="button" className="booknowbutton" onClick={() => navigate(`/reservation?tour=${tour.slug}`)}>
+                      BOOK NOW
+                    </button>
                     </div>
                   </div>
                 </div>
