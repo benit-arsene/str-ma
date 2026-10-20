@@ -144,10 +144,6 @@ function AdminDashboard() {
     <div className="admin-dashboard">
       <header className="admin-page-header">
         <div className="admin-page-header-text">
-          <div className="admin-eyebrow">
-            <span className="admin-eyebrow-dot" aria-hidden="true" />
-            <span>Console Overview</span>
-          </div>
           <h1>Overview</h1>
           <p>
             Welcome back{admin ? `, ${admin.username}` : ""}. Here is the current

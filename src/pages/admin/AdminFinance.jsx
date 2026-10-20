@@ -108,10 +108,6 @@ function AdminFinance() {
     <div className="admin-finance">
       <header className="admin-page-header">
         <div className="admin-page-header-text">
-          <div className="admin-eyebrow">
-            <span className="admin-eyebrow-dot" aria-hidden="true" />
-            <span>Finance Console</span>
-          </div>
           <h1>Finance</h1>
           <p>
             View and filter recorded payment transactions.

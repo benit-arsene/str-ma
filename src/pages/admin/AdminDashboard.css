@@ -30,24 +30,6 @@
   max-width: 60ch;
 }
 
-.admin-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.7rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--adm-secondary);
-}
-
-.admin-eyebrow-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 9999px;
-  background: var(--adm-primary-container);
-}
-
 .admin-page-header-actions {
   display: flex;
   flex-wrap: wrap;

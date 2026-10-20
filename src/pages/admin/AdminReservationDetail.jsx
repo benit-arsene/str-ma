@@ -206,10 +206,6 @@ function AdminReservationDetail() {
     <div className="admin-reservation-detail">
       <header className="admin-page-header">
         <div className="admin-page-header-text">
-          <div className="admin-eyebrow">
-            <span className="admin-eyebrow-dot" aria-hidden="true" />
-            <span>Reservations Console</span>
-          </div>
           <h1>{reservation ? reservation.bookingReference : "Reservation"}</h1>
           <p>
             {reservation

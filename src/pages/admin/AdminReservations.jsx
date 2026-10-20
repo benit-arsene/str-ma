@@ -267,10 +267,6 @@ function AdminReservations() {
     <div className="admin-reservations">
       <header className="admin-page-header">
         <div className="admin-page-header-text">
-          <div className="admin-eyebrow">
-            <span className="admin-eyebrow-dot" aria-hidden="true" />
-            <span>Reservations Console</span>
-          </div>
           <h1>Reservations</h1>
           <p>Browse and search customer reservations.</p>
         </div>
