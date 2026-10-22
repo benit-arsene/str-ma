@@ -187,6 +187,27 @@
   }
 }
 
+@media (max-width: 480px) {
+  .admin-reservations-controls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    width: 100%;
+  }
+
+  .admin-filter-tabs {
+    width: 100%;
+  }
+
+  .admin-search-field {
+    width: 100%;
+  }
+
+  .admin-search-field input {
+    width: 100%;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .admin-filter-tab,
   .admin-search-field input,

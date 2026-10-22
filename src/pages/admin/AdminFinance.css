@@ -10,3 +10,23 @@
   align-items: center;
   gap: 12px;
 }
+
+@media (max-width: 640px) {
+  .admin-finance-controls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .admin-filter-tabs {
+    width: 100%;
+  }
+
+  .admin-search-field {
+    width: 100%;
+  }
+
+  .admin-search-field input {
+    width: 100%;
+  }
+}
